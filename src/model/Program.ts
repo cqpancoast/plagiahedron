@@ -1,0 +1,18 @@
+import PHFile from "./PHFile"
+
+export default class Program {
+    private filedict: { [fileName: string] : PHFile; }
+
+    getFile(fileName: string): PHFile {
+        return this.filedict[fileName]
+    }
+    removeFile(fileName: string) {
+        delete this.filedict[fileName]
+    }
+    addFile(fileName: string, file: PHFile) {
+        this.filedict[fileName] = file
+    }
+    getFileNames(): string[] {
+        return Object.keys(this.filedict)
+    }
+}
