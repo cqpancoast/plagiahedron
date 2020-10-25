@@ -2,18 +2,39 @@ import PHFile from "./PHFile";
 
 /**
  * Represents a section of text in a PHFile.
- * Not really sure about the details at the moment.
  */
 export default class FileSimilarity {
 
-    file: PHFile;
+    private file: PHFile
+    private startLine: number
+    private rawString: string
 
-    getFileName(): string {
-        return this.file.getName()
+    /**
+     * Returns the name of the file implicated in this similarity.
+     */
+    getFileNameAndExtension(): string {
+        return this.file.getNameAndExtension()
     }
 
     /**
-     * Other content stuff. Depends on algorithm.
+     * Returns the raw string contents of this FileSimilarity's file.
      */
+    getRawFileContents(): string {
+        return this.file.getContents()
+    }
+
+    /**
+     * Returns the line number in the file that the similarity begins at.
+     */
+    getStartLine(): number {
+        return this.startLine
+    }
+
+    /**
+     * Returns the substring of the file found to be similar to others.
+     */
+    getRawString(): string {
+        return this.rawString
+    }
 
 }
