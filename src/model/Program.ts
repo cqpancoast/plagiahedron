@@ -5,18 +5,16 @@ import PHFile from "./PHFile"
  * the contents of files of other programs.
  */
 export default class Program {
-    private filedict: { [fileName: string] : PHFile; }
+    
+    constructor(private name: string, private files: PHFile[]) {}
 
+    getName(): string {
+        return this.name
+    }
     getFile(fileName: string): PHFile {
-        return this.filedict[fileName]
-    }
-    removeFile(fileName: string) {
-        delete this.filedict[fileName]
-    }
-    addFile(fileName: string, file: PHFile) {
-        this.filedict[fileName] = file
+        return null
     }
     getFileNames(): string[] {
-        return Object.keys(this.filedict)
+        return null
     }
 }

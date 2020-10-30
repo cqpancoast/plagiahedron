@@ -6,27 +6,22 @@ import Program from "./Program"
  * will be cross-checked for similarities.
  */
 export default class CodeSet {
-    private programdict: { [programName: string] : Program; }
+   
+    constructor(private programs: Program[]) {}
 
     getProgram(programName: string): Program {
-        return this.programdict[programName]
+        return null
     }
     getFile(programName: string, fileName: string): PHFile {
-        return this.programdict[programName].getFile(fileName)
+        return null
     }
     removeProgram(programName: string) {
-        delete this.programdict[programName]
+        /* implement this! */
     }
-    removeFile(programName: string, fileName: string) {
-        this.programdict[programName].removeFile(fileName)
-    }
-    addProgram(programName: string, program: Program) {
-        this.programdict[programName] = program
-    }
-    addFile(programName: string, fileName: string, file: PHFile) {
-        this.programdict[programName].addFile(fileName, file)
+    addProgram(program: Program) {
+        this.programs.push(program)
     }
     getProgramNames(): string[] {
-        return Object.keys(this.programdict)
+        return null
     }
 }

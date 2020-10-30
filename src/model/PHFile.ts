@@ -9,10 +9,9 @@ import IParser from "./IParser"
  * it cannot be un-set.
  */
 export default class PHFile {
-    private name: string
-    private extension: string
-    private content: string
     private parsedContent: any
+
+    constructor(private name: string, private extension: string, private content: string) {}
 
     getName(): string {
         return this.name
@@ -36,6 +35,10 @@ export default class PHFile {
             this.parsedContent = parser.parse(this)
         }
     }
+    /**
+     * Returns the parsed content associated with this file.
+     * @throws some error if this is altered. TODO
+     */
     getParsedContent(): any {
         return this.parsedContent
     }
