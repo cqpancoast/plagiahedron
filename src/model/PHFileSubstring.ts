@@ -1,11 +1,12 @@
 import PHFile from "./PHFile";
 
 /**
- * Represents a section of text in a PHFile.
+ * A (contiguous) substring of a PHFile in a CodeSet.
  */
-export default class FileSimilarity {
+export default class PHFileSubstring {
 
-    private file: PHFile
+    private programName: string
+    private fileNameAndExtension: string
     private startLine: number
     private rawString: string
 
@@ -13,14 +14,14 @@ export default class FileSimilarity {
      * Returns the name of the file implicated in this similarity.
      */
     getFileNameAndExtension(): string {
-        return this.file.getNameAndExtension()
+        return this.fileNameAndExtension
     }
 
     /**
-     * Returns the raw string contents of this FileSimilarity's file.
+     * Returns the name of the program that the file is in.
      */
-    getRawFileContents(): string {
-        return this.file.getContents()
+    getProgramName(): string {
+        return this.programName
     }
 
     /**

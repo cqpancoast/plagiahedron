@@ -1,5 +1,9 @@
 import PHFile from "./PHFile"
 
+/**
+ * A program with files whose contents are to be compared for plagiarism with
+ * the contents of files of other programs.
+ */
 export default class Program {
     private filedict: { [fileName: string] : PHFile; }
 

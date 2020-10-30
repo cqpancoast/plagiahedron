@@ -1,13 +1,20 @@
-import Similarity from "./Similarity"
+import PHSimilarity from "./PHSimilarity"
 
 
+/**
+ * A plagarism report for a single assignment, storing all similarities found between all
+ * permutations of different programs within a CodeSet relative to an IParser’s parsing
+ * operation preformed on the file contents. A Plagiahedron is a static entity that cannot
+ * be altered after its creation.
+ */
 export default class Plagiahedron {
-    private similarities: Similarity[]
 
-    getAllSimilarities(): Similarity[] {
+    constructor(private similarities: PHSimilarity[]) {}
+
+    getAllSimilarities(): PHSimilarity[] {
         return this.similarities
     }
-    addSimilarity(s: Similarity) {
+    addPHSimilarity(s: PHSimilarity) {
         this.similarities.push(s)
     }
 
@@ -17,21 +24,11 @@ export default class Plagiahedron {
      * thinking about it at the moment.
      */
 
-    getSimilaritiesOfPrograms(programNames: []): Similarity[] {
-        // filter through similarity list to find ones with ANY of these program names
+    getSimilaritiesOfPrograms(programNames: []): PHSimilarity[] {
         throw new Error("Method not implemented.")
     }
     getTotalScoreOfPrograms(programNames: []): number {
         // add up score of each similarity that has ANY of these program names
-        throw new Error("Method not implemented.")
-    }
-
-    getSimilaritiesOfGroup(programNames: []): Similarity[] {
-        // filter through similarity list to find ones with ALL of these program names
-        throw new Error("Method not implemented.")
-    }
-    getTotalScoreOfGroup(programNames: []): number {
-        // add up score of each similarity that has ALL of these program names
         throw new Error("Method not implemented.")
     }
 }
