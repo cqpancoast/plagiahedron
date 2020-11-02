@@ -6,15 +6,17 @@ import PHFile from "./PHFile"
  */
 export default class Program {
     
-    constructor(private name: string, private files: PHFile[]) {}
+    constructor(private name: string, private files: PHFile[]) {
+        files.forEach(file => file.setProgramName(name))
+    }
 
     getName(): string {
         return this.name
     }
-    getFile(fileName: string): PHFile {
-        return null
+    getFiles(): PHFile[] {
+        return this.files
     }
-    getFileNames(): string[] {
-        return null
+    getFile(fileNameAndExtension: string): PHFile {
+        return this.files[this.files.map(file => file.getNameAndExtension()).indexOf(fileNameAndExtension)]
     }
 }

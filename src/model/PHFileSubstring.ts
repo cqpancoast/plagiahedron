@@ -5,10 +5,10 @@ import PHFile from "./PHFile";
  */
 export default class PHFileSubstring {
 
-    private programName: string
-    private fileNameAndExtension: string
-    private startLine: number
-    private rawString: string
+    constructor(private programName: string,
+        private fileNameAndExtension: string,
+        private startLine: number,
+        private rawString: string) {}
 
     /**
      * Returns the name of the file implicated in this similarity.
