@@ -1,0 +1,15 @@
+.BigButton {
+    width: 477px;
+    height: 90px;
+    background-color: black;
+    border-radius: 30px;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.BigButton-text {
+    font-size: 55px;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+}
