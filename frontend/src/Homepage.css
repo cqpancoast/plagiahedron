@@ -1,0 +1,19 @@
+.Homepage {
+  display: flexbox;
+}
+
+.Homepage-header {
+  color: black;
+  text-transform: uppercase;
+  font-weight: bolder;
+  font-size: 80px;
+  margin-top: 40px;
+  margin-left: 40px;
+}
+
+.Homepage-buttons {
+  margin-top: 20%;
+  margin-left: 35%;
+  display: flexbox;
+  flex-direction: column;
+}
