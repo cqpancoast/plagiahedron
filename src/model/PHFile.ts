@@ -6,12 +6,16 @@ import IParser from "./IParser"
  * More formally, a file in a Program being compared against others for
  * plagiarism by an IPlagiahedronGenerator. This means that a file can store
  * a parsed version of itself. Once this parsed version is set,
- * it cannot be un-set.
+ * it cannot be un-set. When this file is added to a Program, its programName
+ * field is set, and cannot be unset.
  */
 export default class PHFile {
     private parsedContent: any
+    private programName: string
 
     constructor(private name: string, private extension: string, private content: string) {}
+
+    /* If a file is named "f.ts", the name will be "f" and the extension will be ".ts". */
 
     getName(): string {
         return this.name
@@ -21,6 +25,25 @@ export default class PHFile {
     }
     getNameAndExtension(): string {
         return this.name + this.extension
+    }
+    /**
+     * @throws an error if the name is already defined.
+     * @param programName the name of the program this file is being made a part of
+     */
+    setProgramName(programName: string) {
+        if (this.programName !== undefined) {
+            throw new Error
+        }
+        this.programName = programName
+    }
+    /**
+     * @throws an error if the name isn't defined.
+     */
+    getProgramName(): string {
+        if (this.programName === undefined) {
+            throw new Error
+        }
+        return this.programName
     }
     getContent(): string {
         return this.content

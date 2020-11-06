@@ -1,2 +1,5 @@
-# Team-01
-Term Project Repository for Team 1
+# Plagiahedron
+Detects code plagiarism with multi-party collaboration.
+
+(A *Keepers of the Hidden Temple (Team 1)* production.)
+
