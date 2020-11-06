@@ -11,9 +11,16 @@ export default class Plagiahedron {
 
     constructor(private similarities: PHSimilarity[]) {}
 
+    /**
+     * Returns list of similarities
+     */
     getAllSimilarities(): PHSimilarity[] {
         return this.similarities
     }
+    /**
+     * Adds new similarity to array storing all similarities
+     * @param s Similarity to be added
+     */
     addPHSimilarity(s: PHSimilarity) {
         this.similarities.push(s)
     }

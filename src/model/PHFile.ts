@@ -12,16 +12,28 @@ export default class PHFile {
     private parsedContent: any
 
     constructor(private name: string, private extension: string, private content: string) {}
-
+    /**
+     * Returns private field name of PHFile
+     */
     getName(): string {
         return this.name
     }
+    /**
+     * Returns priavte field extension of PHFile
+     */
     getExtension(): string {
         return this.extension
     }
+    /**
+     * Returns a string with both name and extension of PHFile
+     * Just for extra convenience
+     */
     getNameAndExtension(): string {
         return this.name + this.extension
     }
+    /**
+     * Returns private field content of PHFile
+     */
     getContent(): string {
         return this.content
     }
