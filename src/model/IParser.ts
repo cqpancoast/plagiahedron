@@ -1,6 +1,5 @@
 import PHFile from "./PHFile";
 import PHFileSubstring from "./PHFileSubstring";
-import PHSimilarity from "./PHSimilarity";
 
 
 /**
