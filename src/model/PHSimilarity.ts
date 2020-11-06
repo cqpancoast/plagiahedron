@@ -21,5 +21,7 @@ export default class PHSimilarity implements IPHSimilarity<string> {
     getFileSubstring(programName: string): PHFileSubstring {
         throw new Error("Method not implemented.")
     }
-
+    getFileSubstrings(): PHFileSubstring[] {
+        return this.similarSubstrings
+    }
 }
