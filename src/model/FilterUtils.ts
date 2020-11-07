@@ -5,13 +5,13 @@ import { isFunctionTypeParam } from "@babel/types";
 /**
  * Performs filter operations on Similarity lists. Will be coded as needed.
  */
-class FilterUtils {
+export default class FilterUtils {
 
     /**
      *  Filters list such that similarities containing only given filenames 
      *  (and no others) are shown. Returns a list ordered by similarity score.
      */
-    showOnly(simList: IPHSimilarity<string>[], nameList: string[]): IPHSimilarity<string>[] {
+    static showOnly(simList: IPHSimilarity<string>[], nameList: string[]): IPHSimilarity<string>[] {
 
         var filteredArray: IPHSimilarity<string>[]
 
@@ -32,14 +32,15 @@ class FilterUtils {
             }
         }
 
-        return this.sortByScore(filteredArray)
+        // return this.sortByScore(filteredArray)
+        return filteredArray
     }
 
     /**
      *  Filters list such that similarities containing given filenames are shown, 
      *  including those that contain other filenames as well. Returns a list ordered by similarity score.
      */
-    showIncluding(simList: IPHSimilarity<string>[], nameList: string[]): IPHSimilarity<string>[] {
+    static showIncluding(simList: IPHSimilarity<string>[], nameList: string[]): IPHSimilarity<string>[] {
 
         var filteredArray: IPHSimilarity<string>[]
 
@@ -60,15 +61,16 @@ class FilterUtils {
             if (nameCount == nameList.length) {
                 simList.push(similarity)
             }
-            
-            return this.sortByScore(filteredArray)
+
+            // return this.sortByScore(filteredArray)
+            return filteredArray
         }
     }
 
     /**
      * Takes an array of similarities and sorts by score
      */
-    sortByScore(simList: IPHSimilarity<string>[]): IPHSimilarity<string>[]{
+    static sortByScore(simList: IPHSimilarity<string>[]): IPHSimilarity<string>[] {
         return simList.sort((a, b) => b.getScore() - a.getScore())
     }
 }
