@@ -32,7 +32,7 @@ class FilterUtils {
             }
         }
 
-        return filteredArray
+        return this.sortByScore(filteredArray)
     }
 
     /**
@@ -60,9 +60,15 @@ class FilterUtils {
             if (nameCount == nameList.length) {
                 simList.push(similarity)
             }
-
-            return filteredArray
+            
+            return this.sortByScore(filteredArray)
         }
     }
 
+    /**
+     * Takes an array of similarities and sorts by score
+     */
+    sortByScore(simList: IPHSimilarity<string>[]): IPHSimilarity<string>[]{
+        return simList.sort((a, b) => b.getScore() - a.getScore())
+    }
 }
