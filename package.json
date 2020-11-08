@@ -2,6 +2,7 @@
     "name": "plagiahedron",
     "author": "team-01",
     "version": "0.0.1",
+    "private": true,
     "description": "a plagiarism checker for multi-party collaboration",
     "scripts": {
         "test": "ts-mocha --reporter ./reporters/mocha-json-reporter.js test/*/*"
