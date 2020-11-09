@@ -67,8 +67,7 @@ export default class FilterUtils {
     }
 
     /**
-     *  Filters list such that similarities containing given filenames are shown, 
-     *  including those that contain other filenames as well. Returns a list ordered by similarity score.
+     *  Filters list by number of programs in a similarity. Returns a list ordered by similarity score.
      */
     static filterByProgramCount(simList: IPHSimilarity<string>[], count: number): IPHSimilarity<string>[] {
 
