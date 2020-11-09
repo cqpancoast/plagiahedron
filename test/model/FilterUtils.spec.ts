@@ -2,9 +2,11 @@ import FilterUtils from "../../src/model/FilterUtils"
 import PHSimilarity from "../../src/model/PHSimilarity"
 import PHFileSubstring from "../../src/model/PHFileSubstring"
 import PHFile from "../../src/model/PHFile"
+import 'mocha'
+import { expect } from "chai"
 
 describe("test filter", () => {
-
+    it("test 1", () => {
     let file = new PHFile("name", "extension", "content")
     let fileSubString1 = new PHFileSubstring("programName1", "filename", 3, "string content")
     let fileSubString2 = new PHFileSubstring("programName2", "filename2", 9, "the code")
@@ -45,6 +47,7 @@ describe("test filter", () => {
     let testSimArrayInc135 = FilterUtils.showIncluding(simArrayAll, nameArray135)
     let testSimArrayOnly123 = FilterUtils.showIncluding(simArrayAll, nameArray123)
 
-    expect(simArrayInc135 === testSimArrayInc135)
-    expect(simArrayOnly123 === testSimArrayOnly123)
+    expect(simArrayInc135).to.equal(testSimArrayInc135)
+    expect(simArrayOnly123).to.equal(testSimArrayOnly123)
+    });
 })

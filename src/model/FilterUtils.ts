@@ -1,5 +1,4 @@
 import IPHSimilarity from "./IPHSimilarity";
-import { isFunctionTypeParam } from "@babel/types";
 
 
 /**
@@ -60,6 +59,27 @@ export default class FilterUtils {
             // if matched names is the same number as nameList size, push to simList
             if (nameCount == nameList.length) {
                 simList.push(similarity)
+            }
+
+            // return this.sortByScore(filteredArray)
+            return filteredArray
+        }
+    }
+
+    /**
+     *  Filters list such that similarities containing given filenames are shown, 
+     *  including those that contain other filenames as well. Returns a list ordered by similarity score.
+     */
+    static filterByProgramCount(simList: IPHSimilarity<string>[], count: number): IPHSimilarity<string>[] {
+
+        var filteredArray: IPHSimilarity<string>[]
+
+        for (var simIndex = 0; simIndex < simList.length; simIndex++) {
+            var similarity = simList[simIndex]
+            var nameCount = 0
+
+            if(similarity.getProgramNames().length == count){
+                filteredArray.push(similarity)
             }
 
             // return this.sortByScore(filteredArray)
