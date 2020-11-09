@@ -76,9 +76,8 @@ export default class FilterUtils {
 
         for (var simIndex = 0; simIndex < simList.length; simIndex++) {
             var similarity = simList[simIndex]
-            var nameCount = 0
 
-            if(similarity.getProgramNames().length == count){
+            if (similarity.getProgramNames().length == count) {
                 filteredArray.push(similarity)
             }
 
