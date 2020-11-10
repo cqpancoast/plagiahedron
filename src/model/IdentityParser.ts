@@ -37,8 +37,8 @@ export default class IdentityParser implements IParser<string> {
      * Finds all similar strings of length at least this.minMatchLength between file contents.
      */
     findParsedMatches(f1: PHFile, f2: PHFile): string[] {
-        let f1c: string = this.parse(f1)
-        let f2c: string = this.parse(f2)
+        let f1c: string = f1.getParsedContent()
+        let f2c: string = f2.getParsedContent()
         let f1clength: number = f1c.length
         let parsedMatches: string[] = []
         let windowWidth: number
