@@ -1,7 +1,5 @@
 import AStringParser from "./AStringParser";
-import IParser from "./IParser";
 import PHFile from "./PHFile";
-import PHFileSubstring from "./PHFileSubstring";
 
 /**
  * Parses the file by simply returning its content.
@@ -21,7 +19,16 @@ export default class IdentityParser extends AStringParser {
     }
 
     protected getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number) {
-        return file.getParsedContent().indexOf(parseFeature, afterThisIndex)
+        let firstIndex: number
+        try {
+            firstIndex = file.getParsedContent().indexOf(parseFeature, afterThisIndex)
+        } catch (error) {
+            throw new Error("Parsed content of file is not of type string.")
+        }
+        if (firstIndex === -1) {
+            throw new Error("Parse feature not contained in file contents.")
+        }
+        return firstIndex
     }
 
 }

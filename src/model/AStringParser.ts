@@ -31,6 +31,16 @@ export default abstract class AStringParser implements IParser<string> {
         return substrings
     }
 
+    /**
+     * Finds the first index of a substring in this file that parses down to the parse feature.
+     * 
+     * @param file a PHFile that has a string as its parsed content.
+     * @param parseFeature a string contained within the parsed content of the file.
+     * @param afterThisIndex the index of the file where we start looking for the substring.
+     * @throws Error if no part of the given file's parsed content contains parse feature.
+     * @throws TypeError if either of the PHFile's parsed contents are not of type T
+     *  or if they are undefined.
+     */
     protected abstract getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number)
     
     /**

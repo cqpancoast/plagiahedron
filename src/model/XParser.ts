@@ -1,7 +1,5 @@
 import AStringParser from "./AStringParser";
-import IParser from "./IParser";
 import PHFile from "./PHFile";
-import PHFileSubstring from "./PHFileSubstring";
 
 /**
  * Parses a file by converting every token into some filler string.
@@ -13,9 +11,10 @@ import PHFileSubstring from "./PHFileSubstring";
  */
 export default class XParser extends AStringParser {
 
+    private fillerChar: string = "x"  // must be one character
+
     constructor(
         protected minMatchLength: number,
-        private fillerChar: string = "x",
         private isSpecialChar: (char: string, extension: string) => boolean
         ) {
             super(minMatchLength)
@@ -53,7 +52,13 @@ export default class XParser extends AStringParser {
     }
 
     protected getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number) {
-        throw new Error("Method not implemented.");
+        let fileContent: string = file.getContent()
+        let relevantContent: string = fileContent.substring(afterThisIndex, fileContent.length)
+        let sameSpecial: (: string, a: string)
+
+        for (let i = 0; i < relevantContent.length; i++) {
+            if ()
+        }
     }
 
 }
