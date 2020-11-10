@@ -38,7 +38,7 @@ export default interface IParser<T> {
      * @param f1 a PHFile that has parsed content of type T.
      * @param f2 another PHFile that has parsed content of type T.
      * @throws TypeError if either of the PHFile's parsed contents are not of type T
-     * or if they are undefined.
+     *  or if they are undefined.
      * @returns a list of shared parse features between the files.
      */
     findParsedMatches(f1: PHFile, f2: PHFile): T[]

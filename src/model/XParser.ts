@@ -1,3 +1,4 @@
+import AStringParser from "./AStringParser";
 import IParser from "./IParser";
 import PHFile from "./PHFile";
 import PHFileSubstring from "./PHFileSubstring";
@@ -10,19 +11,24 @@ import PHFileSubstring from "./PHFileSubstring";
  * and a file extension and determines whether the character isn't
  * allowed in a token for that file type.
  */
-export default class XParser implements IParser<string> {
+export default class XParser extends AStringParser {
 
     constructor(
+        protected minMatchLength: number,
         private fillerChar: string = "x",
         private isSpecialChar: (char: string, extension: string) => boolean
-        ){}
+        ) {
+            super(minMatchLength)
+        }
 
     /**
      * Identifies tokens in a file string by determining whether
      * they are separated by special characters. Returns a string
      * where every token has been turned into an x.
+     * 
      * @param file a PHFile.
-     * @returns the contents of the file, x-ified.
+     * @returns the contents of the file, "x-ified" as per the procedure
+     *  in the class docstring.
      */
     parse(file: PHFile): string {
         let fileContent: string = file.getContent()
@@ -46,11 +52,7 @@ export default class XParser implements IParser<string> {
         return parseUnits.join("")
     }
 
-    unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
-        throw new Error("Method not implemented.");
-    }
-
-    findParsedMatches(f1: PHFile, f2: PHFile): string[] {
+    protected getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number) {
         throw new Error("Method not implemented.");
     }
 
