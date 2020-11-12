@@ -15,7 +15,7 @@ export default class XParser extends AStringParser {
 
     constructor(
         protected minMatchLength: number,
-        private isSpecialChar: (char: string, extension: string) => boolean
+        private specialCharDict: { [fileExtension: string]: string[] }
         ) {
             super(minMatchLength)
         }
@@ -26,6 +26,8 @@ export default class XParser extends AStringParser {
      * where every token has been turned into an x.
      * 
      * @param file a PHFile.
+     * @throws Error if this parser does not have a specialCharacterDict
+     *  entry correspondning to the file extension.
      * @returns the contents of the file, "x-ified" as per the procedure
      *  in the class docstring.
      */
@@ -61,4 +63,28 @@ export default class XParser extends AStringParser {
         }
     }
 
+    /**
+     * Returns whether the given chracter is a special character, given the dictionary
+     * this class was initialized with.
+     * 
+     * @param char a character. 
+     * @param fileExtension the extension of the file in which the character is
+     *  being considered.
+     * @throws Error if this parser does not have a specialCharacterDict
+     *  entry correspondning to the file extension.
+     * @returns whether the given character is a special character.
+     */
+    private isSpecialChar(char: string, fileExtension: string) {
+        let specialChars: string[] = this.specialCharDict[fileExtension]
+        if (specialChars !== undefined) {
+            return char in specialChars
+        } else {
+            throw new Error("The file extension "
+                + fileExtension
+                + "is not contained in the list of file extensions "
+                + Object.keys(this.specialCharDict))
+        }
+    }
+
 }
+
