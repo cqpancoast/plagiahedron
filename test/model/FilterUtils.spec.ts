@@ -26,11 +26,11 @@ describe("test filter", () => {
     let substringArray5 = [fileSubString1, fileSubString2, fileSubString3]
 
     let simAll = new PHSimilarity("Similar String All", substringArrayAll)
-    let sim1 = new PHSimilarity("Similar String 1", substringArray1)
-    let sim2 = new PHSimilarity("Similar String 2", substringArray2)
-    let sim3 = new PHSimilarity("Similar String 3", substringArray3)
-    let sim4 = new PHSimilarity("Similar String 4", substringArray4)
-    let sim5 = new PHSimilarity("Similar String 4", substringArray5)
+    let sim1 = new PHSimilarity("code", substringArray1)
+    let sim2 = new PHSimilarity("code short", substringArray2)
+    let sim3 = new PHSimilarity("code sorta short", substringArray3)
+    let sim4 = new PHSimilarity("code very much long innit", substringArray4)
+    let sim5 = new PHSimilarity("code so very long oh my goodness", substringArray5)
 
     let simArrayAll = [simAll, sim1, sim2, sim3, sim4, sim5]
 
@@ -44,10 +44,21 @@ describe("test filter", () => {
     // array of similarities which *have only* programNames 1, 2, 3
     let simArrayOnly123 = [sim2, sim5]
 
+    // array of similarities with only 3 programs
+    let simArray3Programs = [sim2, sim3, sim5]
+
+    // array out of order
+    let simArrayOutOfOrder = [sim2, sim3, sim1, sim5]
+    let simArrayScoreOrder = [sim5, sim3, sim2, sim1]
+
     let testSimArrayInc135 = FilterUtils.showIncluding(simArrayAll, nameArray135)
-    let testSimArrayOnly123 = FilterUtils.showIncluding(simArrayAll, nameArray123)
+    let testSimArrayOnly123 = FilterUtils.showOnly(simArrayAll, nameArray123)
+    let testSimArray3Programs = FilterUtils.filterByProgramCount(simArrayAll, 3);
+    let testSimArrayScoreOrder = FilterUtils.sortByScore(simArrayOutOfOrder)
 
     expect(simArrayInc135).to.equal(testSimArrayInc135)
     expect(simArrayOnly123).to.equal(testSimArrayOnly123)
+    expect(simArray3Programs).to.equal(testSimArray3Programs)
+    expect(simArrayScoreOrder).to.equal(testSimArrayScoreOrder)
     });
 })
