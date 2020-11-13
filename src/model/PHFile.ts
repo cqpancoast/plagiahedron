@@ -15,20 +15,28 @@ export default class PHFile {
 
     constructor(private name: string, private extension: string, private content: string) {}
 
-    /* If a file is named "f.ts", the name will be "f" and the extension will be ".ts". */
-
+    /**
+     * Returns private field name of PHFile.
+     */
     getName(): string {
         return this.name
     }
+    /**
+     * Returns priavte field extension of PHFile.
+     */
     getExtension(): string {
         return this.extension
     }
+    /**
+     * Returns a string with both name and extension of PHFile.
+     * If a file is named "f.ts", the name will be "f" and the extension will be ".ts".
+     */
     getNameAndExtension(): string {
         return this.name + this.extension
     }
     /**
+     * @param programName the name of the program this file is being made a part of.
      * @throws an error if the name is already defined.
-     * @param programName the name of the program this file is being made a part of
      */
     setProgramName(programName: string) {
         if (this.programName !== undefined) {
@@ -45,6 +53,7 @@ export default class PHFile {
         }
         return this.programName
     }
+
     getContent(): string {
         return this.content
     }
