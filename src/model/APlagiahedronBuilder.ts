@@ -1,4 +1,5 @@
 import CodeSet from "./CodeSet";
+import FilterUtils from "./FilterUtils";
 import IParser from "./IParser";
 import IPlagiahedronBuilder from "./IPlagiahedronBuilder";
 import PHFile from "./PHFile";
@@ -24,19 +25,45 @@ export default abstract class APlagiahedronBuilder implements IPlagiahedronBuild
     protected parser: IParser<any>
     protected maxGroupSize: number
 
-    constructPlagiahedron(codeset: CodeSet): Plagiahedron {
+    constructPlagiahedron(codeSet: CodeSet): Plagiahedron {
         let sims: PHSimilarity[] = []
-        return null
+        let progNames: string[] = codeSet.getProgramNames()
+
+        // find similarities for all combinations of two programs
+        for (let i = 0; i < progNames.length; i++) {
+            for (let j = i + 1; j < progNames.length; j++) {
+                sims.concat(this.compareTwoPrograms(
+                    codeSet.getProgram(progNames[i]),
+                    codeSet.getProgram(progNames[j])))
+            }
+        }
+
+        // find similarities of sizes up to this.maxGroupSize
+        for (let newSimSize = 3; newSimSize < this.maxGroupSize; newSimSize++) {
+            for (let i = 0; i < progNames.length; i++) {
+                sims.concat(this.findMoreSimilarities(
+                    codeSet.getProgram(progNames[i]),
+                    FilterUtils.findSimsWithoutProgramAndOfSizeNewSimSize(sims, newSimSize)))
+            }
+        }
+
+        return new Plagiahedron(sims)
     }
 
     /**
      * Finds all similarities between files in a program by iterating through pairs.
      * 
-     * @param p1 
-     * @param p2 
+     * @param p1 a program
+     * @param p2 another program distinct from the first
      */
     private compareTwoPrograms(p1: Program, p2: Program): PHSimilarity[] {
-        return null
+        let newSims: PHSimilarity[] = []
+        p1.getFiles().forEach(f1 => {
+            p2.getFiles().forEach(f2 => {
+                newSims.concat(this.compareTwoFiles(f1, f2))
+            })
+        })
+        return newSims
     }
 
     /**
@@ -50,27 +77,53 @@ export default abstract class APlagiahedronBuilder implements IPlagiahedronBuild
      */
     private compareTwoFiles(f1: PHFile, f2: PHFile): PHSimilarity[] {
         let parsedMatches: any[] = this.parser.findParsedMatches(f1, f2)
-        let sims: PHSimilarity[] = []
+        let newSims: PHSimilarity[] = []
         parsedMatches.forEach(parsedMatch => {
             let file1Substrings: PHFileSubstring[] = this.parser.unparse(parsedMatch, f1)
             let file2Substrings: PHFileSubstring[] = this.parser.unparse(parsedMatch, f2)
             file1Substrings.forEach(file1Substring => {
                 file2Substrings.forEach(file2Substring => {
-                    sims.push(new PHSimilarity(parsedMatch, [file1Substring, file2Substring]))
+                    newSims.push(new PHSimilarity(parsedMatch, [file1Substring, file2Substring]))
                 })
             })
         })
-        return sims
+        return newSims
     }
 
     /**
      * Parses all the files in a program and returns additional similarities in which
-     * this Program is implicated, considering the given ones.
+     * this Program is implicated, considering similarities with a certian number of
+     * programs already implicated.
      * 
-     * @param p 
-     * @param sims 
+     * @param p a new program in which to test for similarities already detected in others.
+     * @param simSet all similarities to be cross-checked against files in the program.
      */
-    private findMoreSimilarities(p: Program, sims: PHSimilarity[]) {
-        return null
+    private findMoreSimilarities(p: Program, simSet: PHSimilarity[]) {
+        let newSims: PHSimilarity[] = []
+        simSet.forEach(sim => {
+            p.getFiles().forEach(file => {
+                newSims.concat(this.findMoreSimilaritiesInFile(sim, file))
+            })
+        });
+        return newSims
+    }
+
+    /**
+     * Return similarities found by considering the given similarity in context of a new file.
+     * 
+     * @param sim a PHSimilarity.
+     * @param file a PHFile.
+     */
+    findMoreSimilaritiesInFile(sim: PHSimilarity, file: PHFile): PHSimilarity[] {
+        let newSims: PHSimilarity[] = []
+
+        let fileSubstrings: PHFileSubstring[] = this.parser.unparse(sim.getParsedMatch(), file)
+        fileSubstrings.forEach(fileSubstring => {
+            let simSubstrings: PHFileSubstring[] = sim.getFileSubstrings()
+            simSubstrings.push(fileSubstring)
+            newSims.push(new PHSimilarity(sim.getParsedMatch(), simSubstrings))
+        })
+
+        return newSims
     }
 }

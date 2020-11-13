@@ -1,6 +1,5 @@
-import IParser from "./IParser";
+import AStringParser from "./AStringParser";
 import PHFile from "./PHFile";
-import PHFileSubstring from "./PHFileSubstring";
 
 /**
  * Parses the file by simply returning its content.
@@ -9,33 +8,27 @@ import PHFileSubstring from "./PHFileSubstring";
  * but likely just for testing purposes.
  * I am most likely going to pull some info out from here into an abstract class.
  */
-export default class IdentityParser implements IParser<string> {
+export default class IdentityParser extends AStringParser {
 
-    constructor(private minMatchLength: number) {}
+    constructor(protected minMatchLength: number) {
+        super(minMatchLength)
+    }
 
     parse(file: PHFile): string {
         return file.getContent()
     }
-    unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
-        let substrings: PHFileSubstring[] = []
-        let numMatch: number = (file.getParsedContent().match(parseFeature) || []).length
-        let substringIndex = 0  //when is the earliest index we are looking for this match?
-        for (let match = 0; match < numMatch; match++) {
-            substringIndex = file.getContent().indexOf(parseFeature, substringIndex)
-            substrings.push(new PHFileSubstring(
-                file.getProgramName(),
-                file.getNameAndExtension(),
-                substringIndex,
-                parseFeature))
-            substringIndex += 1  // start next search after start index of current match
+
+    protected getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number) {
+        let firstIndex: number
+        try {
+            firstIndex = file.getParsedContent().indexOf(parseFeature, afterThisIndex)
+        } catch (error) {
+            throw new Error("Parsed content of file is not of type string.")
         }
-        return substrings
+        if (firstIndex === -1) {
+            throw new Error("Parse feature not contained in file contents.")
+        }
+        return firstIndex
     }
-    findParsedMatches(f1: PHFile, f2: PHFile): string[] {
-        /**
-         * Asked for help on Piazza with this.
-         */
-        throw new Error("Method not implemented.");
-    }
-    
+
 }

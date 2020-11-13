@@ -7,7 +7,7 @@ export default class PHFileSubstring {
 
     constructor(private programName: string,
         private fileNameAndExtension: string,
-        private startLine: number,
+        private startIndex: number,
         private rawString: string) {}
 
     /**
@@ -25,10 +25,10 @@ export default class PHFileSubstring {
     }
 
     /**
-     * Returns the line number in the file that the similarity begins at.
+     * Returns the index of the character in the file that the similarity begins at.
      */
-    getStartLine(): number {
-        return this.startLine
+    getStartIndex(): number {
+        return this.startIndex
     }
 
     /**
