@@ -1,6 +1,5 @@
 import PHFile from "./PHFile";
 import PHFileSubstring from "./PHFileSubstring";
-import PHSimilarity from "./PHSimilarity";
 
 
 /**
@@ -29,15 +28,19 @@ export default interface IParser<T> {
      * @param parseFeature A similarity identified between the parsed contents of one or more files.
      * @param file A file in a program, the content of which is guaranteed to be a string.
      * @throws TypeError if PHFile's parsed contents are not of type T or if they are undefined.
-     * @returns 
+     * @returns the PHFileSubstrings corresponding to instances of the parseFeature in the file.
      */
     unparse(parseFeature: T, file: PHFile): PHFileSubstring[]
 
     /**
      * Finds shared parse features between two files.
      * 
-     * @param f1 
-     * @param f2 
+     * @param f1 a PHFile that has parsed content of type T.
+     * @param f2 another PHFile that has parsed content of type T.
+     * @throws TypeError if either of the PHFile's parsed contents are not of type T
+     *  or if they are undefined.
+     * @throws Error is PHFiles have different extensions.
+     * @returns a list of shared parse features between the files.
      */
     findParsedMatches(f1: PHFile, f2: PHFile): T[]
 

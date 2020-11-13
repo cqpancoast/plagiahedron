@@ -6,25 +6,33 @@ import PHFile from "./PHFile"
  */
 export default class Program {
     
-    constructor(private name: string, private files: PHFile[]) {}
+    constructor(private name: string, private files: PHFile[]) {
+        files.forEach(file => file.setProgramName(name))
+    }
 
     /**
-     * Returns private field name, representing name of program
+     * Returns private field name, representing name of program.
      */
     getName(): string {
         return this.name
     }
+    
     /**
-     * Returns specific file in the program 
-     * @param fileName name to indicate desired file
+     * Returns all files in this program.
      */
-    getFile(fileName: string): PHFile {
-        return this.files[fileName]
+    getFiles(): PHFile[] {
+        return this.files
     }
     /**
-     * returns all file names found in the program
+     * Returns a file in the Program.
+     * @param fileNameAndExtension name and extension of the file to be accessed.
+     * @throw Error if the indicated file isn't contained within this program.
      */
-    getFileNames(): string[] {
-        return null
+    getFile(fileNameAndExtension: string): PHFile {
+        try {
+            return this.files[this.files.map(file => file.getNameAndExtension()).indexOf(fileNameAndExtension)]
+        } catch (error) {
+            throw new Error(`Error accessing file name and extension ${fileNameAndExtension} from this program.`)
+        }
     }
 }

@@ -1,0 +1,21 @@
+.Homepage {
+  display: flexbox;
+  flex-direction: column;
+}
+
+
+.Homepage-title {
+  margin-left: 2%;
+  margin-top: -2%;
+}
+
+
+.Homepage-links {
+  margin-top: 18%;
+}
+
+.Homepage-line {
+  width: 65%;
+  margin-left: -1%;
+  margin-top: -4%;
+}

@@ -5,10 +5,10 @@ import PHFile from "./PHFile";
  */
 export default class PHFileSubstring {
 
-    private programName: string
-    private fileNameAndExtension: string
-    private startLine: number
-    private rawString: string
+    constructor(private programName: string,
+        private fileNameAndExtension: string,
+        private startIndex: number,
+        private rawString: string) {}
 
     /**
      * Returns the name of the file implicated in this similarity.
@@ -25,10 +25,10 @@ export default class PHFileSubstring {
     }
 
     /**
-     * Returns the line number in the file that the similarity begins at.
+     * Returns the index of the character in the file that the similarity begins at.
      */
-    getStartLine(): number {
-        return this.startLine
+    getStartIndex(): number {
+        return this.startIndex
     }
 
     /**
