@@ -25,6 +25,7 @@ describe("test filter", () => {
     let substringArray4 = [fileSubString1, fileSubString3, fileSubString4, fileSubString5, fileSubString6]
     let substringArray5 = [fileSubString1, fileSubString2, fileSubString3]
 
+    // longer string = higher score
     let simAll = new PHSimilarity("Similar String All", substringArrayAll)
     let sim1 = new PHSimilarity("code", substringArray1)
     let sim2 = new PHSimilarity("code short", substringArray2)
@@ -49,6 +50,7 @@ describe("test filter", () => {
 
     // array out of order
     let simArrayOutOfOrder = [sim2, sim3, sim1, sim5]
+    // same array but in order
     let simArrayScoreOrder = [sim5, sim3, sim2, sim1]
 
     let testSimArrayInc135 = FilterUtils.showIncluding(simArrayAll, nameArray135)
