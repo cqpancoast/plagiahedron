@@ -9,6 +9,7 @@ export default class FilterUtils {
     /**
      *  Filters list such that similarities containing only given filenames 
      *  (and no others) are shown. Returns a list ordered by similarity score.
+     *  e.g.: filtering by ABC only shows similarities with ABC & CAB & BAC, not AB, BA, ABCD, etc.
      */
     static showOnly(simList: IPHSimilarity<string>[], nameList: string[]): IPHSimilarity<string>[] {
 
@@ -38,6 +39,7 @@ export default class FilterUtils {
     /**
      *  Filters list such that similarities containing given filenames are shown, 
      *  including those that contain other filenames as well. Returns a list ordered by similarity score.
+     *  e.g.: filtering by ABC shows ABC, CAB, ABCD, ABDCE, but *not* AB, A, BA
      */
     static showIncluding(simList: IPHSimilarity<string>[], nameList: string[]): IPHSimilarity<string>[] {
 
