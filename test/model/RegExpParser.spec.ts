@@ -2,10 +2,10 @@ import PHFile from "../../src/model/PHFile"
 
 /**
  * This one's a doozy. Your instructions:
- * - Read the documentation and code for XParser and "get it",
+ * - Read the documentation and code for RegExpParser and "get it",
  *   particularly the way that the special character stuff works
- *   with all the file extension stuff and whatnot.
- *   (Check out method "XParser.isSpecialChar".)
+ *   for RegExps. (Check out REParser.getNonSpecialCharRegExpString(),
+ *   look at how it's used, review regexps if necessary.)
  * - Define three files (the empty one I had time for) such that you can make either of them
  *   "b" language or "b++" when necessary (defined below).
  *   - A simple file with some tokens and AT LEAST two types of special characters.
@@ -58,7 +58,7 @@ describe("use different file extensions (including Basic++) to test parse rules"
 
     })
 
-    it("files always parse down to just 'x' when there are no special characters", () => {
+    it("no special characters -> files parser to RegExpParser.getNonSpecialCharRegExpString()", () => {
 
     })
 
