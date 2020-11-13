@@ -12,6 +12,8 @@ import PHFile from "./PHFile";
  */
 export default class RegExpParser extends AStringParser {
 
+    fillerChar: string = "x"  // should be only one character
+
     constructor(
         protected minMatchLength: number,
         private specialCharDict: { [fileExtension: string]: string[] }
@@ -36,7 +38,7 @@ export default class RegExpParser extends AStringParser {
 
         return file.getContent().replace(
             new RegExp(nonSpecialCharRegExpString),
-            nonSpecialCharRegExpString)
+            this.fillerChar)
     }
 
     protected getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number) {
@@ -44,7 +46,9 @@ export default class RegExpParser extends AStringParser {
         let relevantContent: string = fileContent.substring(afterThisIndex, fileContent.length)
         let firstIndex: number
         try {
-            firstIndex= relevantContent.search(new RegExp(parseFeature))
+            firstIndex = relevantContent.search(
+                new RegExp(parseFeature.replace("x",
+                    this.getNonSpecialCharRegExpString(file.getExtension()))))
         } catch (error) {
             throw new Error("Parsed content of file is not of type string.")
         }
