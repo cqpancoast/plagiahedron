@@ -29,4 +29,9 @@ export default interface IPHSimilarity<T> {
      */
     getFileSubstring(programName: string): PHFileSubstring
 
+    /**
+     * Returns all PHFileSubstrings associated with this similarity.
+     */
+    getFileSubstrings(): PHFileSubstring[]
+
 }

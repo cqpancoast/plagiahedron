@@ -32,7 +32,7 @@ export default class PHFile {
      */
     setProgramName(programName: string) {
         if (this.programName !== undefined) {
-            throw new Error
+            throw new Error("This file has already been given to a Program.")
         }
         this.programName = programName
     }
@@ -41,7 +41,7 @@ export default class PHFile {
      */
     getProgramName(): string {
         if (this.programName === undefined) {
-            throw new Error
+            throw new Error("This file has not yet been given to a Program.")
         }
         return this.programName
     }
@@ -52,15 +52,17 @@ export default class PHFile {
     /**
      * Parses this file and stores the result, if this hasn't already happened.
      * @param parser an IParser that produces any type from this file.
+     * @throws Error if attempting to re-parse content.
      */
     acceptParser(parser: IParser<any>) {
         if (this.parsedContent === undefined) {
             this.parsedContent = parser.parse(this)
+        } else {
+            throw new Error("Attempted to re-parse a file.")
         }
     }
     /**
      * Returns the parsed content associated with this file.
-     * @throws some error if this is altered. TODO
      */
     getParsedContent(): any {
         return this.parsedContent
