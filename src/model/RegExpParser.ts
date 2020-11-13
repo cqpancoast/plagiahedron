@@ -51,7 +51,7 @@ export default class RegExpParser extends AStringParser {
         if (firstIndex === -1) {
             throw new Error("Parse feature not contained in file contents.")
         }
-        return firstIndex + afterThisIndex
+        return afterThisIndex + firstIndex
     }
 
     /**
@@ -62,7 +62,11 @@ export default class RegExpParser extends AStringParser {
     private getNonSpecialCharRegExpString(fileExtension: string): string {
         let specialChars: string[] = this.specialCharDict[fileExtension]
         if (specialChars !== undefined) {
-            return "^[" + specialChars.join("") + "]+"
+            return `^[${specialChars.join("")}+`
+        } else {
+            throw new Error(`The file type ${fileExtension} is not in
+                the list of supported file types for this parser:
+                ${Object.keys(this.specialCharDict)}.`)
         }
     }
 

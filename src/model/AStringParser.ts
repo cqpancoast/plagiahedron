@@ -47,6 +47,11 @@ export default abstract class AStringParser implements IParser<string> {
      * Finds all similar strings of length at least this.minMatchLength between file contents.
      */
     findParsedMatches(f1: PHFile, f2: PHFile): string[] {
+        if (f1.getExtension() !== f2.getExtension()) {
+            throw new Error(`Input are of different types:
+                ${f1.getExtension()}, ${f2.getExtension()}.`)
+        }
+
         let f1c: string = f1.getParsedContent()
         let f2c: string = f2.getParsedContent()
         let f1clength: number = f1c.length
