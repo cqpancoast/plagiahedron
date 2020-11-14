@@ -13,7 +13,7 @@ export default class FilterUtils {
      */
     static showOnly(simList: IPHSimilarity<any>[], nameList: string[]): IPHSimilarity<any>[] {
 
-        var filteredArray: IPHSimilarity<any>[]
+        var filteredArray!: IPHSimilarity<any>[]
 
         for (var simIndex = 0; simIndex < simList.length; simIndex++) {
             var similarity = simList[simIndex]
@@ -52,7 +52,7 @@ export default class FilterUtils {
      */
     static showIncluding(simList: IPHSimilarity<any>[], nameList: string[]): IPHSimilarity<any>[] {
 
-        var filteredArray: IPHSimilarity<any>[]
+        var filteredArray!: IPHSimilarity<any>[]
 
         for (var simIndex = 0; simIndex < simList.length; simIndex++) {
             var similarity = simList[simIndex]
@@ -71,10 +71,10 @@ export default class FilterUtils {
             if (nameCount == nameList.length) {
                 simList.push(similarity)
             }
-
-            // return this.sortByScore(filteredArray)
-            return filteredArray
         }
+
+        // return this.sortByScore(filteredArray)
+        return filteredArray
     }
 
     /**
@@ -82,7 +82,7 @@ export default class FilterUtils {
      */
     static filterByProgramCount(simList: IPHSimilarity<any>[], count: number): IPHSimilarity<any>[] {
 
-        var filteredArray: IPHSimilarity<any>[]
+        var filteredArray!: IPHSimilarity<any>[]
 
         for (var simIndex = 0; simIndex < simList.length; simIndex++) {
             var similarity = simList[simIndex]
@@ -90,10 +90,10 @@ export default class FilterUtils {
             if (similarity.getProgramNames().length == count) {
                 filteredArray.push(similarity)
             }
-
-            // return this.sortByScore(filteredArray)
-            return filteredArray
         }
+
+        // return this.sortByScore(filteredArray)
+        return filteredArray
     }
 
     /**

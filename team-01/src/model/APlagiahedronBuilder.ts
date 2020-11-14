@@ -23,8 +23,8 @@ import Program from "./Program";
  */
 export default abstract class APlagiahedronBuilder implements IPlagiahedronBuilder {
 
-    protected parser?: IParser<string>
-    protected maxGroupSize?: number
+    protected parser!: IParser<string>;
+    protected maxGroupSize!: number;
 
     constructPlagiahedron(codeSet: CodeSet): Plagiahedron {
         let sims: IPHSimilarity<string>[] = []
