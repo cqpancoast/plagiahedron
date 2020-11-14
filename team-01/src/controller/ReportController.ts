@@ -1,16 +1,16 @@
 import SessionModel from "../model/SessionModel"
-import Similarity from "../model/Similarity"
-import ReactCodeSetView from "../view/ReactCodeSetView"
+import Similarity from "../model/PHSimilarity"
+// import ReactCodeSetView from "../view/ReactCodeSetView"
 import IReportFeatureListener from "./IReportFeatureListener"
 
 
 class ReportController implements IReportFeatureListener {
-    private model: SessionModel
-    private view: ReactCodeSetView
+    // private model: SessionModel
+    // private view: ReactCodeSetView
 
-    start(model: SessionModel, view: ReactCodeSetView) {
-        throw new Error("Method not implemented.")
-    }
+    // start(model: SessionModel, view: ReactCodeSetView) {
+    //     throw new Error("Method not implemented.")
+    // }
     onFilterList(onlyThesePrograms: boolean, programNames: string[]) {
         throw new Error("Method not implemented.")
     }

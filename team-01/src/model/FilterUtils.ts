@@ -11,9 +11,9 @@ export default class FilterUtils {
      *  (and no others) are shown. Returns a list ordered by similarity score.
      *  e.g.: filtering by ABC only shows similarities with ABC & CAB & BAC, not AB, BA, ABCD, etc.
      */
-    static showOnly(simList: IPHSimilarity<string>[], nameList: string[]): IPHSimilarity<string>[] {
+    static showOnly(simList: IPHSimilarity<any>[], nameList: string[]): IPHSimilarity<any>[] {
 
-        var filteredArray: IPHSimilarity<string>[]
+        var filteredArray: IPHSimilarity<any>[]
 
         for (var simIndex = 0; simIndex < simList.length; simIndex++) {
             var similarity = simList[simIndex]
@@ -37,13 +37,22 @@ export default class FilterUtils {
     }
 
     /**
+     * Filters certain program names out of this list of similarities.
+     * @param sims the similarties under consideration.
+     * @param progNames program names to exclude from the similarities being considered. 
+     */
+    static showWithout(sims: IPHSimilarity<any>[], progNames: string[]): IPHSimilarity<string>[] {
+        return sims.filter(sim => sim.getProgramNames().every(progName => !progNames.includes(progName)))
+    }
+
+    /**
      *  Filters list such that similarities containing given filenames are shown, 
      *  including those that contain other filenames as well. Returns a list ordered by similarity score.
      *  e.g.: filtering by ABC shows ABC, CAB, ABCD, ABDCE, but *not* AB, A, BA
      */
-    static showIncluding(simList: IPHSimilarity<string>[], nameList: string[]): IPHSimilarity<string>[] {
+    static showIncluding(simList: IPHSimilarity<any>[], nameList: string[]): IPHSimilarity<any>[] {
 
-        var filteredArray: IPHSimilarity<string>[]
+        var filteredArray: IPHSimilarity<any>[]
 
         for (var simIndex = 0; simIndex < simList.length; simIndex++) {
             var similarity = simList[simIndex]
@@ -71,9 +80,9 @@ export default class FilterUtils {
     /**
      *  Filters list by number of programs in a similarity. Returns a list ordered by similarity score.
      */
-    static filterByProgramCount(simList: IPHSimilarity<string>[], count: number): IPHSimilarity<string>[] {
+    static filterByProgramCount(simList: IPHSimilarity<any>[], count: number): IPHSimilarity<any>[] {
 
-        var filteredArray: IPHSimilarity<string>[]
+        var filteredArray: IPHSimilarity<any>[]
 
         for (var simIndex = 0; simIndex < simList.length; simIndex++) {
             var similarity = simList[simIndex]
@@ -90,7 +99,7 @@ export default class FilterUtils {
     /**
      * Takes an array of similarities and sorts by score
      */
-    static sortByScore(simList: IPHSimilarity<string>[]): IPHSimilarity<string>[] {
+    static sortByScore(simList: IPHSimilarity<any>[]): IPHSimilarity<any>[] {
         return simList.sort((a, b) => b.getScore() - a.getScore())
     }
 }
