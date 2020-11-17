@@ -1,3 +1,4 @@
+import IPHSimilarity from "./IPHSimilarity"
 import PHSimilarity from "./PHSimilarity"
 
 
@@ -9,19 +10,19 @@ import PHSimilarity from "./PHSimilarity"
  */
 export default class Plagiahedron {
 
-    constructor(private similarities: PHSimilarity[]) {}
+    constructor(private similarities: IPHSimilarity<any>[]) {}
 
     /**
      * Returns list of similarities
      */
-    getAllSimilarities(): PHSimilarity[] {
+    getAllSimilarities(): IPHSimilarity<any>[] {
         return this.similarities
     }
     /**
      * Adds new similarity to array storing all similarities
      * @param s Similarity to be added
      */
-    addPHSimilarity(s: PHSimilarity) {
+    addPHSimilarity(s: IPHSimilarity<any>) {
         this.similarities.push(s)
     }
 
@@ -31,7 +32,7 @@ export default class Plagiahedron {
      * thinking about it at the moment.
      */
 
-    getSimilaritiesOfPrograms(programNames: []): PHSimilarity[] {
+    getSimilaritiesOfPrograms(programNames: []): IPHSimilarity<any>[] {
         throw new Error("Method not implemented.")
     }
     getTotalScoreOfPrograms(programNames: []): number {

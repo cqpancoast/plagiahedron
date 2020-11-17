@@ -1,6 +1,6 @@
 import ICodeSetFeatureListener from "./ICodeSetFeatureListener"
 import SessionModel from "../model/SessionModel"
-import ReactCodeSetView from "../view/ReactCodeSetView"
+// import ReactCodeSetView from "../view/ReactCodeSetView"
 
 /**
  * Concrete implementation of interface ICodeSetFeatureListener
@@ -8,18 +8,18 @@ import ReactCodeSetView from "../view/ReactCodeSetView"
  */
 class CodeSetController implements ICodeSetFeatureListener {
     //model represents the model attached to this controller
-    private model: SessionModel
+    // private model: SessionModel
     //view represents the view attached to this controller
-    private view: ReactCodeSetView
+    // private view: ReactCodeSetView
 
     /**
      * Starts system
      * @param model sets this model to be the SessionModel
      * @param view sets this view to be the ReactCodeSetView
      */
-    start(model: SessionModel, view: ReactCodeSetView) {
-        throw new Error("Method not implemented.")
-    }
+    // start(model: SessionModel, view: ReactCodeSetView) {
+    //     throw new Error("Method not implemented.")
+    // }
     /**
      * Defines behavior when needed to add a program
      */

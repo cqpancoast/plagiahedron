@@ -41,7 +41,7 @@ export default abstract class AStringParser implements IParser<string> {
      * @throws TypeError if either of the PHFile's parsed contents are not of type T
      *  or if they are undefined.
      */
-    protected abstract getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number)
+    protected abstract getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number): any
     
     /**
      * Finds all similar strings of length at least this.minMatchLength between file contents.
