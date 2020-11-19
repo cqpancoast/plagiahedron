@@ -48,8 +48,7 @@ export default abstract class AStringParser implements IParser<string> {
      */
     findParsedMatches(f1: PHFile, f2: PHFile): string[] {
         if (f1.getExtension() !== f2.getExtension()) {
-            throw new Error(`Input are of different types:
-                ${f1.getExtension()}, ${f2.getExtension()}.`)
+            return []
         }
 
         let f1c: string = f1.getParsedContent()
