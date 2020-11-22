@@ -1,5 +1,6 @@
 import AStringParser from "./AStringParser";
 import PHFile from "./PHFile";
+import PHFileSubstring from "./PHFileSubstring";
 import SpecialToken from "./SpecialToken";
 
 /**
@@ -10,7 +11,7 @@ import SpecialToken from "./SpecialToken";
  */
 export default class XParser extends AStringParser {
 
-    private fillerChar: string = "x"  // must be one character
+    private fillerChar: string = "\ubeef"
 
     constructor(
         protected minMatchLength: number,
@@ -56,14 +57,15 @@ export default class XParser extends AStringParser {
         return parseUnits.join("")
     }
 
-    protected getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number) {
-        let fileContent: string = file.getContent()
-        let relevantContent: string = fileContent.substring(afterThisIndex, fileContent.length)
-        let sameSpecial: (: string, a: string)
-
-        for (let i = 0; i < relevantContent.length; i++) {
-            if ()
-        }
+    unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
+        return file.getContent().match(parseFeature.replace(this.fillerChar, ".+"))
+            .filter(match =>
+                this.parse(new PHFile(file.getName(), file.getExtension(), match)) === parseFeature)
+            .map(match =>
+                new PHFileSubstring(file.getProgramName(),
+                file.getNameAndExtension(),
+                file.getContent().indexOf(match),
+                match))
     }
 
 }
