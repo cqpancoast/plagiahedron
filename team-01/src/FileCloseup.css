@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+
+.FileCloseup-title {
+    color: #eee9f3;
+    font-size: 15pt;
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.FileCloseup-name {
+    padding-left: 15px;
+}
+
+.FileCloseup-box {
+    background-color: #eee9f3;
+    width: 460px;
+    height: 430px;
+    border-radius: 15px;
+    margin-left: 30px;
+    margin-top: 45px;
+    font-family: 'Inconsolata', monospace;
+    font-size: 12pt;
+    color: #0f131e;
+    padding: 40px 20px;
+    overflow: scroll;
+}

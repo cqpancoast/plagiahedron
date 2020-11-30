@@ -1,0 +1,16 @@
+.ResultsPage{
+    overflow: scroll;
+}
+.ResultPage-container {
+    margin-left: 25px;
+}
+
+.ResultsPage-nav {
+    margin-top: 40px;
+    margin-left: -15px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+}
