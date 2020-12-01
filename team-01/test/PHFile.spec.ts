@@ -1,6 +1,75 @@
-import PHFile from "../../src/model/PHFile"
-import IdentityParser from "../../src/model/IdentityParser"
+import PHFile from "../src/model/PHFile"
+import IdentityParser from "../src/model/IdentityParser"
 import NumberParser from "./NumberParser"
+import { expect } from "chai"
+import "mocha"
+
+
+
+describe("test non-parsed PHFile", () => {
+
+    let file: PHFile = new PHFile("f", ".ts", "firstline\nsecondline\nthirdline")
+    let err: PHFile = new PHFile("", "", "this should be an error")
+    console.log("ph1")
+    /** Test getters, program name set/get rules, error when parsed content accessed (implementation TODO) */
+
+    it("get file name", () => {
+        expect(file.getName()).to.equal("f")
+    })
+
+    it("get extension", () => {
+        expect(file.getExtension()).to.equal(".ts")
+    })
+
+    it("get name and extension", () => {
+        expect(file.getNameAndExtension()).to.equal("f.ts")
+    })
+
+
+    it("set and get program name", () => {
+        file.setProgramName("new")
+        expect(file.getProgramName()).to.equal("new")
+    })
+
+    it("set program name error", () => {
+        file.setProgramName("hi")
+        expect(file.setProgramName("")).to.throw(new Error("This file has already been given to the program new."))
+        
+    })
+
+    //this should never actually happen
+    it("get program name error", () => {
+        expect(err.getProgramName()).to.throw(new Error ("This file has not yet been given to a Program."))
+    })
+
+    it("get content", () => {
+        file.getContent()
+        expect(file.getContent()).to.equal("firstline\nsecondline\nthirdline")
+    })
+
+})
+
+describe("test parsed PHFile", () => {
+
+    let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
+    let idParser: IdentityParser = new IdentityParser(4)
+    
+
+    /** Test getters, parsed content (identical to file contents in this case) */
+
+    it("accept parser", () => {
+        file.acceptParser(idParser)
+        expect(file.getParsedContent()).to.equal(idParser.parse(file))
+    })
+
+    it("parser error", () => {
+        file.acceptParser(idParser)
+        //expect(file.getParsedContent()).to.equal(idParser.parse(file))
+        file.acceptParser(idParser)
+        expect(file.getParsedContent()).to.throw(new Error ("Attempted to re-parse a file."))
+    })
+
+})
 
 /**
  * @Sam: These are additional tests in addition to the ones you've already done, not replacements.
