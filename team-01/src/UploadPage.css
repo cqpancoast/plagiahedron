@@ -1,0 +1,80 @@
+.UploadPage{
+    margin-top: 60px;
+}
+
+.UploadPageTitle{
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    align-content: center;
+    text-transform: uppercase;
+    font-size: 36px;
+}
+
+.ListContainer{
+    background-color: black;
+    width: 450px;
+    height: 380px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+
+.PlusButton{
+    background: black;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    margin: auto;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    color: #eee9f3;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    cursor: pointer
+}
+
+.Plus{
+    z-index: 1;
+    position: absolute;
+    color:#eee9f3;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 45px;
+}
+
+.CompareButton{
+    background: black;
+    width: 350px;
+    height: 80px;
+    margin: auto;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #eee9f3;
+    border: none;
+    cursor: pointer;
+    border-radius: 26px;
+}
+
+.CompareButtonText {
+    z-index: 1;
+    position: absolute;
+    color:#eee9f3;
+    text-transform: uppercase;
+    font-size: 45px;
+}
