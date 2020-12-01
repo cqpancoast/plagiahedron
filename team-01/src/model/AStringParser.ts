@@ -17,6 +17,7 @@ export default abstract class AStringParser implements IParser<string> {
 
     unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
         let substrings: PHFileSubstring[] = []
+        file.acceptParser(this)
         let numMatch: number = (file.getParsedContent().match(parseFeature) || []).length
         let substringIndex = 0  //when is the earliest index we are looking for this match?
         for (let match = 0; match < numMatch; match++) {
