@@ -1,21 +1,17 @@
-import FilterUtils from "../../src/model/FilterUtils"
-import PHSimilarity from "../../src/model/PHSimilarity"
-import PHFileSubstring from "../../src/model/PHFileSubstring"
-import PHFile from "../../src/model/PHFile"
+import FilterUtils from "../src/model/FilterUtils"
+import PHSimilarity from "../src/model/PHSimilarity"
+import PHFileSubstring from "../src/model/PHFileSubstring"
 import 'mocha'
 import { expect } from "chai"
 
 describe("test filter", () => {
-    it("test 1", () => {
-    let file = new PHFile("name", "extension", "content")
+
     let fileSubString1 = new PHFileSubstring("programName1", "filename", 3, "string content")
     let fileSubString2 = new PHFileSubstring("programName2", "filename2", 9, "the code")
     let fileSubString3 = new PHFileSubstring("programName3", "filename3", 18, "random function")
     let fileSubString4 = new PHFileSubstring("programName4", "filename4", 130, "more code")
     let fileSubString5 = new PHFileSubstring("programName5", "filename5", 1, "even more code")
     let fileSubString6 = new PHFileSubstring("programName6", "filename6", 90, "wow so much code")
-
-    fileSubString1
 
     let substringArrayAll = [fileSubString1, fileSubString2, fileSubString3, fileSubString4,
         fileSubString5, fileSubString6]
@@ -58,9 +54,19 @@ describe("test filter", () => {
     let testSimArray3Programs = FilterUtils.filterByProgramCount(simArrayAll, 3);
     let testSimArrayScoreOrder = FilterUtils.sortByScore(simArrayOutOfOrder)
 
-    expect(simArrayInc135).to.equal(testSimArrayInc135)
-    expect(simArrayOnly123).to.equal(testSimArrayOnly123)
-    expect(simArray3Programs).to.equal(testSimArray3Programs)
-    expect(simArrayScoreOrder).to.equal(testSimArrayScoreOrder)
+    it("show including", () => {
+        expect(simArrayInc135).to.equal(testSimArrayInc135)
+    });
+
+    it("show only", () => {
+        expect(simArrayOnly123).to.equal(testSimArrayOnly123)
+    });
+
+    it("filter by program count", () => {
+        expect(simArray3Programs).to.equal(testSimArray3Programs)
+    });
+
+    it("sort by score", () => {
+        expect(simArrayScoreOrder).to.equal(testSimArrayScoreOrder)
     });
 })

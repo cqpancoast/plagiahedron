@@ -1,5 +1,4 @@
 import IPHSimilarity from "./IPHSimilarity"
-import PHSimilarity from "./PHSimilarity"
 
 
 /**
@@ -24,19 +23,5 @@ export default class Plagiahedron {
      */
     addPHSimilarity(s: IPHSimilarity<any>) {
         this.similarities.push(s)
-    }
-
-    /**
-     * NOTE BY CASEY: There is probably a better way to implement filter
-     * than creating explicit methods for ANY and ALL, but I don't feel like
-     * thinking about it at the moment.
-     */
-
-    getSimilaritiesOfPrograms(programNames: []): IPHSimilarity<any>[] {
-        throw new Error("Method not implemented.")
-    }
-    getTotalScoreOfPrograms(programNames: []): number {
-        // add up score of each similarity that has ANY of these program names
-        throw new Error("Method not implemented.")
     }
 }
