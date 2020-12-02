@@ -15,42 +15,14 @@ export default abstract class AStringParser implements IParser<string> {
 
     abstract parse(file: PHFile): string
 
-    unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
-        let substrings: PHFileSubstring[] = []
-        file.acceptParser(this)
-        let numMatch: number = (file.getParsedContent().match(parseFeature) || []).length
-        let substringIndex = 0  //when is the earliest index we are looking for this match?
-        for (let match = 0; match < numMatch; match++) {
-            substringIndex = this.getSubstringIndex(file, parseFeature, substringIndex)
-            substrings.push(new PHFileSubstring(
-                file.getProgramName(),
-                file.getNameAndExtension(),
-                substringIndex,
-                parseFeature))
-            substringIndex += 1  // start next search after start index of current match
-        }
-        return substrings
-    }
 
-    /**
-     * Finds the first index of a substring in this file that parses down to the parse feature.
-     * 
-     * @param file a PHFile that has a string as its parsed content.
-     * @param parseFeature a string contained within the parsed content of the file.
-     * @param afterThisIndex the index of the file where we start looking for the substring.
-     * @throws Error if no part of the given file's parsed content contains parse feature.
-     * @throws TypeError if either of the PHFile's parsed contents are not of type T
-     *  or if they are undefined.
-     */
-    protected abstract getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number): any
-    
+    abstract unparse(parseFeature: string, file: PHFile): PHFileSubstring[]
     /**
      * Finds all similar strings of length at least this.minMatchLength between file contents.
      */
     findParsedMatches(f1: PHFile, f2: PHFile): string[] {
         if (f1.getExtension() !== f2.getExtension()) {
-            throw new Error(`Input are of different types:
-                ${f1.getExtension()}, ${f2.getExtension()}.`)
+            return []
         }
 
         let f1c: string = f1.getParsedContent()
