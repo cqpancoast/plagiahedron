@@ -3,6 +3,7 @@ import PHSimilarity from "../src/model/PHSimilarity"
 import PHFileSubstring from "../src/model/PHFileSubstring"
 import 'mocha'
 import { expect } from "chai"
+import IPHSimilarity from "../src/model/IPHSimilarity"
 
 describe("test filter", () => {
 
@@ -55,18 +56,25 @@ describe("test filter", () => {
     let testSimArrayScoreOrder = FilterUtils.sortByScore(simArrayOutOfOrder)
 
     it("show including", () => {
-        expect(simArrayInc135).to.equal(testSimArrayInc135)
+        expectSimsArraysEqual(simArrayInc135, testSimArrayInc135)
     });
 
     it("show only", () => {
-        expect(simArrayOnly123).to.equal(testSimArrayOnly123)
+        expectSimsArraysEqual(simArrayOnly123, testSimArrayOnly123)
     });
 
     it("filter by program count", () => {
-        expect(simArray3Programs).to.equal(testSimArray3Programs)
+        expectSimsArraysEqual(simArray3Programs, testSimArray3Programs)
     });
 
     it("sort by score", () => {
-        expect(simArrayScoreOrder).to.equal(testSimArrayScoreOrder)
+        expectSimsArraysEqual(simArrayScoreOrder, testSimArrayScoreOrder)
     });
+
+    function expectSimsArraysEqual(array1: IPHSimilarity<any>[], array2: IPHSimilarity<any>[]) {
+        expect(array1.length).to.equal(array2.length)
+        for (let i = 0; i < array1.length; i++) {
+            expect(array1[i]).to.equal(array2[i])
+        }
+    }
 })

@@ -59,10 +59,8 @@ export default class XParser extends AStringParser {
 
     unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
         let matchedContents = file.getContent().match(parseFeature.replace(this.fillerChar, ".+"))
-        if (matchedContents == null) {
-            return []
-        }
-        return matchedContents.filter(match =>
+        return matchedContents === null ? [] : 
+            matchedContents.filter(match =>
                 this.parse(new PHFile(file.getName(), file.getExtension(), match)) === parseFeature)
             .map(match =>
                 new PHFileSubstring(file.getProgramName(),

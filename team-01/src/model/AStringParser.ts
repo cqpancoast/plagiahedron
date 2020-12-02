@@ -15,7 +15,6 @@ export default abstract class AStringParser implements IParser<string> {
 
     abstract parse(file: PHFile): string
 
-
     abstract unparse(parseFeature: string, file: PHFile): PHFileSubstring[]
     /**
      * Finds all similar strings of length at least this.minMatchLength between file contents.

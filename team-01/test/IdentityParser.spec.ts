@@ -2,8 +2,10 @@ import { expect } from "chai"
 import "mocha"
 import IdentityParser from "../src/model/IdentityParser"
 import IParser from "../src/model/IParser"
+import Program from "../src/model/Program"
 import PHFile from "../src/model/PHFile"
 import NumberParser from "./NumberParser"
+
 
 describe("parse a basic PHFile", () => {
     console.log("parsing1")
@@ -23,11 +25,11 @@ describe("parse a basic PHFile", () => {
 describe("unparse a basic PHFile", () => {
     let ip1: IParser<string> = new IdentityParser(20);
     
-
     let stringFirst: string = "firstline"
     let stringLine: string = "line"
     let stringDline: string = "dline"
     let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
+    file.setProgramName("dummy")
 
     it("finds one instance of firstline", () => {
         let unparsed = ip1.unparse(stringFirst, file)
@@ -49,10 +51,12 @@ describe("find parsed matches between a basic PHFile", () => {
 
     console.log("parsing3")
     let ip: IdentityParser = new IdentityParser(30);
-
     let file123: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
     let file2: PHFile = new PHFile("f", "ts", "secondline")
     let file13: PHFile = new PHFile("f", "ts", "firstline\nthirdline")
+    file123.acceptParser(ip)
+    file2.acceptParser(ip)
+    file13.acceptParser(ip)
     
     it("finds one match between a file and itself", () => {
         expect(ip.findParsedMatches(file123, file123)).to.equal(["firstline", "secondline", "thirdline"])

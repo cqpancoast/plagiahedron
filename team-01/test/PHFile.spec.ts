@@ -5,7 +5,6 @@ import { expect } from "chai"
 import "mocha"
 
 
-
 describe("test non-parsed PHFile", () => {
 
     let file: PHFile = new PHFile("f", ".ts", "firstline\nsecondline\nthirdline")
@@ -25,7 +24,6 @@ describe("test non-parsed PHFile", () => {
         expect(file.getNameAndExtension()).to.equal("f.ts")
     })
 
-
     it("set and get program name", () => {
         file.setProgramName("new")
         expect(file.getProgramName()).to.equal("new")
@@ -33,13 +31,11 @@ describe("test non-parsed PHFile", () => {
 
     it("set program name error", () => {
         file.setProgramName("hi")
-        expect(file.setProgramName("")).to.throw(new Error("This file has already been given to the program new."))
-        
+        expect(file.setProgramName("")).to.throw("This file has already been given to the program new.")
     })
 
-    //this should never actually happen
     it("get program name error", () => {
-        expect(err.getProgramName()).to.throw(new Error ("This file has not yet been given to a Program."))
+        expect(err.getProgramName()).to.throw("This file has not yet been given to a Program.")
     })
 
     it("get content", () => {
@@ -53,20 +49,16 @@ describe("test parsed PHFile", () => {
 
     let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
     let idParser: IdentityParser = new IdentityParser(4)
-    
+    file.acceptParser(idParser)
 
     /** Test getters, parsed content (identical to file contents in this case) */
 
     it("accept parser", () => {
-        file.acceptParser(idParser)
         expect(file.getParsedContent()).to.equal(idParser.parse(file))
     })
 
     it("parser error", () => {
-        file.acceptParser(idParser)
-        //expect(file.getParsedContent()).to.equal(idParser.parse(file))
-        file.acceptParser(idParser)
-        expect(file.getParsedContent()).to.throw(new Error ("Attempted to re-parse a file."))
+        expect(file.acceptParser(idParser)).to.throw(new Error("Attempted to re-parse a file."))
     })
 
 })
