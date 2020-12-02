@@ -103,10 +103,16 @@ export default abstract class APlagiahedronBuilder implements IPlagiahedronBuild
      */
     private findMoreSimilarities(p: Program, simSet: IPHSimilarity<string>[]) {
         let newSims: IPHSimilarity<string>[] = []
+        let simsToRemove: IPHSimilarity<string>[] = []
         simSet.forEach(sim => {
+            let simsToAdd: IPHSimilarity<string>[] = []
             p.getFiles().forEach(file => {
-                newSims.concat(this.findMoreSimilaritiesInFile(sim, file))
+                simsToAdd.concat(this.findMoreSimilaritiesInFile(sim, file))
             })
+            if (simsToAdd.length > 0) {
+                newSims.concat(simsToAdd)
+                simsToRemove.push(sim)
+            }
         });
         return newSims
     }
