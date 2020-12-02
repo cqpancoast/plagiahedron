@@ -9,7 +9,7 @@ describe("test non-parsed PHFile", () => {
 
     let file: PHFile = new PHFile("f", ".ts", "firstline\nsecondline\nthirdline")
     let err: PHFile = new PHFile("", "", "this should be an error")
-    console.log("ph1")
+
     /** Test getters, program name set/get rules, error when parsed content accessed (implementation TODO) */
 
     it("get file name", () => {

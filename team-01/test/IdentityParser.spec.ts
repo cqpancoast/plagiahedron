@@ -8,7 +8,6 @@ import NumberParser from "./NumberParser"
 
 
 describe("parse a basic PHFile", () => {
-    console.log("parsing1")
     let ip1: IParser<string> = new IdentityParser(20);
     let ip2: IdentityParser = new IdentityParser(30);
     let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
@@ -49,8 +48,7 @@ describe("unparse a basic PHFile", () => {
 
 describe("find parsed matches between a basic PHFile", () => {
 
-    console.log("parsing3")
-    let ip: IdentityParser = new IdentityParser(30);
+    let ip: IdentityParser = new IdentityParser(5);
     let file123: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
     let file2: PHFile = new PHFile("f", "ts", "secondline")
     let file13: PHFile = new PHFile("f", "ts", "firstline\nthirdline")
@@ -59,15 +57,15 @@ describe("find parsed matches between a basic PHFile", () => {
     file13.acceptParser(ip)
     
     it("finds one match between a file and itself", () => {
-        expect(ip.findParsedMatches(file123, file123)).to.equal(["firstline", "secondline", "thirdline"])
+        expect(ip.findParsedMatches(file123, file123)).to.deep.equal(["firstline\nsecondline\nthirdline"])
     })
 
     it("finds one match between a file and a substring file of itself", () => {
-        expect(ip.findParsedMatches(file123, file2)).to.equal(["secondline"])
+        expect(ip.findParsedMatches(file123, file2)).to.deep.equal(["secondline", "dline"])
     })
 
     it("finds two matches between a file and a file made of two substrings of itself", () => {
-        expect(ip.findParsedMatches(file123, file13)).to.equal(["firstline", "thirdline"])
+        expect(ip.findParsedMatches(file123, file13)).to.deep.equal(["firstline\n", "dline", "line\nthirdline"])
     })
 })
 /**
@@ -85,8 +83,6 @@ describe("find parsed matches between a basic PHFile", () => {
     let file13: PHFile = new PHFile("f", "ts", "firstline\nthirdline")
     let np: NumberParser = new NumberParser()
     let ip: IdentityParser = new IdentityParser(4)
-
-    console.log("parsing4")
 
     it("errors when attemtping to unparse numeric parse type", () => {
         expect(np.unparse(4, num)).to.deep.equal([])
