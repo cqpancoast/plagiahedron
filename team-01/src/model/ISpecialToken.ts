@@ -9,11 +9,16 @@
  * it will return true until it sees the character combination "*\/".
  * If "//" is seen, this will return true until it hits a newline.
  */
-export default interface SpecialToken {
+export default interface ISpecialToken {
 
     /**
      * Are we inside this special token?
      */
     takingPlace(nextChar: string): boolean
+
+    /**
+     * Did we JUST complete going through the entire token?
+     */
+    completed(): boolean
 
 }

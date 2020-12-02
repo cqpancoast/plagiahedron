@@ -1,4 +1,4 @@
-import SpecialToken from "./SpecialToken";
+import SpecialToken from "./ISpecialToken";
 
 /**
  * A special token that is one or more characters.
@@ -17,6 +17,10 @@ export default class CharSpecialToken implements SpecialToken {
             this.stringIndex = 0
             return false
         }
+    }
+
+    completed(): boolean {
+        return this.stringIndex == this.specialChars.length
     }
     
 }

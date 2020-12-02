@@ -20,7 +20,11 @@ export default class IdentityParser extends AStringParser {
     }
 
     unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
-        return file.getContent().match(parseFeature)
+        let matchedContent = file.getContent().match(parseFeature)
+        if (matchedContent == null) {
+            return []
+        }
+        return matchedContent
             .map(match =>
                 new PHFileSubstring(file.getProgramName(),
                 file.getNameAndExtension(),

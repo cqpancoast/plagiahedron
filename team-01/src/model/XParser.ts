@@ -1,7 +1,7 @@
 import AStringParser from "./AStringParser";
 import PHFile from "./PHFile";
 import PHFileSubstring from "./PHFileSubstring";
-import SpecialToken from "./SpecialToken";
+import SpecialToken from "./ISpecialToken";
 
 /**
  * Parses a file by converting every token into some filler string.
@@ -58,8 +58,11 @@ export default class XParser extends AStringParser {
     }
 
     unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
-        return file.getContent().match(parseFeature.replace(this.fillerChar, ".+"))
-            .filter(match =>
+        let matchedContents = file.getContent().match(parseFeature.replace(this.fillerChar, ".+"))
+        if (matchedContents == null) {
+            return []
+        }
+        return matchedContents.filter(match =>
                 this.parse(new PHFile(file.getName(), file.getExtension(), match)) === parseFeature)
             .map(match =>
                 new PHFileSubstring(file.getProgramName(),

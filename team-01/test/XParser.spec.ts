@@ -1,4 +1,7 @@
-import PHFile from "../../src/model/PHFile"
+import PHFile from "../src/model/PHFile"
+import ISpecialToken from "../src/model/ISpecialToken"
+import CharSpecialToken from "../src/model/CharSpecialToken"
+import CommentSpecialToken from "../src/model/CommentSpecialToken"
 
 /**
  * This one's a doozy. Your instructions:
@@ -19,13 +22,21 @@ import PHFile from "../../src/model/PHFile"
  *  Casey
  */
 
-// ""    is called the "empty language", where no characters are special. Quiz: what happens in parsing?
+// ""    is called the "empty language", where no characters are special. (Quiz: what happens in parsing?)
 // "b"   is a language called "basic" whose only special characters are newlines, spaces, and commas.
-// "b++" is an upgrade to basic that decided to include parentheses.
-let specialCharRules: { [fileExtension: string]: string[] }
+// "b++" is an upgrade to basic that decided to include parentheses and comments of the form // --> \n (like this one).
+let specialCharRules: { [fileExtension: string]: ISpecialToken[] }
     = {"": [],
-       "b":   ["\n", " ", ","],
-       "b++": ["\n", " ", ",", "(", ")"]}
+       "b": [new CharSpecialToken("\n"),
+            new CharSpecialToken(" "),
+            new CharSpecialToken(",")],
+       "b++": [new CharSpecialToken("\n"),
+            new CharSpecialToken(" "),
+            new CharSpecialToken(","),
+            new CharSpecialToken(" "),
+            new CharSpecialToken("("),
+            new CharSpecialToken(")"),
+            new CommentSpecialToken("//", "\n")],}
 
 // You may want to copy-paste some of these into the different test methods. Up to you.
 let emptyFile: PHFile = new PHFile("empty", "b", "")
