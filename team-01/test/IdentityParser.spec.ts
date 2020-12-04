@@ -34,17 +34,17 @@ describe("unparse a basic PHFile", () => {
     it("finds one instance of firstline", () => {
         let unparsed = ip1.unparse(stringFirst, file)
         console.log(unparsed)
-        expect(unparsed).to.deep.equal([{fileNameAndExtension: "fts", programName: "dummy", rawString: "firstline", startIndex: 0}])
+        expect(unparsed).to.deep.equal([new PHFileSubstring("dummy",  "fts", 0, "firstline")])
     })
 
     it("finds three instances of line", () => {
         let unparsed = ip1.unparse(stringLine, file)
-        expect(unparsed).to.deep.equal([{fileNameAndExtension: "fts", programName: "dummy", rawString: "line", startIndex: 5}])
+        expect(unparsed).to.deep.equal([new PHFileSubstring("dummy",  "fts", 5, "line")])
     })
 
     it("finds two instances of dline", () => {
         let unparsed = ip1.unparse(stringDline, file)
-        expect(unparsed).to.deep.equal([{fileNameAndExtension: "fts", programName: "dummy", rawString: "dline", startIndex: 15}])
+        expect(unparsed).to.deep.equal([new PHFileSubstring("dummy",  "fts", 15, "dline")])
     })
 })
 

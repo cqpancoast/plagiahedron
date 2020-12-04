@@ -6,6 +6,7 @@ import XParser from "../src/model/XParser"
 import "mocha"
 import { expect } from "chai"
 import NumberParser from "./NumberParser"
+import PHFileSubstring from "../src/model/PHFileSubstring"
 
 /**
  * This one's a doozy. Your instructions:
@@ -62,19 +63,12 @@ describe("parse some PHFile with Basic rules", () => {
     })
 
     it("simple file parsing", () => {
-<<<<<<< HEAD
+
         expect(xp.parse(simpleFileB)).to.equal(xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " \n " + xp.getFillerChar() + ", " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " " )
     })
 
     it("complex file parsing", () => {
         expect(xp.parse(complexFileB)).to.equal(xp.getFillerChar() + " " + xp.getFillerChar() +  " \n " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar()  + " " + xp.getFillerChar() + " ")
-=======
-        expect(xp.parse(simpleFile)).to.equal("firstline")
-    })
-
-    it("complex file parsing", () => {
-        expect(xp.parse(complexFile)).to.equal("firstline\nsecondline\nthirdline")
->>>>>>> 4dcc71b7e19113093413e1f2d04b08281d784254
     })
 })
 
@@ -84,10 +78,6 @@ describe("use different file extensions (including Basic++) to test parse rules"
         expect(xp.parse(emptyFile)).to.equal("")
     })
 
-    it("no special characters -> files parser to RegExpParser.getNonSpecialCharRegExpString()", () => {
-        //is this what we actually want?
-        expect(xp.parse(simpleFileBPlus)).to.equal("")
-    })
 
     it("simple file parsing", () => {
         expect(xp.parse(simpleFileBPlus)).to.equal((xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " \n " + xp.getFillerChar() + ", " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " " ))
@@ -124,7 +114,7 @@ describe("unparse (find parsed strings in) our PHFiles", () => {
      */
 
     it("unparse files parsed using the empty language", () => {
-        expect(xp.unparse("", emptyFile)).to.equal("")
+        expect(xp.unparse("", emptyFile)).to.equal(new PHFileSubstring(emptyFile.getProgramName(), emptyFile.getNameAndExtension(), 0, ""))
         expect(xp.unparse("", simpleFileEmp)).to.equal("This is simple \n yay!")
     })
 
