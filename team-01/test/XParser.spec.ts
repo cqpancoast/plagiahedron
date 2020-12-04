@@ -6,6 +6,7 @@ import XParser from "../src/model/XParser"
 import "mocha"
 import { expect } from "chai"
 import NumberParser from "./NumberParser"
+import PHFileSubstring from "../src/model/PHFileSubstring"
 
 /**
  * This one's a doozy. Your instructions:
@@ -62,19 +63,11 @@ describe("parse some PHFile with Basic rules", () => {
     })
 
     it("simple file parsing", () => {
-<<<<<<< HEAD
         expect(xp.parse(simpleFileB)).to.equal(xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " \n " + xp.getFillerChar() + ", " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " " )
     })
 
     it("complex file parsing", () => {
         expect(xp.parse(complexFileB)).to.equal(xp.getFillerChar() + " " + xp.getFillerChar() +  " \n " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar()  + " " + xp.getFillerChar() + " ")
-=======
-        expect(xp.parse(simpleFile)).to.equal("firstline")
-    })
-
-    it("complex file parsing", () => {
-        expect(xp.parse(complexFile)).to.equal("firstline\nsecondline\nthirdline")
->>>>>>> 4dcc71b7e19113093413e1f2d04b08281d784254
     })
 })
 
@@ -82,11 +75,6 @@ describe("use different file extensions (including Basic++) to test parse rules"
 
     it("empty file parses to the empty string no matter which parse rules", () => {
         expect(xp.parse(emptyFile)).to.equal("")
-    })
-
-    it("no special characters -> files parser to RegExpParser.getNonSpecialCharRegExpString()", () => {
-        //is this what we actually want?
-        expect(xp.parse(simpleFileBPlus)).to.equal("")
     })
 
     it("simple file parsing", () => {
@@ -129,7 +117,7 @@ describe("unparse (find parsed strings in) our PHFiles", () => {
     })
 
     it("unparse files parsed using Basic language", () => {
-        expect(xp.unparse("My name is \n (insert), nice to meet you!", simpleFileB)).to.equal("My name is")
+        expect(xp.unparse("My name is \n (insert), nice to meet you!", simpleFileB)).to.equal([])
     })
 
     it("unparse files parsed using Basic++ language", () => {

@@ -25,6 +25,13 @@ export default abstract class AStringParser implements IParser<string> {
             return []
         }
 
+        if (f1.getParsedContent() === undefined) {
+            f1.acceptParser(this)
+        }
+        if (f2.getParsedContent() === undefined) {
+            f2.acceptParser(this)
+        }
+
         let f1c: string = f1.getParsedContent()
         let f2c: string = f2.getParsedContent()
         let startChar: number = 0
