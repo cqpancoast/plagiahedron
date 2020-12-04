@@ -62,11 +62,11 @@ describe("find parsed matches between a basic PHFile", () => {
         expect(ip.findParsedMatches(file123, file123)).to.deep.equal(["firstline\nsecondline\nthirdline"])
     })
 
-    it("finds one match between a file and a substring file of itself", () => {
+    it("finds two matches between a file and a substring file of itself", () => {
         expect(ip.findParsedMatches(file123, file2)).to.deep.equal(["secondline", "dline"])
     })
 
-    it("finds two matches between a file and a file made of two substrings of itself", () => {
+    it("finds three matches between a file and a file made of two substrings of itself", () => {
         expect(ip.findParsedMatches(file123, file13)).to.deep.equal(["firstline\n", "dline", "line\nthirdline"])
     })
 })

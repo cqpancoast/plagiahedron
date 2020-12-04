@@ -69,4 +69,11 @@ export default class XParser extends AStringParser {
                 match))
     }
 
+    /**
+     * Method to return filler characters
+     */
+    getFillerChar(): string {
+        return this.fillerChar
+    }
+
 }
