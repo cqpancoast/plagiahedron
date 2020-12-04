@@ -5,6 +5,7 @@ import IParser from "../src/model/IParser"
 import Program from "../src/model/Program"
 import PHFile from "../src/model/PHFile"
 import NumberParser from "./NumberParser"
+import PHFileSubstring from "../src/model/PHFileSubstring"
 
 
 describe("parse a basic PHFile", () => {
@@ -33,17 +34,18 @@ describe("unparse a basic PHFile", () => {
 
     it("finds one instance of firstline", () => {
         let unparsed = ip1.unparse(stringFirst, file)
-        expect(unparsed).to.equal([])
+        console.log(unparsed)
+        expect(unparsed).to.deep.equal([{fileNameAndExtension: "fts", programName: "dummy", rawString: "firstline", startIndex: 0}])
     })
 
     it("finds three instances of line", () => {
         let unparsed = ip1.unparse(stringLine, file)
-        expect(unparsed).to.equal([])
+        expect(unparsed).to.deep.equal([{fileNameAndExtension: "fts", programName: "dummy", rawString: "line", startIndex: 5}])
     })
 
     it("finds two instances of dline", () => {
         let unparsed = ip1.unparse(stringDline, file)
-        expect(unparsed).to.equal([])
+        expect(unparsed).to.deep.equal([{fileNameAndExtension: "fts", programName: "dummy", rawString: "dline", startIndex: 15}])
     })
 })
 
@@ -105,16 +107,4 @@ describe("find parsed matches between a basic PHFile", () => {
     })
 })
 
-describe("getsubstringindex tests",() => {
 
-    //why is this a protected method??
-
-    let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
-    let num: PHFile = new PHFile("num", "ts", "numbers\none\ntwo")
-    let file123: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
-    let file2: PHFile = new PHFile("f", "ts", "secondline")
-    let file13: PHFile = new PHFile("f", "ts", "firstline\nthirdline")
-    let np: NumberParser = new NumberParser()
-    let ip: IdentityParser = new IdentityParser(4)
-
-})
