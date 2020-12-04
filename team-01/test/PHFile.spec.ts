@@ -70,6 +70,7 @@ describe("test parsed PHFile", () => {
 describe("test errors on getting/setting program name", () => {
 
     let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
+    let file2: PHFile = new PHFile("g", "ts", "line\nline\nline")
 
     /** Make two programs, check that the getter works correctly
      * when you first add this to a program's constructor, 
@@ -84,6 +85,7 @@ describe("test errors when accepting first and second parser", () => {
 
     let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
     let idParser: IdentityParser = new IdentityParser(4)
+    let idParser2: IdentityParser = new IdentityParser(5)
     let numParser: NumberParser = new NumberParser()
     file.acceptParser(idParser)
 
@@ -92,8 +94,23 @@ describe("test errors when accepting first and second parser", () => {
      * check that it errors the second time.
      * Also test that it errors for the SAME parser. */
 
-    it("", () => {
+    it("accept parser works", () => {
+        file.acceptParser(idParser)
+        expect(file.getParsedContent()).to.equal(idParser.parse(file))
+    })
 
+    it("fails passing two of the same parsers", () => {
+        file.acceptParser(idParser)
+        expect(file.getParsedContent()).to.equal(idParser.parse(file))
+        file.acceptParser(idParser)
+        expect(file.getParsedContent()).to.throw(new Error("Attempted to re-parse a file."))
+    })
+
+    it("fails passing two different parsers", () => {
+        file.acceptParser(idParser)
+        expect(file.getParsedContent()).to.equal(idParser.parse(file))
+        file.acceptParser(idParser2)
+        expect(file.getParsedContent()).to.throw(new Error("Attempted to re-parse a file."))
     })
 
 })

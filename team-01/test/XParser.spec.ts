@@ -52,6 +52,7 @@ let substringFileSimple: PHFile = new PHFile("sub", "b", "(insert), nice to meet
 let complexFileB: PHFile = new PHFile("cool", "b", "keep going \n don't stop //never quit (please)")
 let complexFileBPlus: PHFile = new PHFile("cool", "b++", "keep going \n don't stop //never quit (please)")
 let substringFileComplex: PHFile = new PHFile("sub", "b++", "keep going \n don't stop")
+let complexComments: PHFile = new PHFile("comm", "b++", "work //for \nme")
 
 let xp: XParser = new XParser(5, specialCharRules)
 
@@ -92,6 +93,10 @@ describe("use different file extensions (including Basic++) to test parse rules"
 
     })
 
+    it("comment parsing", () => {
+        expect(xp.parse(complexComments)).to.equal(xp.getFillerChar() + " //for \n" + xp.getFillerChar())
+    })
+
 })
 
 describe("unparse (find parsed strings in) our PHFiles", () => {
@@ -112,23 +117,23 @@ describe("unparse (find parsed strings in) our PHFiles", () => {
      */
 
     it("unparse files parsed using the empty language", () => {
-        expect(xp.unparse("", emptyFile)).to.equal("")
+        expect(xp.unparse("", emptyFile)).to.equal([new PHFileSubstring(emptyFile.getProgramName(), emptyFile.getNameAndExtension(), 0, "")])
         expect(xp.unparse("", simpleFileEmp)).to.equal("This is simple \n yay!")
     })
 
     it("unparse files parsed using Basic language", () => {
-        expect(xp.unparse("My name is \n (insert), nice to meet you!", simpleFileB)).to.equal([])
+        expect(xp.unparse("My name is \n (insert), nice to meet you!", simpleFileB)).to.equal([new PHFileSubstring("dummy",  "fb", 0, "My name is \n (insert), nice to meet you!")])
     })
 
     it("unparse files parsed using Basic++ language", () => {
-        expect(xp.unparse("", simpleFileBPlus)).to.equal("nice")
+        expect(xp.unparse("nice", simpleFileBPlus)).to.equal([new PHFileSubstring("dummy",  "fb++", 23, "nice to meet you!")])
     })
 })
 
 describe("find parsed matches between some PHFiles", () => {
 
     it("finds no matches between empty and empty file", () => {
-        expect(xp.findParsedMatches(emptyFile, emptyFile)).to.equal([])
+        expect(xp.findParsedMatches(emptyFile, emptyFile)).to.equal([""])
     })
     
     it("finds no matches between classic and empty file", () => {
@@ -136,15 +141,15 @@ describe("find parsed matches between some PHFiles", () => {
     })
     
     it("finds one match between simple file and itself", () => {
-        expect(xp.findParsedMatches(simpleFileB, simpleFileB)).to.equal([])
+        expect(xp.findParsedMatches(simpleFileB, simpleFileB)).to.equal(["My name is \n (insert), nice to meet you!"])
     })
 
     it("finds one match between a file and a substring file of itself", () => {
-        expect(xp.findParsedMatches(simpleFileB, substringFileSimple)).to.equal([])
+        expect(xp.findParsedMatches(simpleFileB, substringFileSimple)).to.equal(["(insert), nice to meet"])
     })
 
     it("finds all matches between simple and complex files", () => {
-        expect(xp.findParsedMatches(simpleFileBPlus, complexFileBPlus)).to.deep.equal([])
+        expect(xp.findParsedMatches(simpleFileBPlus, complexFileBPlus)).to.deep.equal(["keep going \n don't stop"])
     })
 })
 
