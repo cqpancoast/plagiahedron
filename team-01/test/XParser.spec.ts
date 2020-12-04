@@ -62,20 +62,14 @@ describe("parse some PHFile with Basic rules", () => {
     })
 
     it("simple file parsing", () => {
-<<<<<<< HEAD
+
         expect(xp.parse(simpleFileB)).to.equal(xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " \n " + xp.getFillerChar() + ", " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " " )
     })
 
     it("complex file parsing", () => {
         expect(xp.parse(complexFileB)).to.equal(xp.getFillerChar() + " " + xp.getFillerChar() +  " \n " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar()  + " " + xp.getFillerChar() + " ")
-=======
-        expect(xp.parse(simpleFile)).to.equal("firstline")
     })
 
-    it("complex file parsing", () => {
-        expect(xp.parse(complexFile)).to.equal("firstline\nsecondline\nthirdline")
->>>>>>> 4dcc71b7e19113093413e1f2d04b08281d784254
-    })
 })
 
 describe("use different file extensions (including Basic++) to test parse rules", () => {
