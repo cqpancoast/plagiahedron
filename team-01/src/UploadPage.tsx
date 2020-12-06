@@ -1,5 +1,6 @@
 import React from 'react'
 import './UploadPage.css'
+import ProgramUpload from './ProgramUpload'
 
 export default class UploadPage extends React.Component<any, any>
 {
@@ -37,8 +38,13 @@ export default class UploadPage extends React.Component<any, any>
         return (
             <div className="UploadPage">
                 <p className="UploadPageTitle"> XX Programs </p>
-                <div className="ListContainer">
-                    
+                <div className="ProgramContainer">
+                    <ProgramUpload />
+                    <ProgramUpload />
+                    <ProgramUpload />
+                    <ProgramUpload />
+                    <ProgramUpload />
+                    <ProgramUpload />
                 </div>
                 <div className="UploadButton-background">
                     <p className="UploadButton-text"> upload </p>
