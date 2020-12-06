@@ -33,7 +33,6 @@ describe("unparse a basic PHFile", () => {
 
     it("finds one instance of firstline", () => {
         let unparsed = ip1.unparse(stringFirst, file)
-        console.log(unparsed)
         expect(unparsed).to.deep.equal([new PHFileSubstring("dummy",  "fts", 0, "firstline")])
     })
 

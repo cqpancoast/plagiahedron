@@ -15,7 +15,7 @@ export default class XParser extends AStringParser {
 
     constructor(
         protected minMatchLength: number,
-        private specialCharDict: { [fileExtension: string]: SpecialToken[] }
+        private specialTokenDict: { [fileExtension: string]: SpecialToken[] }
         ) {
             super(minMatchLength)
         }
@@ -36,22 +36,36 @@ export default class XParser extends AStringParser {
         let fileExtension: string = file.getExtension()
         let parseUnits: string[] = []
 
-        /* if the below has more than just one element,
-         * the token is "ambiguous" and will keep going until
-         * ALL return false. */
-        let currentSpecialTokens: SpecialToken[] = []
-        let insideSpecialChar: boolean = false
+        let lastPrintIndex = 0
+        let specialTokens: SpecialToken[] = this.specialTokenDict[fileExtension]
+        let definitelyTokens: SpecialToken[]
+        let doneTokens: SpecialToken[]
+        let specialTokenStartIndex: number
         for (let i = 0; i < fileContent.length; i++) {
-            currentSpecialTokens = this.specialCharDict[fileExtension].filter(
-                        specialToken => specialToken.takingPlace(fileContent[i]))
-            if (currentSpecialTokens.length === 0) {
-                insideSpecialChar = false
-            } else {
-                if (!insideSpecialChar) {
+
+            definitelyTokens = specialTokens.filter(specialToken => specialToken.getState() === "DEFINITELY")
+            if (definitelyTokens.length > 0) {
+                specialTokens = definitelyTokens
+            }
+
+            specialTokens.forEach(specialToken => specialToken.updateState(fileContent[i]))
+            doneTokens = specialTokens.filter(specialToken => specialToken.getState() === "DONE")
+            if (doneTokens.length > 0) {
+                specialTokenStartIndex = i - (doneTokens[0].getLength() - 1)
+                if (specialTokenStartIndex > lastPrintIndex + 1) {
                     parseUnits.push(this.fillerChar)
-                    insideSpecialChar = true
+                } else if (specialTokenStartIndex < lastPrintIndex) {
+                    throw new Error("hey do'nt do that")
                 }
-                parseUnits.push(fileContent[i])
+                parseUnits.push(fileContent.substring(specialTokenStartIndex, i + 1))
+                lastPrintIndex = i
+                specialTokens = this.specialTokenDict[fileExtension]
+                specialTokens.forEach(specialToken => specialToken.reset())
+            }
+            if (i === fileContent.length - 1) {
+                if (doneTokens.length === 0) {
+                    parseUnits.push(this.fillerChar)
+                }
             }
         }
         return parseUnits.join("")
@@ -61,7 +75,8 @@ export default class XParser extends AStringParser {
         let matchedContents = file.getContent().match(parseFeature.replace(this.fillerChar, ".+"))
         return matchedContents === null ? [] : 
             matchedContents.filter(match =>
-                this.parse(new PHFile(file.getName(), file.getExtension(), match)) === parseFeature)
+                this.parse(new PHFile(file.getName(), file.getExtension(), match)) === parseFeature
+                && match !== "")
             .map(match =>
                 new PHFileSubstring(file.getProgramName(),
                 file.getNameAndExtension(),

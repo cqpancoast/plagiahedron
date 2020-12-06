@@ -7,32 +7,62 @@ import SpecialToken from "./ISpecialToken";
  */
 export default class CommentSpecialToken implements SpecialToken {
 
-    startToken: CharSpecialToken
-    endToken: CharSpecialToken
-    insideComment: boolean
-    completedComment: boolean
+    private startToken: CharSpecialToken
+    private endToken: CharSpecialToken
+    private state: string = "NOT"
+    private length: number = 0
     
     constructor(private startChars: string, private endChars: string) {
         this.startToken = new CharSpecialToken(startChars)
         this.endToken = new CharSpecialToken(endChars)
-        this.insideComment = false
-        this.completedComment = false
     }
 
-    takingPlace(nextChar: string): boolean {
-        this.startToken.takingPlace(nextChar)
-        this.endToken.takingPlace(nextChar)
-        if (!this.insideComment) {
-            this.insideComment = this.startToken.completed()
-        } else {
-            this.insideComment = !this.endToken.completed()
-            this.completedComment = this.insideComment
+    updateState(nextChar: string): void {
+        this.startToken.updateState(nextChar)
+        this.endToken.updateState(nextChar)
+        switch (this.state) {
+            case "NOT":
+                if (this.startToken.getState() === "POSSIBLY") {
+                    this.state = "POSSIBLY"
+                    this.length += 1
+                } else if (this.startToken.getState() === "DONE") {
+                    this.state = "DEFINITELY"
+                    this.length += 1
+                }
+                break
+            case "POSSIBLY":
+                this.length += 1
+                if (this.startToken.getState() === "DONE") {
+                    this.state = "DEFINITELY"
+                } else if (this.startToken.getState() === "NOT") {
+                    this.state = "NOT"
+                }
+                break
+            case "DEFINITELY":
+                this.length += 1
+                if (this.endToken.getState() === "DONE") {
+                    this.state = "DONE"
+                }
+                break
+            case "DONE":
+                this.reset()
+                break
         }
-        return this.insideComment
     }
 
-    completed(): boolean {
-        return this.completedComment
+    getState(): string {
+        return this.state
+    }
+
+    getLength(): number {
+        return this.length
+    }
+
+    reset(): void {
+        this.startToken.reset()
+        this.endToken.reset()
+        this.state = "NOT"
+        this.length = 0
     }
     
 }

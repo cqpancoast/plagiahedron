@@ -5,36 +5,19 @@ import CommentSpecialToken from "../src/model/CommentSpecialToken"
 import XParser from "../src/model/XParser"
 import "mocha"
 import { expect } from "chai"
-import NumberParser from "./NumberParser"
 import PHFileSubstring from "../src/model/PHFileSubstring"
+import Program from "../src/model/Program"
 
-/**
- * This one's a doozy. Your instructions:
- * - Read the documentation and code for RegExpParser and "get it",
- *   particularly the way that the special character stuff works
- *   for RegExps. (Check out REParser.getNonSpecialCharRegExpString(),
- *   look at how it's used, review regexps if necessary.)
- * - Define three files (the empty one I had time for) such that you can make either of them
- *   "b" language or "b++" when necessary (defined below).
- *   - A simple file with some tokens and AT LEAST two types of special characters.
- *     (Newlines ("\n") and spaces are a must, commas, parens, and brackets also cool.)
- *   - A complex file with more tokens and at least three types of special characters,
- *     including the ones from before
- *   - A "substring file" that's a substring of the complex file
- * - Fill in the tests, adding more or letting me know if you run into anything weird.
- * 
- * Don't hesitate to ask if you need any help or clarification,
- *  Casey
- */
 
-// ""    is called the "empty language", where no characters are special. (Quiz: what happens in parsing?)
-// "b"   is a language called "basic" whose only special characters are newlines, spaces, and commas.
-// "b++" is an upgrade to basic that decided to include parentheses and comments of the form // --> \n (like this one).
+// ""    is called the "empty language", where no tokens are special.
+// "b"   is a language called "basic" whose only special tokens are newlines, spaces, commas, and the word "nice".
+// "b++" is an upgrade to basic that decided to include parentheses and comments of the form // ... \n (like this one).
 let specialCharRules: { [fileExtension: string]: ISpecialToken[] }
     = {"": [],
        "b": [new CharSpecialToken("\n"),
             new CharSpecialToken(" "),
-            new CharSpecialToken(",")],
+            new CharSpecialToken(","),
+            new CharSpecialToken("nice")],
        "b++": [new CharSpecialToken("\n"),
             new CharSpecialToken(" "),
             new CharSpecialToken(","),
@@ -43,18 +26,24 @@ let specialCharRules: { [fileExtension: string]: ISpecialToken[] }
             new CharSpecialToken(")"),
             new CommentSpecialToken("//", "\n")]}
 
-// You may want to copy-paste some of these into the different test methods. Up to you.
 let emptyFile: PHFile = new PHFile("empty", "b", "")
 let simpleFileEmp: PHFile = new PHFile("simp", "", "This is simple \n yay!")
 let simpleFileB: PHFile = new PHFile("f", "b", "My name is \n (insert), nice to meet you!")
-let simpleFileBPlus: PHFile = new PHFile("f", "b", "My name is \n (insert), nice to meet you!")
+let simpleFileBPlus: PHFile = new PHFile("f", "b++", "My name is \n (insert), nice to meet you!")
 let substringFileSimple: PHFile = new PHFile("sub", "b", "(insert), nice to meet")
-let complexFileB: PHFile = new PHFile("cool", "b", "keep going \n don't stop //never quit (please)")
-let complexFileBPlus: PHFile = new PHFile("cool", "b++", "keep going \n don't stop //never quit (please)")
+let complexFileB: PHFile = new PHFile("cool", "b", "keep going \n don't stop //never quit (please)\n")
+let complexFileBPlus: PHFile = new PHFile("cool", "b++", "keep going \n don't stop //never quit (please)\n")
 let substringFileComplex: PHFile = new PHFile("sub", "b++", "keep going \n don't stop")
 let complexComments: PHFile = new PHFile("comm", "b++", "work //for \nme")
 
+// When PHFiles are used in a Program constructor, their programName property is automatically assigned.
+let dummy: Program = new Program("dummy",
+    [emptyFile, simpleFileB, simpleFileEmp, simpleFileBPlus,
+        substringFileSimple, substringFileComplex,
+        complexComments, complexFileB, complexFileBPlus])
+
 let xp: XParser = new XParser(5, specialCharRules)
+let f: string = xp.getFillerChar()
 
 
 describe("parse some PHFile with Basic rules", () => {
@@ -64,11 +53,11 @@ describe("parse some PHFile with Basic rules", () => {
     })
 
     it("simple file parsing", () => {
-        expect(xp.parse(simpleFileB)).to.equal(xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " \n " + xp.getFillerChar() + ", " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " " )
+        expect(xp.parse(simpleFileB)).to.equal(`${f} ${f} ${f} \n ${f}, nice ${f} ${f} ${f}`)
     })
 
     it("complex file parsing", () => {
-        expect(xp.parse(complexFileB)).to.equal(xp.getFillerChar() + " " + xp.getFillerChar() +  " \n " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar()  + " " + xp.getFillerChar() + " ")
+        expect(xp.parse(complexFileB)).to.equal(`${f} ${f} \n ${f} ${f} ${f} ${f} ${f}\n`)
     })
 })
 
@@ -79,22 +68,21 @@ describe("use different file extensions (including Basic++) to test parse rules"
     })
 
     it("simple file parsing", () => {
-        expect(xp.parse(simpleFileBPlus)).to.equal((xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " \n " + xp.getFillerChar() + ", " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + " " ))
+        expect(xp.parse(simpleFileBPlus)).to.equal((`${f} ${f} ${f} \n (${f}), ${f} ${f} ${f} ${f}`))
     })
 
     it("complex file parsing", () => {
-        expect(xp.parse(complexFileBPlus)).to.equal(xp.getFillerChar() + " " + xp.getFillerChar() + " \n " + xp.getFillerChar() + " " + xp.getFillerChar() + " " + xp.getFillerChar() + "//never quit (please)")
+        expect(xp.parse(complexFileBPlus)).to.equal(`${f} ${f} \n ${f} ${f} //never quit (please)\n`)
     })
 
     it("parsed substringFile is still substring of parsed complexFile", () => {
         xp.parse(substringFileComplex)
         xp.parse(complexFileBPlus)
         expect(complexFileBPlus.getContent()).contains(substringFileComplex.getContent())
-
     })
 
     it("comment parsing", () => {
-        expect(xp.parse(complexComments)).to.equal(xp.getFillerChar() + " //for \n" + xp.getFillerChar())
+        expect(xp.parse(complexComments)).to.equal(f + " //for \n" + f)
     })
 
 })
@@ -117,64 +105,40 @@ describe("unparse (find parsed strings in) our PHFiles", () => {
      */
 
     it("unparse files parsed using the empty language", () => {
-        expect(xp.unparse("", emptyFile)).to.equal([new PHFileSubstring(emptyFile.getProgramName(), emptyFile.getNameAndExtension(), 0, "")])
-        expect(xp.unparse("", simpleFileEmp)).to.equal("This is simple \n yay!")
+        expect(xp.unparse("", emptyFile)).to.deep.equal([])
+        expect(xp.unparse("", simpleFileEmp)).to.deep.equal([])
     })
 
     it("unparse files parsed using Basic language", () => {
-        expect(xp.unparse("My name is \n (insert), nice to meet you!", simpleFileB)).to.equal([new PHFileSubstring("dummy",  "fb", 0, "My name is \n (insert), nice to meet you!")])
+        expect(xp.unparse(`${f} ${f} ${f} \n ${f}, nice ${f} ${f} ${f}`, simpleFileB)).to.equal(
+            [new PHFileSubstring(simpleFileB.getProgramName(),  simpleFileB.getNameAndExtension(), 0, "My name is \n (insert), nice to meet you!")])
     })
 
     it("unparse files parsed using Basic++ language", () => {
-        expect(xp.unparse("nice", simpleFileBPlus)).to.equal([new PHFileSubstring("dummy",  "fb++", 23, "nice to meet you!")])
+        expect(xp.unparse("nice", simpleFileBPlus)).to.equal(
+            [new PHFileSubstring(simpleFileBPlus.getProgramName(), simpleFileBPlus.getNameAndExtension(), 23, "nice to meet you!")])
     })
 })
 
 describe("find parsed matches between some PHFiles", () => {
 
     it("finds no matches between empty and empty file", () => {
-        expect(xp.findParsedMatches(emptyFile, emptyFile)).to.equal([""])
+        expect(xp.findParsedMatches(emptyFile, emptyFile)).to.deep.equal([])
     })
     
     it("finds no matches between classic and empty file", () => {
-        expect(xp.findParsedMatches(simpleFileB, emptyFile)).to.equal([])
+        expect(xp.findParsedMatches(simpleFileB, emptyFile)).to.deep.equal([])
     })
     
     it("finds one match between simple file and itself", () => {
-        expect(xp.findParsedMatches(simpleFileB, simpleFileB)).to.equal(["My name is \n (insert), nice to meet you!"])
+        expect(xp.findParsedMatches(simpleFileB, simpleFileB)).to.deep.equal([xp.parse(simpleFileB)])
     })
 
     it("finds one match between a file and a substring file of itself", () => {
-        expect(xp.findParsedMatches(simpleFileB, substringFileSimple)).to.equal(["(insert), nice to meet"])
+        expect(xp.findParsedMatches(simpleFileB, substringFileSimple)).to.deep.equal([xp.parse(substringFileSimple)])
     })
 
     it("finds all matches between simple and complex files", () => {
         expect(xp.findParsedMatches(simpleFileBPlus, complexFileBPlus)).to.deep.equal(["keep going \n don't stop"])
-    })
-})
-
-describe("unparsing and finding file similarities with incorrect parse types (undefined or non-string)", () => {
-
-    let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
-    let np: NumberParser = new NumberParser()
-    let num: PHFile = new PHFile("num", "ts", "numbers\none\ntwo")
-    let file123: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
-    let file2: PHFile = new PHFile("f", "ts", "secondline")
-    let file13: PHFile = new PHFile("f", "ts", "firstline\nthirdline")
-
-    it("errors when attemtping to unparse numeric parse type", () => {
-        expect(np.unparse(4, num)).to.deep.equal([])
-    })
-
-    it("errors when attemtping to unparse unset parse type", () => {
-        expect(np.unparse(3, file)).to.deep.equal([])
-    })
-
-    it("errors on find similarities between files of numeric parse type", () => {
-        expect(np.findParsedMatches(file123, file2)).to.deep.equal([])
-    })
-
-    it("errors on find similarities between files of unset parse type", () => {
-        expect(np.findParsedMatches(num, file13)).to.deep.equal([])
     })
 })

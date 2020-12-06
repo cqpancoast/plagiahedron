@@ -55,7 +55,7 @@ export default abstract class AStringParser implements IParser<string> {
             }
         }
 
-        return parsedMatches
+        return parsedMatches.filter(parsedMatch => parsedMatch.length >= this.minMatchLength)
     }
 
 }
