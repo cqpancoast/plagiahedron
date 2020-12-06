@@ -34,5 +34,5 @@ All comments in the project will be in JavaDoc notation
 public exampleFunction(example: string): string { return example }
 ```
 
-### Semicolon Usuage
+### Semicolon Usage
 Semicolons at the ends of lines are not currently required in this project but that is subject to change. 
