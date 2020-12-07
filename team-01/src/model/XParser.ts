@@ -4,18 +4,26 @@ import PHFileSubstring from "./PHFileSubstring";
 import SpecialToken from "./ISpecialToken";
 
 /**
- * Parses a file by converting every token into some filler string.
- * This can be altered, but it is the string "x" by default.
- * Tokens are defined as anything that isn't a "special token",
- * which itself is defined by [...]
+ * XParser, the pillar on which the rest of the code base sits.
+ * 
+ * Parses a file by converting every token into some filler character
+ * using a greedy algorithm that waits until it's seen a full token,
+ * and then prints it (unless that token is a comment). More information
+ * on tokens can be found in their classes.
+ * 
+ * The filler char is the unicode character "\ubeef" by default, for no
+ * other reason than it's not likely to come up in code and it's funny
+ * to think that a student's academic career could be ruined by an
+ * algorithm that had the word "beef" hard-coded into its most central
+ * functionality.
  */
 export default class XParser extends AStringParser {
 
-    private fillerChar: string = "\ubeef"
+    private fillerChar: string = "\ubeef"  //must be only one character
 
     constructor(
         protected minMatchLength: number,
-        private specialCharDict: { [fileExtension: string]: SpecialToken[] }
+        private specialTokenDict: { [fileExtension: string]: SpecialToken[] }
         ) {
             super(minMatchLength)
         }
@@ -36,39 +44,57 @@ export default class XParser extends AStringParser {
         let fileExtension: string = file.getExtension()
         let parseUnits: string[] = []
 
-        /* if the below has more than just one element,
-         * the token is "ambiguous" and will keep going until
-         * ALL return false. */
-        let currentSpecialTokens: SpecialToken[] = []
-        let insideSpecialChar: boolean = false
+        let lastPrintIndex = 0
+        let specialTokens: SpecialToken[] = this.specialTokenDict[fileExtension]
+        let definitelyTokens: SpecialToken[]
+        let doneTokens: SpecialToken[]
+        let specialTokenStartIndex: number
         for (let i = 0; i < fileContent.length; i++) {
-            currentSpecialTokens = this.specialCharDict[fileExtension].filter(
-                        specialToken => specialToken.takingPlace(fileContent[i]))
-            if (currentSpecialTokens.length === 0) {
-                insideSpecialChar = false
-            } else {
-                if (!insideSpecialChar) {
+
+            definitelyTokens = specialTokens.filter(specialToken => specialToken.getState() === "DEFINITELY")
+            if (definitelyTokens.length > 0) {
+                specialTokens = definitelyTokens
+            }
+
+            specialTokens.forEach(specialToken => specialToken.updateState(fileContent[i]))
+            doneTokens = specialTokens.filter(specialToken => specialToken.getState() === "DONE")
+            if (doneTokens.length > 0) {
+                specialTokenStartIndex = i - (doneTokens[0].getLength() - 1)
+                if (specialTokenStartIndex > lastPrintIndex + 1) {
                     parseUnits.push(this.fillerChar)
-                    insideSpecialChar = true
                 }
-                parseUnits.push(fileContent[i])
+                parseUnits.push(fileContent.substring(specialTokenStartIndex, i + 1))
+                lastPrintIndex = i
+                specialTokens = this.specialTokenDict[fileExtension]
+                specialTokens.forEach(specialToken => specialToken.reset())
+            }
+            if (i === fileContent.length - 1) {
+                if (doneTokens.length === 0) {
+                    parseUnits.push(this.fillerChar)
+                }
             }
         }
         return parseUnits.join("")
     }
 
     unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
-        let matchedContents = file.getContent().match(parseFeature.replace(this.fillerChar, ".+"))
-        if (matchedContents == null) {
-            return []
-        }
-        return matchedContents.filter(match =>
-                this.parse(new PHFile(file.getName(), file.getExtension(), match)) === parseFeature)
+        let matchedContents = file.getContent().match(
+            new RegExp(`${parseFeature
+                .replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
+                .replace(new RegExp(`${this.fillerChar}`, "g"), "[^ ]+")}`, "g"))
+        return matchedContents === null ? [] : 
+            matchedContents.filter(match =>
+                match.length >= this.minMatchLength
+                && this.parse(new PHFile(file.getName(), file.getExtension(), match)) === parseFeature)
             .map(match =>
                 new PHFileSubstring(file.getProgramName(),
                 file.getNameAndExtension(),
                 file.getContent().indexOf(match),
                 match))
+    }
+
+    getFillerChar(): string {
+        return this.fillerChar
     }
 
 }

@@ -2,11 +2,13 @@ import { expect } from "chai"
 import "mocha"
 import IdentityParser from "../src/model/IdentityParser"
 import IParser from "../src/model/IParser"
+import Program from "../src/model/Program"
 import PHFile from "../src/model/PHFile"
 import NumberParser from "./NumberParser"
+import PHFileSubstring from "../src/model/PHFileSubstring"
+
 
 describe("parse a basic PHFile", () => {
-    console.log("parsing1")
     let ip1: IParser<string> = new IdentityParser(20);
     let ip2: IdentityParser = new IdentityParser(30);
     let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
@@ -23,47 +25,48 @@ describe("parse a basic PHFile", () => {
 describe("unparse a basic PHFile", () => {
     let ip1: IParser<string> = new IdentityParser(20);
     
-
     let stringFirst: string = "firstline"
     let stringLine: string = "line"
     let stringDline: string = "dline"
     let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
+    file.setProgramName("dummy")
 
     it("finds one instance of firstline", () => {
         let unparsed = ip1.unparse(stringFirst, file)
-        expect(unparsed).to.equal([])
+        expect(unparsed).to.deep.equal([new PHFileSubstring("dummy",  "f.ts", 0, "firstline")])
     })
 
     it("finds three instances of line", () => {
         let unparsed = ip1.unparse(stringLine, file)
-        expect(unparsed).to.equal([])
+        expect(unparsed).to.deep.equal([new PHFileSubstring("dummy",  "f.ts", 5, "line")])
     })
 
     it("finds two instances of dline", () => {
         let unparsed = ip1.unparse(stringDline, file)
-        expect(unparsed).to.equal([])
+        expect(unparsed).to.deep.equal([new PHFileSubstring("dummy",  "f.ts", 15, "dline")])
     })
 })
 
 describe("find parsed matches between a basic PHFile", () => {
 
-    console.log("parsing3")
-    let ip: IdentityParser = new IdentityParser(30);
-
+    let ip: IdentityParser = new IdentityParser(5);
     let file123: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
     let file2: PHFile = new PHFile("f", "ts", "secondline")
     let file13: PHFile = new PHFile("f", "ts", "firstline\nthirdline")
+    file123.acceptParser(ip)
+    file2.acceptParser(ip)
+    file13.acceptParser(ip)
     
     it("finds one match between a file and itself", () => {
-        expect(ip.findParsedMatches(file123, file123)).to.equal(["firstline", "secondline", "thirdline"])
+        expect(ip.findParsedMatches(file123, file123)).to.deep.equal(["firstline\nsecondline\nthirdline"])
     })
 
-    it("finds one match between a file and a substring file of itself", () => {
-        expect(ip.findParsedMatches(file123, file2)).to.equal(["secondline"])
+    it("finds two matches between a file and a substring file of itself", () => {
+        expect(ip.findParsedMatches(file123, file2)).to.deep.equal(["secondline", "dline"])
     })
 
-    it("finds two matches between a file and a file made of two substrings of itself", () => {
-        expect(ip.findParsedMatches(file123, file13)).to.equal(["firstline", "thirdline"])
+    it("finds three matches between a file and a file made of two substrings of itself", () => {
+        expect(ip.findParsedMatches(file123, file13)).to.deep.equal(["firstline\n", "dline", "line\nthirdline"])
     })
 })
 /**
@@ -82,8 +85,6 @@ describe("find parsed matches between a basic PHFile", () => {
     let np: NumberParser = new NumberParser()
     let ip: IdentityParser = new IdentityParser(4)
 
-    console.log("parsing4")
-
     it("errors when attemtping to unparse numeric parse type", () => {
         expect(np.unparse(4, num)).to.deep.equal([])
     })
@@ -101,16 +102,4 @@ describe("find parsed matches between a basic PHFile", () => {
     })
 })
 
-describe("getsubstringindex tests",() => {
 
-    //why is this a protected method??
-
-    let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
-    let num: PHFile = new PHFile("num", "ts", "numbers\none\ntwo")
-    let file123: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
-    let file2: PHFile = new PHFile("f", "ts", "secondline")
-    let file13: PHFile = new PHFile("f", "ts", "firstline\nthirdline")
-    let np: NumberParser = new NumberParser()
-    let ip: IdentityParser = new IdentityParser(4)
-
-})
