@@ -81,7 +81,11 @@ export default class XParser extends AStringParser {
         let matchedContents = file.getContent().match(
             new RegExp(`${parseFeature
                 .replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
-                .replace(new RegExp(`${this.fillerChar}`, "g"), "[^ ]+")}`, "g"))
+                .replace(new RegExp(`${this.fillerChar}`, "g"),
+                                    `[^${this.specialTokenDict[file.getExtension()]
+                                        .map(specialToken => specialToken.getRegex())
+                                        .filter(specialTokenRegex => specialTokenRegex.length <= 2)
+                                        .join("")}]+`)}`, "g"))
         return matchedContents === null ? [] : 
             matchedContents.filter(match =>
                 match.length >= this.minMatchLength

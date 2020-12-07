@@ -17,7 +17,7 @@ export default class CommentSpecialToken implements SpecialToken {
         this.endToken = new CharSpecialToken(endChars)
     }
 
-    updateState(nextChar: string): void {
+    public updateState(nextChar: string): void {
         this.startToken.updateState(nextChar)
         this.endToken.updateState(nextChar)
         switch (this.state) {
@@ -50,19 +50,23 @@ export default class CommentSpecialToken implements SpecialToken {
         }
     }
 
-    getState(): string {
+    public getState(): string {
         return this.state
     }
 
-    getLength(): number {
+    public getLength(): number {
         return this.length
     }
 
-    reset(): void {
+    public reset(): void {
         this.startToken.reset()
         this.endToken.reset()
         this.state = "NOT"
         this.length = 0
+    }
+
+    public getRegex(): string {
+        return `${this.startToken.getRegex()}(.|\s)+${this.endToken.getRegex()}`
     }
     
 }
