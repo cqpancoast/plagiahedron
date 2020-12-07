@@ -8,11 +8,11 @@ class ProgramUpload extends React.Component<{count: number, name: string}> {
 
     render() {
         return (
-            <div id="ProgramUp">
-                <div id="ProgramUp-number">
+            <div className="ProgramUp">
+                <div className="ProgramUp-number">
                     {this.props.count}
                     </div>
-                <div id="ProgramUp-name">
+                <div className="ProgramUp-name">
                     {this.props.name}
                 </div>
             </div>

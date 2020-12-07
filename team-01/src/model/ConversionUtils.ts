@@ -5,14 +5,13 @@ import PHFile from './PHFile'
 
 export default class ConversionUtils {
 
-    // Takes File filtype and converts to PHFile
-    static convertFileToPHFile(file: File): PHFile | null {
-        return null
-    }
-
-    // Creates a new Program from an array of PHFiles
-    static makeProgramFromFiles(files: PHFile[]): Program | null {
-        return null
+    /**
+     * Creates a new Program
+     * @param programName name of the Program
+     * @param files list of PHFiles to be held by program
+     */
+    static makeProgramFromFiles(programName: string, files: PHFile[]): Program | undefined {
+        return new Program(programName, files)
     }
 
     // Adds Program to CodeSet

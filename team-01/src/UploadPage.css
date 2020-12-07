@@ -1,8 +1,8 @@
-#UploadPage{
+.UploadPage{
     margin-top: 60px;
 }
 
-#UploadPageTitle{
+.UploadPageTitle{
     display: flex;
     justify-content: center;
     margin: auto;
@@ -11,7 +11,7 @@
     font-size: 36px;
 }
 
-#ProgramContainer{
+.Program-Container{
     background-color: #0f131e;
     width: 450px;
     height: 380px;
@@ -23,38 +23,15 @@
     overflow-x: hidden;
 }
 
-
-#PlusButton{
-    background: black;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
+.UploadButtonContainer{
+    width: 700px;
     margin: auto;
-    margin-bottom: 30px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: 26px;
-    color: #eee9f3;
-    font-weight: bold;
-    text-decoration: none;
-    border: none;
-    cursor: pointer
 }
 
-#Plus{
-    z-index: 1;
-    position: absolute;
-    color:#eee9f3;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 45px;
-}
-
-
-#UploadButton-background{
-    background-color: black;
+.UploadButton-background{
+    border: 2px solid #0f131e;
     width: 330px;
     height: 80px;
     margin: auto;
@@ -64,16 +41,16 @@
     border-radius: 30px;
 } 
 
-#UploadButton-text {
+.UploadButton-text {
     z-index: 1;
     position: absolute;
-    color:#eee9f3;
+    color:#0f131e;
     text-align: center;
     text-transform: uppercase;
-    font-size: 35px;
+    font-size: 28px;
 }
 
-#UploadButton{
+.UploadButton{
     z-index: 2;
     opacity: 0;
     width: 100%;
@@ -83,7 +60,7 @@
     cursor: pointer
 }
 
-#CompareButton-background{
+.CompareButton-background{
     background-color: black;
     width: 420px;
     height: 100px;
@@ -95,7 +72,7 @@
     border-radius: 30px;
 } 
 
-#CompareButton-text {
+.CompareButton-text {
     z-index: 1;
     position: absolute;
     color:#eee9f3;
@@ -104,7 +81,7 @@
     font-size: 42px;
 }
 
-#CompareButton{
+.CompareButton{
     z-index: 2;
     opacity: 0;
     width: 100%;

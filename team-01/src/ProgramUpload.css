@@ -1,12 +1,12 @@
-@import url('https://fonts#googleapis#com/css2?family=Inconsolata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 
-#ProgramUp{
+.ProgramUp{
     width: inherit;
     height: 12%;
     margin-top: 20px;
 }
 
-#ProgramUp-number {
+.ProgramUp-number {
     color: #eee9f3;
     width: 10%;
     height: 100%;
@@ -16,7 +16,7 @@
     font-family: 'Inconsolata', monospace;
 }
 
-#ProgramUp-name {
+.ProgramUp-name {
     color: white;
     width: 85%;
     height: 100%;
