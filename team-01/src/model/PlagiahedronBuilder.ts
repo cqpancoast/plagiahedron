@@ -21,10 +21,15 @@ import Program from "./Program";
  * 
  * Currently, this Plagiahedron builder only works with parsers of string type.
  */
-export default abstract class APlagiahedronBuilder implements IPlagiahedronBuilder {
+export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
 
-    protected parser!: IParser<string>;
-    protected maxGroupSize!: number;
+    constructor(parser: IParser<string>, maxGroupSize: number){
+        this.parser = parser
+        this.maxGroupSize = maxGroupSize
+    }
+
+    protected parser!: IParser<string>
+    protected maxGroupSize!: number
 
     constructPlagiahedron(codeSet: CodeSet): Plagiahedron {
         let sims: IPHSimilarity<string>[] = []
