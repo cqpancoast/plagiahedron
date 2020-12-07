@@ -1,6 +1,6 @@
-import IParser from "../../src/model/IParser";
-import PHFile from "../../src/model/PHFile";
-import PHFileSubstring from "../../src/model/PHFileSubstring";
+import IParser from "../src/model/IParser";
+import PHFile from "../src/model/PHFile";
+import PHFileSubstring from "../src/model/PHFileSubstring";
 
 /**
  * A parser purely for parsing PHFile contents into non-strings for

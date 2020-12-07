@@ -21,10 +21,15 @@ import Program from "./Program";
  * 
  * Currently, this Plagiahedron builder only works with parsers of string type.
  */
-export default abstract class APlagiahedronBuilder implements IPlagiahedronBuilder {
+export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
 
-    protected parser!: IParser<string>;
-    protected maxGroupSize!: number;
+    constructor(parser: IParser<string>, maxGroupSize: number){
+        this.parser = parser
+        this.maxGroupSize = maxGroupSize
+    }
+
+    protected parser!: IParser<string>
+    protected maxGroupSize!: number
 
     constructPlagiahedron(codeSet: CodeSet): Plagiahedron {
         let sims: IPHSimilarity<string>[] = []
@@ -103,10 +108,16 @@ export default abstract class APlagiahedronBuilder implements IPlagiahedronBuild
      */
     private findMoreSimilarities(p: Program, simSet: IPHSimilarity<string>[]) {
         let newSims: IPHSimilarity<string>[] = []
+        let simsToRemove: IPHSimilarity<string>[] = []
         simSet.forEach(sim => {
+            let simsToAdd: IPHSimilarity<string>[] = []
             p.getFiles().forEach(file => {
-                newSims.concat(this.findMoreSimilaritiesInFile(sim, file))
+                simsToAdd.concat(this.findMoreSimilaritiesInFile(sim, file))
             })
+            if (simsToAdd.length > 0) {
+                newSims.concat(simsToAdd)
+                simsToRemove.push(sim)
+            }
         });
         return newSims
     }

@@ -1,38 +1,51 @@
-import PHFile from "../../src/model/PHFile"
-import IdentityParser from "../../src/model/IdentityParser"
+import PHFile from "../src/model/PHFile"
+import IdentityParser from "../src/model/IdentityParser"
 import NumberParser from "./NumberParser"
+import { expect } from "chai"
+import "mocha"
 
-/**
- * @Sam: These are additional tests in addition to the ones you've already done, not replacements.
- */
 
-describe("test errors on getting/setting program name", () => {
+describe("test non-parsed PHFile", () => {
 
     let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
+    let err: PHFile = new PHFile("", "", "this should be an error")
 
-    /** Make two programs, check that the getter works correctly
-     * when you first add this to a program's constructor, 
-     * check that it errors the second time.*/
+    /** Test getters, program name set/get rules, error when parsed content accessed (implementation TODO) */
 
-    it("", () => {
-
+    it("get file name", () => {
+        expect(file.getName()).to.equal("f")
     })
+
+    it("get extension", () => {
+        expect(file.getExtension()).to.equal("ts")
+    })
+
+    it("get name and extension", () => {
+        expect(file.getNameAndExtension()).to.equal("f.ts")
+    })
+
+    it("set and get program name", () => {
+        file.setProgramName("new")
+        expect(file.getProgramName()).to.equal("new")
+    })
+
+    it("get content", () => {
+        file.getContent()
+        expect(file.getContent()).to.equal("firstline\nsecondline\nthirdline")
+    })
+
 })
 
-describe("test errors when accepting first and second parser", () => {
+describe("test parsed PHFile", () => {
 
     let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
     let idParser: IdentityParser = new IdentityParser(4)
-    let numParser: NumberParser = new NumberParser()
     file.acceptParser(idParser)
 
-    /** Make two parsers, check that the accepter works correctly
-     * when the PHFile first accepts a parser, 
-     * check that it errors the second time.
-     * Also test that it errors for the SAME parser. */
+    /** Test getters, parsed content (identical to file contents in this case) */
 
-    it("", () => {
-
+    it("accept parser", () => {
+        expect(file.getParsedContent()).to.equal(idParser.parse(file))
     })
-
+    
 })
