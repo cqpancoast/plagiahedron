@@ -50,5 +50,9 @@ export default class CharSpecialToken implements SpecialToken {
         this.stringIndex = 0
         this.state = "NOT"
     }
+
+    public getRegex(): string {
+        return this.specialChars.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
+    }
     
 }

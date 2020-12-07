@@ -16,6 +16,9 @@
  * The total length of the special token is also accessible, potentially
  * implemented via a counter that begins when it first enters the "POSSIBLY"
  * state or simply the length of some literal token.
+ * 
+ * A regular expression that recognizes the special token, although without
+ * knowledge of other special tokens that may be at play, is also accessible.
  */
 export default interface ISpecialToken {
 
@@ -26,5 +29,7 @@ export default interface ISpecialToken {
     getLength(): number
 
     reset(): void
+
+    getRegex(): string
 
 }
