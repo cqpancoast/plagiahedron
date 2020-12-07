@@ -5,7 +5,7 @@ import Program from './model/Program';
 
 export default class UploadPage extends React.Component<any, any>{
 
-    count: number = 1
+    count: number = 0
 
     constructor(props: any) {
         super(props);
@@ -47,10 +47,13 @@ export default class UploadPage extends React.Component<any, any>{
 
 
     addToState(name: string) {
+        
         let temp: JSX.Element[] = this.state.programArray
         temp.push(<ProgramUpload name={name} count={this.count} />)
 
         this.setState({ programArray: temp })
+        
+        this.count++
     }
 
 
@@ -58,17 +61,18 @@ export default class UploadPage extends React.Component<any, any>{
 
         return (
             <div id="UploadPage">
-                <p id="UploadPageTitle"> XX Programs </p>
+                <p id="UploadPageTitle"> {this.count} UPLOADED </p>
                 <div id="ProgramContainer">
                     {this.state.programArray}
                 </div>
                 <div id="UploadButton-background">
                     <p id="UploadButton-text"> upload </p>
-                    <input type="file" multiple
+                    <input type="file" 
+                        id="UploadButton"
+                        multiple
                         /*/@ts-expect-error/*/
+                        webkitdirectory="" 
                         directory=""
-                        webkitdirectory=""
-                        name="file" id="UploadButton"
                         onChange={(e) => this.UploadToCodeSet(e.target.files)}>
                     </input>
                 </div>
