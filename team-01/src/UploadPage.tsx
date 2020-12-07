@@ -12,6 +12,7 @@ import XParser from './model/XParser';
 import CommentSpecialToken from './model/CommentSpecialToken';
 import CharSpecialToken from './model/CharSpecialToken';
 import IParser from './model/IParser';
+import SpecialTokens from './SpecialTokens';
 
 export default class UploadPage extends React.Component<any, any>{
 
@@ -93,11 +94,9 @@ export default class UploadPage extends React.Component<any, any>{
     // todo: render? results page and pass PH and Codeset as props
     renderResultsPage() {
         var codeSet: CodeSet = new CodeSet(this.state.programArray)
-        var xParser: IParser<string> = new XParser(20, {"": [],
-        "java": [...["\n", " ", ",", "(", ")", "{", "}", "[", "]", "+", "-", "/", "*", "=", "\\", "."]
-                    .map(char => new CharSpecialToken(char)),
-                new CommentSpecialToken("//", "\n"),
-                new CommentSpecialToken("/*", "*/")]})
+        var xParser: IParser<string> = new XParser(20, {
+            "": SpecialTokens.emptyLang,
+            "java": SpecialTokens.javaBasic})
         var phBuilder: IPlagiahedronBuilder = new PlagiahedronBuilder(xParser, 5)
         var ph = phBuilder.constructPlagiahedron(codeSet)
     }
