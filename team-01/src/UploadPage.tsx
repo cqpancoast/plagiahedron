@@ -1,20 +1,29 @@
 import React from 'react'
 import './UploadPage.css'
 import ProgramUpload from './ProgramUpload'
+import Program from './model/Program';
 
-export default class UploadPage extends React.Component<any, any>
-{
+export default class UploadPage extends React.Component<any, any>{
+
+    count: number = 1
+
     constructor(props: any) {
         super(props);
+
+        this.state = {
+            programArray: [],
+        }
+
         this.UploadToCodeSet = this.UploadToCodeSet.bind(this);
     }
+
 
     /**
      * Converts Files in a FileList to Programs to be used in the CodeSet
      * @param uploads FileList taken from html input
      */
     UploadToCodeSet(uploads: FileList | null) {
-        if (uploads === null) {
+        if (uploads == null) {
             alert("invalid input, please try again")
             return
         }
@@ -24,40 +33,49 @@ export default class UploadPage extends React.Component<any, any>
         else {
             for (var i = 0; i < uploads.length; i++) {
                 // TODO: use ConversionUtil and upload to CodeSet
-                alert(uploads.item(i)?.name)
+                // TODO: not upload each file but the name of directory
+                let filename: string = uploads.item(i)!.name!.toString()
+                this.addToState(filename)
             }
         }
     }
 
+
     // todo: render? results page and pass PH and Codeset as props
-    renderResultsPage(){
-        alert("rendering results...")
+    renderResultsPage() {
     }
 
+
+    addToState(name: string) {
+        let temp: JSX.Element[] = this.state.programArray
+        temp.push(<ProgramUpload name={name} count={this.count} />)
+
+        this.setState({ programArray: temp })
+    }
+
+
     render() {
+
         return (
-            <div className="UploadPage">
-                <p className="UploadPageTitle"> XX Programs </p>
-                <div className="ProgramContainer">
-                    <ProgramUpload />
-                    <ProgramUpload />
-                    <ProgramUpload />
-                    <ProgramUpload />
-                    <ProgramUpload />
-                    <ProgramUpload />
+            <div id="UploadPage">
+                <p id="UploadPageTitle"> XX Programs </p>
+                <div id="ProgramContainer">
+                    {this.state.programArray}
                 </div>
-                <div className="UploadButton-background">
-                    <p className="UploadButton-text"> upload </p>
+                <div id="UploadButton-background">
+                    <p id="UploadButton-text"> upload </p>
                     <input type="file" multiple
-                        name="file" id="file" className="UploadButton"
+                        /*/@ts-expect-error/*/
+                        directory=""
+                        webkitdirectory=""
+                        name="file" id="UploadButton"
                         onChange={(e) => this.UploadToCodeSet(e.target.files)}>
                     </input>
                 </div>
 
-                <div className="CompareButton-background">
-                    <p className="CompareButton-text">compare files </p>
-                    <button className="CompareButton"
-                        onClick={(e) => this.renderResultsPage()}>
+                <div id="CompareButton-background">
+                    <p id="CompareButton-text">compare files </p>
+                    <button id="CompareButton">
                     </button>
                 </div>
             </div>
