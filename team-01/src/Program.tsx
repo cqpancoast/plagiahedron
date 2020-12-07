@@ -3,7 +3,7 @@ import React from 'react';
 import './Program.css';
 import FileLines from './file-lines.svg';
 
-class Program extends React.Component{
+class Program extends React.Component <{name: string}>{
     
     render() {
         return (
@@ -14,7 +14,7 @@ class Program extends React.Component{
                     </div>
 
                     <div className="Program-name">
-                        FileOne.ts
+                        {this.props.name}
                     </div>
                 </div>
             </div>

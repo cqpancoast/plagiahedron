@@ -21,10 +21,30 @@
     height: 430px;
     border-radius: 15px;
     margin-left: 30px;
-    margin-top: 45px;
+    margin-top: -16px;
     font-family: 'Inconsolata', monospace;
     font-size: 12pt;
     color: #0f131e;
     padding: 40px 20px;
     overflow: scroll;
 }
+
+button {
+    background: transparent;
+    text-transform: lowercase;
+    font-family: 'Inconsolata', monospace;
+    font-size: 12pt;
+    border: 3px solid #eee9f3;
+    border-bottom: 0px solid transparent;
+    color: #eee9f3;
+    border-radius: 10px 10px 0px 0px;
+    margin-left: 10px;
+  }
+  
+  button:hover, button:focus, button:active {
+    background-color: #eee9f3;
+    color: #0f131e;
+    font-family: 'Inconsolata', monospace;
+    font-size: 12pt;
+    outline: none;
+  }

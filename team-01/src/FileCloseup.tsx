@@ -1,6 +1,13 @@
 import { render } from '@testing-library/react';
 import React from 'react';
+import Tabs from './Tabs';
+import Tab from './Tab';
 import './FileCloseup.css';
+
+/**
+ * Tabs code from 
+ * https://medium.com/weekly-webtips/create-basic-tabs-component-react-typescript-231a2327f7b6
+ */
 
 class FileCloseup extends React.Component{
     
@@ -16,9 +23,11 @@ class FileCloseup extends React.Component{
                             FileOne.ts
                         </div>
                     </div>
-                    <div className="FileCloseup-box">
-                        sample text sample text sample text sample text
-                    </div>
+                    <Tabs>
+                        <Tab title="file1">sample code</Tab>
+                        <Tab title="file2">sample code sample code sample code</Tab>
+                        <Tab title="file3">sample code sample code sample code sample code</Tab>
+                    </Tabs>
                 </div>
             </div>
           );
