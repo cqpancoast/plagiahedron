@@ -7,7 +7,7 @@ import "mocha"
 
 describe("test non-parsed PHFile", () => {
 
-    let file: PHFile = new PHFile("f", ".ts", "firstline\nsecondline\nthirdline")
+    let file: PHFile = new PHFile("f", "ts", "firstline\nsecondline\nthirdline")
     let err: PHFile = new PHFile("", "", "this should be an error")
 
     /** Test getters, program name set/get rules, error when parsed content accessed (implementation TODO) */
@@ -17,7 +17,7 @@ describe("test non-parsed PHFile", () => {
     })
 
     it("get extension", () => {
-        expect(file.getExtension()).to.equal(".ts")
+        expect(file.getExtension()).to.equal("ts")
     })
 
     it("get name and extension", () => {

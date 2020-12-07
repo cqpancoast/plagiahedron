@@ -2,12 +2,15 @@ import IParser from "./IParser";
 import PHFile from "./PHFile";
 import PHFileSubstring from "./PHFileSubstring";
 
+
 /**
- * Parses the file by simply returning its content.
- * 
- * Could be used in implementation if we're really low on time,
- * but likely just for testing purposes.
- * I am most likely going to pull some info out from here into an abstract class.
+ * Parent class for parsers that parse file contents to a string.
+ * Has a property minMatchLength, which is the smallest size considered
+ * for PARSED MATCHES between the two files. It will always be the case
+ * for this class that the length of a parsed match is less than or equal 
+ * to the length of the segment of the file that it was parsed from, so
+ * minMatchLength is also the minimum window size considered when iterating
+ * through the unparsed files to find the matches.
  */
 export default abstract class AStringParser implements IParser<string> {
 
@@ -18,7 +21,8 @@ export default abstract class AStringParser implements IParser<string> {
     abstract unparse(parseFeature: string, file: PHFile): PHFileSubstring[]
 
     /**
-     * Finds all similar strings of length at least this.minMatchLength between file contents.
+     * Finds all similar strings of length at least this.minMatchLength
+     * between file contents. Ignores duplicates.
      */
     findParsedMatches(f1: PHFile, f2: PHFile): string[] {
         if (f1.getExtension() !== f2.getExtension()) {
@@ -55,7 +59,8 @@ export default abstract class AStringParser implements IParser<string> {
             }
         }
 
-        return parsedMatches.filter(parsedMatch => parsedMatch.length >= this.minMatchLength)
+        return Array.from(new Set(parsedMatches.filter(  // we want unique elements
+            parsedMatch => parsedMatch.length >= this.minMatchLength)))
     }
 
 }

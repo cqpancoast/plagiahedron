@@ -4,14 +4,22 @@ import PHFileSubstring from "./PHFileSubstring";
 import SpecialToken from "./ISpecialToken";
 
 /**
- * Parses a file by converting every token into some filler string.
- * This can be altered, but it is the string "x" by default.
- * Tokens are defined as anything that isn't a "special token",
- * which itself is defined by [...]
+ * XParser, the pillar on which the rest of the code base sits.
+ * 
+ * Parses a file by converting every token into some filler character
+ * using a greedy algorithm that waits until it's seen a full token,
+ * and then prints it (unless that token is a comment). More information
+ * on tokens can be found in their classes.
+ * 
+ * The filler char is the unicode character "\ubeef" by default, for no
+ * other reason than it's not likely to come up in code and it's funny
+ * to think that a student's academic career could be ruined by an
+ * algorithm that had the word "beef" hard-coded into its most central
+ * functionality.
  */
 export default class XParser extends AStringParser {
 
-    private fillerChar: string = "\ubeef"
+    private fillerChar: string = "\ubeef"  //must be only one character
 
     constructor(
         protected minMatchLength: number,
@@ -54,8 +62,6 @@ export default class XParser extends AStringParser {
                 specialTokenStartIndex = i - (doneTokens[0].getLength() - 1)
                 if (specialTokenStartIndex > lastPrintIndex + 1) {
                     parseUnits.push(this.fillerChar)
-                } else if (specialTokenStartIndex < lastPrintIndex) {
-                    throw new Error("hey do'nt do that")
                 }
                 parseUnits.push(fileContent.substring(specialTokenStartIndex, i + 1))
                 lastPrintIndex = i
@@ -72,11 +78,14 @@ export default class XParser extends AStringParser {
     }
 
     unparse(parseFeature: string, file: PHFile): PHFileSubstring[] {
-        let matchedContents = file.getContent().match(parseFeature.replace(this.fillerChar, ".+"))
+        let matchedContents = file.getContent().match(
+            new RegExp(`${parseFeature
+                .replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&')
+                .replace(new RegExp(`${this.fillerChar}`, "g"), "[^ ]+")}`, "g"))
         return matchedContents === null ? [] : 
             matchedContents.filter(match =>
-                this.parse(new PHFile(file.getName(), file.getExtension(), match)) === parseFeature
-                && match !== "")
+                match.length >= this.minMatchLength
+                && this.parse(new PHFile(file.getName(), file.getExtension(), match)) === parseFeature)
             .map(match =>
                 new PHFileSubstring(file.getProgramName(),
                 file.getNameAndExtension(),
@@ -84,9 +93,6 @@ export default class XParser extends AStringParser {
                 match))
     }
 
-    /**
-     * Method to return filler characters
-     */
     getFillerChar(): string {
         return this.fillerChar
     }

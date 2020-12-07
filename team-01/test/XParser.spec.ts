@@ -31,12 +31,13 @@ let simpleFileEmp: PHFile = new PHFile("simp", "", "This is simple \n yay!")
 let simpleFileB: PHFile = new PHFile("f", "b", "My name is \n (insert), nice to meet you!")
 let simpleFileBPlus: PHFile = new PHFile("f", "b++", "My name is \n (insert), nice to meet you!")
 let substringFileSimple: PHFile = new PHFile("sub", "b", "(insert), nice to meet")
-let complexFileB: PHFile = new PHFile("cool", "b", "keep going \n don't stop //never quit (please)\n")
-let complexFileBPlus: PHFile = new PHFile("cool", "b++", "keep going \n don't stop //never quit (please)\n")
+let complexFileB: PHFile = new PHFile("cool", "b", "keep going \n don't stop //never quit (please) \n")
+let complexFileBPlus: PHFile = new PHFile("cool", "b++", "keep going \n don't stop //never quit (please) \n")
 let substringFileComplex: PHFile = new PHFile("sub", "b++", "keep going \n don't stop")
 let complexComments: PHFile = new PHFile("comm", "b++", "work //for \nme")
 
 // When PHFiles are used in a Program constructor, their programName property is automatically assigned.
+// This call is made to prevent errors being thrown due to PHFiles not having a programName property.
 let dummy: Program = new Program("dummy",
     [emptyFile, simpleFileB, simpleFileEmp, simpleFileBPlus,
         substringFileSimple, substringFileComplex,
@@ -57,7 +58,7 @@ describe("parse some PHFile with Basic rules", () => {
     })
 
     it("complex file parsing", () => {
-        expect(xp.parse(complexFileB)).to.equal(`${f} ${f} \n ${f} ${f} ${f} ${f} ${f}\n`)
+        expect(xp.parse(complexFileB)).to.equal(`${f} ${f} \n ${f} ${f} ${f} ${f} ${f} \n`)
     })
 })
 
@@ -72,7 +73,7 @@ describe("use different file extensions (including Basic++) to test parse rules"
     })
 
     it("complex file parsing", () => {
-        expect(xp.parse(complexFileBPlus)).to.equal(`${f} ${f} \n ${f} ${f} //never quit (please)\n`)
+        expect(xp.parse(complexFileBPlus)).to.equal(`${f} ${f} \n ${f} ${f} //never quit (please) \n`)
     })
 
     it("parsed substringFile is still substring of parsed complexFile", () => {
@@ -89,34 +90,25 @@ describe("use different file extensions (including Basic++) to test parse rules"
 
 describe("unparse (find parsed strings in) our PHFiles", () => {
 
-    /**
-     * I'm kind of loose on the "it" functions here, so here are some
-     * additional directions for what you might include. (I don't think
-     * they're checking TOO closely, so use your discretion on how you
-     * can best spend your time.)
-     * - Totally bogus parse strings should find no matches in ANY file.
-     * - Super simple parse strings should find a shit ton of matches.
-     *   If you're looking to get creative with generating test oracles,
-     *   here's your chance.
-     * - Nothing is ever found in empty files.
-     * - The same shit that's found in the substring file is also found
-     *   in the complex file (if you make it right, and the thing to be
-     *   found isn't on the overlap region.)
-     */
-
     it("unparse files parsed using the empty language", () => {
         expect(xp.unparse("", emptyFile)).to.deep.equal([])
         expect(xp.unparse("", simpleFileEmp)).to.deep.equal([])
     })
 
-    it("unparse files parsed using Basic language", () => {
-        expect(xp.unparse(`${f} ${f} ${f} \n ${f}, nice ${f} ${f} ${f}`, simpleFileB)).to.equal(
-            [new PHFileSubstring(simpleFileB.getProgramName(),  simpleFileB.getNameAndExtension(), 0, "My name is \n (insert), nice to meet you!")])
+    it("one-match parse/unparse using Basic language", () => {
+        expect(xp.unparse(xp.parse(simpleFileB), simpleFileB)).to.deep.equal(
+            [new PHFileSubstring(simpleFileB.getProgramName(),  simpleFileB.getNameAndExtension(), 0, simpleFileB.getContent())])
     })
 
-    it("unparse files parsed using Basic++ language", () => {
-        expect(xp.unparse("nice", simpleFileBPlus)).to.equal(
-            [new PHFileSubstring(simpleFileBPlus.getProgramName(), simpleFileBPlus.getNameAndExtension(), 23, "nice to meet you!")])
+    it("one-match parse/unparse using Basic++ language", () => {
+        expect(xp.unparse(xp.parse(complexFileBPlus), complexFileBPlus)).to.deep.equal(
+            [new PHFileSubstring(complexFileBPlus.getProgramName(), complexFileBPlus.getNameAndExtension(), 0, complexFileBPlus.getContent())])
+    })
+
+    it("two-match parse/unparse using Basic language", () => {
+        expect(xp.unparse(`${f} ${f} \n`, complexFileB)).to.deep.equal(
+            [new PHFileSubstring(complexFileB.getProgramName(), complexFileB.getNameAndExtension(), 0, "keep going \n"),
+             new PHFileSubstring(complexFileB.getProgramName(), complexFileB.getNameAndExtension(), 32, "quit (please) \n")])
     })
 })
 
@@ -139,6 +131,7 @@ describe("find parsed matches between some PHFiles", () => {
     })
 
     it("finds all matches between simple and complex files", () => {
-        expect(xp.findParsedMatches(simpleFileBPlus, complexFileBPlus)).to.deep.equal(["keep going \n don't stop"])
+        expect(xp.findParsedMatches(simpleFileBPlus, complexFileBPlus)).to.deep.equal(
+            [` ${f} ${f} `, `${f} ${f} \n `])
     })
 })
