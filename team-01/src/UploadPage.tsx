@@ -13,6 +13,7 @@ import CommentSpecialToken from './model/CommentSpecialToken';
 import CharSpecialToken from './model/CharSpecialToken';
 import IParser from './model/IParser';
 import SpecialTokens from './SpecialTokens';
+import ResultsPage from './ResultsPage';
 
 export default class UploadPage extends React.Component<any, any>{
 
@@ -23,10 +24,12 @@ export default class UploadPage extends React.Component<any, any>{
 
         this.state = {
             programNameArray: [],
-            programArray: []
+            programArray: [], 
+            goToResults: false
         }
 
         this.addProgram = this.addProgram.bind(this);
+        this.handleToResultsClick = this.handleToResultsClick.bind(this);
     }
 
     // from: https://blog.shovonhasan.com/using-promises-with-filereader/
@@ -58,6 +61,7 @@ export default class UploadPage extends React.Component<any, any>{
             return
         }
         else if (uploads?.length === 0) {
+            alert("Invalid input")
             return
         }
         else {
@@ -92,13 +96,14 @@ export default class UploadPage extends React.Component<any, any>{
     }
 
     // todo: render? results page and pass PH and Codeset as props
-    renderResultsPage() {
+    makePlagiahedron(): Plagiahedron {
         var codeSet: CodeSet = new CodeSet(this.state.programArray)
         var xParser: IParser<string> = new XParser(20, {
             "": SpecialTokens.emptyLang,
-            "java": SpecialTokens.javaBasic})
+            "java": SpecialTokens.javaBasic, 
+            "ts": SpecialTokens.typescriptBasic})
         var phBuilder: IPlagiahedronBuilder = new PlagiahedronBuilder(xParser, 5)
-        var ph = phBuilder.constructPlagiahedron(codeSet)
+        return phBuilder.constructPlagiahedron(codeSet)
     }
 
     /**
@@ -132,10 +137,20 @@ export default class UploadPage extends React.Component<any, any>{
         else return this.count + " UPLOADED"
     }
 
+    handleToResultsClick() {
+        this.setState({
+            goToResults: true
+        })
+    }
+
 
     render() {
         return (
-            <div className="UploadPage">
+            <div>
+                {this.state.goToResults ? 
+                <ResultsPage ph={this.makePlagiahedron()}/> :
+
+                <div className="UploadPage">
 
                 <p className="UploadPageTitle"> {this.getUploadPageTitle()} </p>
                 <div className="Program-Container" id="ProgramContainer">
@@ -168,9 +183,12 @@ export default class UploadPage extends React.Component<any, any>{
 
                 <div className="CompareButton-background">
                     <p className="CompareButton-text">compare all</p>
-                    <button className="CompareButton">
+                    <button className="CompareButton" onClick={this.handleToResultsClick}>
                     </button>
                 </div>
+            </div>
+
+            }
             </div>
         );
     }
