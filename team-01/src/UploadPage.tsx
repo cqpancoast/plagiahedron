@@ -8,6 +8,10 @@ import CodeSet from './model/CodeSet';
 import Plagiahedron from './model/Plagiahedron';
 import IPlagiahedronBuilder from './model/IPlagiahedronBuilder';
 import PlagiahedronBuilder from './model/PlagiahedronBuilder';
+import XParser from './model/XParser';
+import CommentSpecialToken from './model/CommentSpecialToken';
+import CharSpecialToken from './model/CharSpecialToken';
+import IParser from './model/IParser';
 
 export default class UploadPage extends React.Component<any, any>{
 
@@ -75,7 +79,7 @@ export default class UploadPage extends React.Component<any, any>{
                         console.log("ERROR" + e);
                     }
 
-                    var name: string = file.name
+                    var name: string = file.name.substr(0, file.name.lastIndexOf('.'))
                     var extension: string = file.name.substr(file.name.lastIndexOf('.') + 1)
 
                     phFileList.push(new PHFile(name, extension, fileContents))
@@ -89,6 +93,13 @@ export default class UploadPage extends React.Component<any, any>{
     // todo: render? results page and pass PH and Codeset as props
     renderResultsPage() {
         var codeSet: CodeSet = new CodeSet(this.state.programArray)
+        var xParser: IParser<string> = new XParser(20, {"": [],
+        "java": [...["\n", " ", ",", "(", ")", "{", "}", "[", "]", "+", "-", "/", "*", "=", "\\", "."]
+                    .map(char => new CharSpecialToken(char)),
+                new CommentSpecialToken("//", "\n"),
+                new CommentSpecialToken("/*", "*/")]})
+        var phBuilder: IPlagiahedronBuilder = new PlagiahedronBuilder(xParser, 5)
+        var ph = phBuilder.constructPlagiahedron(codeSet)
     }
 
     /**
