@@ -38,7 +38,7 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
         // find similarities for all combinations of two programs
         for (let i = 0; i < progNames.length; i++) {
             for (let j = i + 1; j < progNames.length; j++) {
-                sims.concat(this.compareTwoPrograms(
+                sims = sims.concat(this.compareTwoPrograms(
                     codeSet.getProgram(progNames[i]),
                     codeSet.getProgram(progNames[j])))
             }
@@ -47,7 +47,7 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
         // find similarities of sizes up to this.maxGroupSize
         for (let newSimSize = 3; newSimSize < this.maxGroupSize; newSimSize++) {
             for (let i = 0; i < progNames.length; i++) {
-                sims.concat(this.findMoreSimilarities(
+                sims = sims.concat(this.findMoreSimilarities(
                     codeSet.getProgram(progNames[i]),
                     FilterUtils.showWithout(
                         FilterUtils.filterByProgramCount(sims, newSimSize),
@@ -68,7 +68,7 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
         let newSims: IPHSimilarity<string>[] = []
         p1.getFiles().forEach(f1 => {
             p2.getFiles().forEach(f2 => {
-                newSims.concat(this.compareTwoFiles(f1, f2))
+                newSims = newSims.concat(this.compareTwoFiles(f1, f2))
             })
         })
         return newSims
