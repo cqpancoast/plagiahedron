@@ -34,7 +34,7 @@ export default class PHFile {
      * If a file is named "f.ts", the name will be "f" and the extension will be ".ts".
      */
     getNameAndExtension(): string {
-        return this.name + this.extension
+        return `${this.name}.${this.extension}`
     }
 
     /**
