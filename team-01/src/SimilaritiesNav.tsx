@@ -22,7 +22,12 @@ class SimilaritiesNav extends React.Component<{ ph: Plagiahedron, onClick: any, 
         let similarityArray: JSX.Element[] = []
         for(var index = 0; index < this.props.ph.getAllSimilarities().length; index++) {
             let sim = this.props.ph.getAllSimilarities()[index]
-            const simProps = { groupNumber: this.props.ph.getAllSimilarities().indexOf(sim), score: sim.getScore(), groupSize: sim.getProgramNames().length, similarityContent: sim.getParsedMatch(), ph: this.props.ph, onClick: this.props.onClick};
+            const simProps = { groupNumber: this.props.ph.getAllSimilarities().indexOf(sim),
+                                score: sim.getScore(),
+                                groupSize: sim.getProgramNames().length,
+                                similarityContent: sim.getParsedMatch().replace("\ubeef", "X"),
+                                ph: this.props.ph,
+                                onClick: this.props.onClick};
             similarityArray.push(<Similarity {...simProps} />)
         }
 

@@ -27,11 +27,19 @@ describe("Plagiahedron builder tests", () => {
 
     let file1: PHFile = new PHFile("cool", "ts", "keep going \n don't stop //never quit (please) \n")
     let file2: PHFile = new PHFile("bean", "ts", "keep going \n don't stop //never quit (please) \n")
+    let file3: PHFile = new PHFile("soup", "ts", "keep going \n don't stop //never quit (please) \n")
     let program1: Program = new Program("1", [file1])
     let program2: Program = new Program("2", [file2])
+    let program3: Program = new Program("3", [file3])
 
     it("Two identical programs with one file", () => {
         let codeSet: CodeSet = new CodeSet([program1, program2])
+        let ph: Plagiahedron = phBuilder.constructPlagiahedron(codeSet)
+        expect(ph.getAllSimilarities().length).to.equal(1)
+    })
+
+    it("Three identical programs with one file", () => {
+        let codeSet: CodeSet = new CodeSet([program1, program2, program3])
         let ph: Plagiahedron = phBuilder.constructPlagiahedron(codeSet)
         expect(ph.getAllSimilarities().length).to.equal(1)
     })

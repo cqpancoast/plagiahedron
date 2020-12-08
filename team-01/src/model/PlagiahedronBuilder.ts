@@ -45,12 +45,12 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
         }
 
         // find similarities of sizes up to this.maxGroupSize
-        for (let newSimSize = 3; newSimSize < this.maxGroupSize; newSimSize++) {
+        for (let newSimSize = 3; newSimSize <= Math.min(this.maxGroupSize, progNames.length); newSimSize++) {
             for (let i = 0; i < progNames.length; i++) {
                 sims = sims.concat(this.findMoreSimilarities(
                     codeSet.getProgram(progNames[i]),
                     FilterUtils.showWithout(
-                        FilterUtils.filterByProgramCount(sims, newSimSize),
+                        FilterUtils.filterByProgramCount(sims, newSimSize - 1),
                         [progNames[i]])))
             }
         }
@@ -112,13 +112,14 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
         simSet.forEach(sim => {
             let simsToAdd: IPHSimilarity<string>[] = []
             p.getFiles().forEach(file => {
-                simsToAdd.concat(this.findMoreSimilaritiesInFile(sim, file))
+                simsToAdd = simsToAdd.concat(this.findMoreSimilaritiesInFile(sim, file))
             })
             if (simsToAdd.length > 0) {
-                newSims.concat(simsToAdd)
+                newSims = newSims.concat(simsToAdd)
                 simsToRemove.push(sim)
             }
         });
+        newSims.filter(sim => !simsToRemove.includes(sim))
         return newSims
     }
 

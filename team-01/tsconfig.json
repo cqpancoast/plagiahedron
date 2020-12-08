@@ -13,8 +13,8 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    //"module": "commonjs",  // use this one when you want to run tests...
-    "module": "esnext",      // ...and this one when you want to run the website. (Sorry.)
+    "module": "commonjs",    // use this one when you want to run tests...
+    //"module": "esnext",      // ...and this one when you want to run the website. (Sorry.)
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
