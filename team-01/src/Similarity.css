@@ -17,7 +17,7 @@
     margin-left: 10px;
 }
 
-.Similarity-box{
+.Similarity-box--not-selected{
     width: 85%;
     border: 2px solid #eee9f3;
     color: #eee9f3;
@@ -32,9 +32,25 @@
     cursor: pointer
 }
 
-.Similarity-box:hover{
+.Similarity-box--selected{
+    width: 85%;
+    border: 2px solid #eee9f3;
     background-color: #eee9f3;
-    color: black;
+    color: #0f131e;
+    border-radius: 15px;
+    height: 150px;
+    padding: 0 20px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    cursor: pointer
+}
+
+.Similarity-box--not-selected:hover{
+    background-color: #eee9f3;
+    color: #0f131e;
 }
 
 .Similarity-box-code {

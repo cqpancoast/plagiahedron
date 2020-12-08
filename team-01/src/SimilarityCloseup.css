@@ -5,12 +5,13 @@
 }
 
 .fileBox {
-    width: 98%;
-    height: 620px;
+    width: 95.5%;
+    height: 580px;
     background: #0f131e;
     border-radius: 15px;
     overflow: auto;
     display: flex;
     flex-direction: row;
     align-content: center;
+    border: 20px solid #0f131e;
 }

@@ -7,6 +7,7 @@ class Similarity extends React.Component<{groupNumber: number,
                                         score: number, 
                                         groupSize: number, 
                                         similarityContent: string, 
+                                        selected: boolean,
                                         ph: Plagiahedron, 
                                         onClick: any}>{
 
@@ -43,7 +44,7 @@ class Similarity extends React.Component<{groupNumber: number,
                     <div className="Similarity-number">
                         {this.props.groupNumber + 1}
                     </div>
-                    <div className="Similarity-box">
+                    <div className={this.props.selected ? "Similarity-box--selected" : "Similarity-box--not-selected"}>
                         <div className="Similarity-box-code">
                             {this.props.similarityContent.split('\n').map((item) => {
                                 return (<span>{item}<br/></span>)
