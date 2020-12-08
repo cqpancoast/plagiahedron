@@ -15,6 +15,16 @@
   margin-top: -4%;
 }
 
+
+.Homepage-text {
+  margin-left: 5%;
+  width: 80%;
+  color:#0f131e;
+  text-align: left;
+  line-height: 21px;
+  font-size: 16px;
+}
+
 .UploadPageButton-background {
   background-color: #0f131e;
   width: 450px;
