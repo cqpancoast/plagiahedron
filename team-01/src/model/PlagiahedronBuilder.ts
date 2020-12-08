@@ -55,7 +55,16 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
             }
         }
 
-        return new Plagiahedron(sims)
+        let simsToRemove: IPHSimilarity<string>[] = []
+        let simsToAddBack: IPHSimilarity<string>[] = []
+        sims.forEach(sim => {
+            if (!simsToRemove.includes(sim)) {
+                simsToRemove = simsToRemove.concat(sims.filter(otherSim => otherSim.equals(sim)))
+                simsToAddBack.push(sim)
+            }
+        });
+
+        return new Plagiahedron(sims.filter(sim => !simsToRemove.includes(sim)).concat(simsToAddBack))
     }
 
     /**
