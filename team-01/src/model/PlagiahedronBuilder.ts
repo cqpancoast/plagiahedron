@@ -55,12 +55,18 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
             }
         }
 
+        function wellFormedSim(sim: IPHSimilarity<string>): boolean {
+            return sim.getProgramNames().length === new Set(sim.getProgramNames()).size
+        }
+
         let simsToRemove: IPHSimilarity<string>[] = []
         let simsToAddBack: IPHSimilarity<string>[] = []
         sims.forEach(sim => {
             if (!simsToRemove.includes(sim)) {
                 simsToRemove = simsToRemove.concat(sims.filter(otherSim => otherSim.equals(sim)))
-                simsToAddBack.push(sim)
+                if (wellFormedSim(sim)) {
+                    simsToAddBack.push(sim)
+                }
             }
         });
 
