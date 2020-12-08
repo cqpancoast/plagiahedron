@@ -4,8 +4,8 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    align-content: center;
+    justify-content: left;
+    align-content: left;
     font-family: 'Inconsolata', monospace;
     font-size: 25pt;
     color: #eee9f3;
@@ -15,5 +15,6 @@
 }
 
 .Program-name {
-    margin-left: -80px;
+    margin-left: 60px;
+    align-content: left;
 }
