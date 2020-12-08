@@ -44,7 +44,7 @@ class ProgramsNav extends React.Component<{ph: Plagiahedron, activeSimIndex: num
                         }
                 </div>
                 <div className="ProgramsNav-fileBox">
-                    {this.getProgramArray()};
+                    {this.getProgramArray()}
                 </div>
             </div>
           );

@@ -20,9 +20,15 @@ class SimilarityCloseup extends React.Component<{ph: Plagiahedron, codeSet: Code
     getFileArray(): JSX.Element[] {
         let fileArray: JSX.Element[] = []
         let activeSim = this.props.ph.getAllSimilarities()[this.props.activeSimIndex]
-        for(var index = 0; index < activeSim.getProgramNames().length; index++) {
-            let name = activeSim.getProgramNames()[index]
-            const fileProps = { ph: this.props.ph, codeSet: this.props.codeSet, activeSimIndex: this.props.activeSimIndex, programName: name, programIndex: index };
+        for(var index = 0; index < activeSim.getFileSubstrings().length; index++) {
+            let substring = activeSim.getFileSubstrings()[index]
+            const fileProps = { ph: this.props.ph, 
+                                codeSet: this.props.codeSet, 
+                                activeSimIndex: this.props.activeSimIndex, 
+                                programName: substring.getProgramName(), 
+                                fileName: substring.getFileNameAndExtension(), 
+                                similarityString: substring.getRawString(),
+                                programIndex: index };
             fileArray.push(<ProgramCloseup {...fileProps} />)
         }
 
