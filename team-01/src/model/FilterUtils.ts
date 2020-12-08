@@ -30,7 +30,7 @@ export default class FilterUtils {
      * @param progNames program names to exclude from the similarities being considered. 
      */
     static showWithout(sims: IPHSimilarity<any>[], progNames: string[]): IPHSimilarity<string>[] {
-        return sims.filter(sim => sim.getProgramNames().every(progName => !progNames.includes(progName)))
+        return sims.filter(sim => progNames.every(progName => !sim.getProgramNames().includes(progName)))
     }
 
     /**

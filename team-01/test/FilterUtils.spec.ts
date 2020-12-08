@@ -71,6 +71,10 @@ describe("test filter", () => {
         expectSimsArraysEqual(simArrayScoreOrder, testSimArrayScoreOrder)
     });
 
+    it("show without", () => {
+        expectSimsArraysEqual(FilterUtils.showWithout(simArrayAll, ["programName2"]), [sim1, sim3, sim4])
+    });
+
     function expectSimsArraysEqual(array1: IPHSimilarity<any>[], array2: IPHSimilarity<any>[]) {
         expect(array1.length).to.equal(array2.length)
         for (let i = 0; i < array1.length; i++) {

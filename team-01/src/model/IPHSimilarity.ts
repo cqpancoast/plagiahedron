@@ -34,4 +34,9 @@ export default interface IPHSimilarity<T> {
      */
     getFileSubstrings(): PHFileSubstring[]
 
+    /**
+     * Returns whether the given similarity is equal to another similarity.
+     */
+    equals(sim: IPHSimilarity<T>): boolean
+
 }

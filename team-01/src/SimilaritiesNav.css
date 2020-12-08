@@ -1,0 +1,25 @@
+.SimilaritiesNav {
+    width: 70%;
+}
+
+.Similarities-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    padding-bottom: 10px;
+}
+
+.SimilaritiesNav-title {
+    font-size: 25pt;
+    text-transform: uppercase;
+    color: #0f131e;
+}
+
+.SimilaritiesNav-fileBox {
+    overflow: scroll;
+    height: 550px;
+    background: #0f131e;
+    border-radius: 15px;
+    padding-bottom: 20px;
+}

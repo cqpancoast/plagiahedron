@@ -1,12 +1,13 @@
 import React from 'react';
 import Homepage from './Homepage'
-import UploadPage from './UploadPage';
+import PHFile from './model/PHFile';
+import ResultsPage from './ResultsPage';
+
 
 function App() {
   return (
     <div>
-      {/* <Homepage /> */}
-      <UploadPage/>
+      <Homepage />
     </div>
   );
 }

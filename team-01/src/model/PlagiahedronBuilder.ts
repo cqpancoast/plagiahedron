@@ -38,24 +38,39 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
         // find similarities for all combinations of two programs
         for (let i = 0; i < progNames.length; i++) {
             for (let j = i + 1; j < progNames.length; j++) {
-                sims.concat(this.compareTwoPrograms(
+                sims = sims.concat(this.compareTwoPrograms(
                     codeSet.getProgram(progNames[i]),
                     codeSet.getProgram(progNames[j])))
             }
         }
 
         // find similarities of sizes up to this.maxGroupSize
-        for (let newSimSize = 3; newSimSize < this.maxGroupSize; newSimSize++) {
+        for (let newSimSize = 3; newSimSize <= Math.min(this.maxGroupSize, progNames.length); newSimSize++) {
             for (let i = 0; i < progNames.length; i++) {
-                sims.concat(this.findMoreSimilarities(
+                sims = sims.concat(this.findMoreSimilarities(
                     codeSet.getProgram(progNames[i]),
                     FilterUtils.showWithout(
-                        FilterUtils.filterByProgramCount(sims, newSimSize),
+                        FilterUtils.filterByProgramCount(sims, newSimSize - 1),
                         [progNames[i]])))
             }
         }
 
-        return new Plagiahedron(sims)
+        function wellFormedSim(sim: IPHSimilarity<string>): boolean {
+            return sim.getProgramNames().length === new Set(sim.getProgramNames()).size
+        }
+
+        let simsToRemove: IPHSimilarity<string>[] = []
+        let simsToAddBack: IPHSimilarity<string>[] = []
+        sims.forEach(sim => {
+            if (!simsToRemove.includes(sim)) {
+                simsToRemove = simsToRemove.concat(sims.filter(otherSim => otherSim.equals(sim)))
+                if (wellFormedSim(sim)) {
+                    simsToAddBack.push(sim)
+                }
+            }
+        });
+
+        return new Plagiahedron(sims.filter(sim => !simsToRemove.includes(sim)).concat(simsToAddBack))
     }
 
     /**
@@ -68,7 +83,7 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
         let newSims: IPHSimilarity<string>[] = []
         p1.getFiles().forEach(f1 => {
             p2.getFiles().forEach(f2 => {
-                newSims.concat(this.compareTwoFiles(f1, f2))
+                newSims = newSims.concat(this.compareTwoFiles(f1, f2))
             })
         })
         return newSims
@@ -112,13 +127,14 @@ export default class PlagiahedronBuilder implements IPlagiahedronBuilder {
         simSet.forEach(sim => {
             let simsToAdd: IPHSimilarity<string>[] = []
             p.getFiles().forEach(file => {
-                simsToAdd.concat(this.findMoreSimilaritiesInFile(sim, file))
+                simsToAdd = simsToAdd.concat(this.findMoreSimilaritiesInFile(sim, file))
             })
             if (simsToAdd.length > 0) {
-                newSims.concat(simsToAdd)
+                newSims = newSims.concat(simsToAdd)
                 simsToRemove.push(sim)
             }
         });
+        newSims.filter(sim => !simsToRemove.includes(sim))
         return newSims
     }
 

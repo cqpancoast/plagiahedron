@@ -56,4 +56,10 @@ export default class PHSimilarity implements IPHSimilarity<string> {
     getFileSubstrings(): PHFileSubstring[] {
         return this.similarSubstrings
     }
+
+    equals(sim: PHSimilarity): boolean {
+        return this.getParsedMatch() === sim.getParsedMatch()
+        && this.getProgramNames().length === sim.getProgramNames().length
+        && this.getProgramNames().every(progName => sim.getProgramNames().includes(progName))
+    }
 }

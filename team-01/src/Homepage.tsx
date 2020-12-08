@@ -1,26 +1,56 @@
 import React from 'react';
-import BigButton from './BigButton';
 import TitleLine from './line.svg';
+import UploadPage from './UploadPage'
 import './Homepage.css';
+import { render } from '@testing-library/react';
 
-function Homepage() {
-  return (
-    <div className="Homepage">
-      <div className="Homepage-title">
-        <h1>
-          Plagiahedron
-        </h1>
-      </div>
+class Homepage extends React.Component<{}, {goToUpload: boolean}>{
+    constructor(props: any) {
+      super(props);
+      this.state = {
+        goToUpload: false
+      }
 
-      <div className="Homepage-line">
-          <img src={TitleLine}/>
+      this.handleUploadClick = this.handleUploadClick.bind(this);
+    }
+
+    /**
+     * Changes the goToUpload state value to display the UploadPage component
+     */
+    handleUploadClick() {
+      this.setState({
+        goToUpload: true
+      })
+    }
+
+    render() {
+      return (
+        <div>
+          {this.state.goToUpload ?
+          <UploadPage /> :
+
+          <div className="Homepage">
+          <div className="Homepage-title">
+            <h1>
+              Plagiahedron
+            </h1>
+          </div>
+    
+          <div className="Homepage-line">
+              <img src={TitleLine}/>
+            </div>
+    
+          <div className="UploadPageButton-background">
+            <div className="UploadPageButton-text"> Upload files </div>
+            <button className="UploadPageButton" onClick={this.handleUploadClick}>
+            </button>
+          </div>
         </div>
+          }
+        </div>
+      );
 
-      <div className="Homepage-links">
-        <BigButton linkContent="Upload Files"/>
-      </div>
-    </div>
-  );
+    }
 }
 
 export default Homepage;

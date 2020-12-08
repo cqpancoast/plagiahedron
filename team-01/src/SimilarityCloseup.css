@@ -1,0 +1,19 @@
+.SimilarityCloseup-title {
+    font-size: 50pt;
+    text-transform: uppercase;
+    color: #0f131e;
+}
+
+.fileBox {
+    width: 95.5%;
+    height: 580px;
+    background: #0f131e;
+    border-radius: 15px;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    border-top: 20px solid #0f131e;
+    border-bottom: 20px solid #0f131e;
+    border-right: 20px solid #0f131e;
+}

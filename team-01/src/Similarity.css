@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+.Similarity-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    margin-top: 20px;
+}
+
+.Similarity-number {
+    font-size: 22pt;
+    color: #eee9f3;
+    text-align: right;
+    width: 2%; 
+    margin-left: 10px;
+}
+
+.Similarity-box--not-selected{
+    width: 85%;
+    border: 2px solid #eee9f3;
+    color: #eee9f3;
+    border-radius: 15px;
+    height: 150px;
+    padding: 0 20px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    cursor: pointer
+}
+
+.Similarity-box--selected{
+    width: 85%;
+    border: 2px solid #eee9f3;
+    background-color: #eee9f3;
+    color: #0f131e;
+    border-radius: 15px;
+    height: 150px;
+    padding: 0 20px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: space-between;
+    cursor: pointer
+}
+
+.Similarity-box--not-selected:hover{
+    background-color: #eee9f3;
+    color: #0f131e;
+}
+
+.Similarity-box-code {
+    z-index: 1;
+    width: 70%;
+    margin-top: 20px;
+    font-family: 'Inconsolata', monospace;
+    font-size: 12pt;
+    height: 100px;
+    overflow: scroll;
+}
+
+.Similarity-box-score {
+    width: 25%;
+    font-size: 9pt;
+    margin-top: 2%;
+    overflow: scroll;
+}

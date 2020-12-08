@@ -19,6 +19,10 @@ import SpecialToken from "./ISpecialToken";
  */
 export default class XParser extends AStringParser {
 
+    protected getSubstringIndex(file: PHFile, parseFeature: string, afterThisIndex: number) {
+        throw new Error("Method not implemented.");
+    }
+
     private fillerChar: string = "\ubeef"  //must be only one character
 
     constructor(
@@ -46,31 +50,33 @@ export default class XParser extends AStringParser {
 
         let lastPrintIndex = 0
         let specialTokens: SpecialToken[] = this.specialTokenDict[fileExtension]
-        let definitelyTokens: SpecialToken[]
-        let doneTokens: SpecialToken[]
+        let definitelyTokens: SpecialToken[] = []
+        let doneTokens: SpecialToken[] = []
         let specialTokenStartIndex: number
         for (let i = 0; i < fileContent.length; i++) {
 
-            definitelyTokens = specialTokens.filter(specialToken => specialToken.getState() === "DEFINITELY")
-            if (definitelyTokens.length > 0) {
-                specialTokens = definitelyTokens
-            }
-
-            specialTokens.forEach(specialToken => specialToken.updateState(fileContent[i]))
-            doneTokens = specialTokens.filter(specialToken => specialToken.getState() === "DONE")
-            if (doneTokens.length > 0) {
-                specialTokenStartIndex = i - (doneTokens[0].getLength() - 1)
-                if (specialTokenStartIndex > lastPrintIndex + 1) {
-                    parseUnits.push(this.fillerChar)
+            if (specialTokens) {
+                definitelyTokens =  specialTokens.filter(specialToken => specialToken.getState() === "DEFINITELY")
+                if (definitelyTokens.length > 0) {
+                    specialTokens = definitelyTokens
                 }
-                parseUnits.push(fileContent.substring(specialTokenStartIndex, i + 1))
-                lastPrintIndex = i
-                specialTokens = this.specialTokenDict[fileExtension]
-                specialTokens.forEach(specialToken => specialToken.reset())
-            }
-            if (i === fileContent.length - 1) {
-                if (doneTokens.length === 0) {
-                    parseUnits.push(this.fillerChar)
+    
+                specialTokens.forEach(specialToken => specialToken.updateState(fileContent[i]))
+                doneTokens = specialTokens!.filter(specialToken => specialToken.getState() === "DONE")
+                if (doneTokens.length > 0) {
+                    specialTokenStartIndex = i - (doneTokens[0].getLength() - 1)
+                    if (specialTokenStartIndex > lastPrintIndex + 1) {
+                        parseUnits.push(this.fillerChar)
+                    }
+                    parseUnits.push(fileContent.substring(specialTokenStartIndex, i + 1))
+                    lastPrintIndex = i
+                    specialTokens = this.specialTokenDict[fileExtension]
+                    specialTokens.forEach(specialToken => specialToken.reset())
+                }
+                if (i === fileContent.length - 1) {
+                    if (doneTokens.length === 0) {
+                        parseUnits.push(this.fillerChar)
+                    }
                 }
             }
         }

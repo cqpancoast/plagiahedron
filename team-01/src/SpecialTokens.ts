@@ -19,4 +19,17 @@ export default class SpecialTokens {
                     .map(char => new CharSpecialToken(char)),
                 new CommentSpecialToken("//", "\n"),
                 new CommentSpecialToken("/*", "*/")]
+    static typescriptBasic: ISpecialToken[] = 
+        [...["\n", " ", ",", "(", ")", "{", "}", "[", "]", "+", "-", "/", "*", "=", "\\", "."]
+                    .map(char => new CharSpecialToken(char)),
+                new CommentSpecialToken("//", "\n"),
+                new CommentSpecialToken("/*", "*/")]
+    static typescriptMCTokens: ISpecialToken[] =  // multi-character tokens. We only include the most common
+        [...["\n", " ", ",", "(", ")", "{", "}", "[", "]", "+", "-", "/", "*", "=", "\\", ".",
+             "class", "if", "private", "this", "int", "boolean", "float", "public", "else", "super",
+             "throws", "new", "void", "try", "catch", "interface", "while", "return", "implements", "let",
+            "const", "var"]
+                    .map(char => new CharSpecialToken(char)),
+                new CommentSpecialToken("//", "\n"),
+                new CommentSpecialToken("/*", "*/")]
 }
