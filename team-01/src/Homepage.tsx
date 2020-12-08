@@ -14,6 +14,10 @@ class Homepage extends React.Component<{}, {goToUpload: boolean}>{
       this.handleUploadClick = this.handleUploadClick.bind(this);
     }
 
+    getHomepageText(): string {
+      return "Plagiahedron is a program designed to allow you to compare two or more files and check them for potential plagiarism. Simply upload one or more .java or .ts files for each individual student submission. Please ensure all individual submissions are uploaded separately. All uploads should be of one filetype."
+    }
+
     /**
      * Changes the goToUpload state value to display the UploadPage component
      */
@@ -38,6 +42,7 @@ class Homepage extends React.Component<{}, {goToUpload: boolean}>{
     
           <div className="Homepage-line">
               <img src={TitleLine}/>
+          <p className="Homepage-text"> {this.getHomepageText()} </p>
             </div>
     
           <div className="UploadPageButton-background">

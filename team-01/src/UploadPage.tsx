@@ -1,7 +1,6 @@
 import React from 'react'
 import './UploadPage.css'
 import ProgramUpload from './ProgramUpload'
-import ConversionUtils from './model/ConversionUtils';
 import PHFile from './model/PHFile';
 import Program from './model/Program';
 import CodeSet from './model/CodeSet';
@@ -9,22 +8,24 @@ import Plagiahedron from './model/Plagiahedron';
 import IPlagiahedronBuilder from './model/IPlagiahedronBuilder';
 import PlagiahedronBuilder from './model/PlagiahedronBuilder';
 import XParser from './model/XParser';
-import CommentSpecialToken from './model/CommentSpecialToken';
-import CharSpecialToken from './model/CharSpecialToken';
 import IParser from './model/IParser';
 import SpecialTokens from './SpecialTokens';
 import ResultsPage from './ResultsPage';
 
 export default class UploadPage extends React.Component<any, any>{
 
+    // number of uploaded Programs
     count: number = 0
+
+    // filetype extension being uploaded
+    currentExtension: string = ""
 
     constructor(props: any) {
         super(props);
 
         this.state = {
             programNameArray: [],
-            programArray: [], 
+            programArray: [],
             goToResults: false
         }
 
@@ -32,7 +33,11 @@ export default class UploadPage extends React.Component<any, any>{
         this.handleToResultsClick = this.handleToResultsClick.bind(this);
     }
 
-    // from: https://blog.shovonhasan.com/using-promises-with-filereader/
+    /**
+     * Reads uploaded File using FileReader
+     * @param inputFile File to be read
+     * from: https://blog.shovonhasan.com/using-promises-with-filereader/
+     */
     readUploadedFileAsText = (inputFile: Blob): any => {
         const temporaryFileReader = new FileReader();
 
@@ -56,19 +61,13 @@ export default class UploadPage extends React.Component<any, any>{
     addProgram = async (uploads: FileList | null) => {
         // var uploads = event.target.files
 
-        if (!uploads) {
-            alert("invalid input, please try again")
-            return
-        }
-        else if (uploads?.length === 0) {
-            alert("Invalid input")
+        if (!uploads || uploads?.length === 0) {
+            alert("Invalid input, please try again.")
             return
         }
         else {
-            // add name to Program list
-            var programName = prompt("Please enter program name", "Program " + (this.count + 1));
+            var programName = prompt("Please enter a program name.", "Program " + (this.count + 1));
             if (programName) {
-                this.addToProgramNameList(programName)
 
                 // convert to Program and upload to CodeSet
                 let phFileList: PHFile[] = []
@@ -87,27 +86,60 @@ export default class UploadPage extends React.Component<any, any>{
                     var name: string = file.name.substr(0, file.name.lastIndexOf('.'))
                     var extension: string = file.name.substr(file.name.lastIndexOf('.') + 1)
 
-                    phFileList.push(new PHFile(name, extension, fileContents))
+                    if (this.currentExtension != extension) {
+                        if (this.currentExtension === "") {
+                            if (this.isValidExtension(extension)) {
+                                // set current extension to the first valid uploaded one
+                                this.currentExtension = extension
+                            } else {
+                                // alert when uploaded filetype is not supported
+                                alert("Please upload files with extension .java or .ts")
+                                return
+                            }
+                        } else {
+                            // alert when uploaded filetype does not match previously uploaded filetype
+                            alert("Please upload files with only extenstion ." + this.currentExtension)
+                            return
+                        }
+                    }
 
+                    phFileList.push(new PHFile(name, extension, fileContents))
                 }
+                // add name to Program-Container component
+                this.addToProgramNameList(programName)
+
+                // add Program to list of program
                 this.addToProgramList(new Program(programName, phFileList))
             }
         }
     }
 
+    /**
+     * Constructs a CodeSet
+     */
     makeCodeSet(): CodeSet {
         return new CodeSet(this.state.programArray)
     }
 
-    // todo: render? results page and pass PH and Codeset as props
+    /**
+     * Constructs a Plagiahedron
+     */
     makePlagiahedron(): Plagiahedron {
-        var codeSet: CodeSet = new CodeSet(this.state.programArray)
         var xParser: IParser<string> = new XParser(20, {
             "": SpecialTokens.emptyLang,
-            "java": SpecialTokens.javaBasic, 
-            "ts": SpecialTokens.typescriptBasic})
+            "java": SpecialTokens.javaBasic,
+            "ts": SpecialTokens.typescriptBasic
+        })
         var phBuilder: IPlagiahedronBuilder = new PlagiahedronBuilder(xParser, 5)
         return phBuilder.constructPlagiahedron(this.makeCodeSet())
+    }
+
+    /**
+     * Checks if extension is supported by this program
+     * @param ext Extenstion to be checked
+     */
+    isValidExtension(ext: string): boolean {
+        return (ext === "java" || ext === "ts")
     }
 
     /**
@@ -141,58 +173,64 @@ export default class UploadPage extends React.Component<any, any>{
         else return this.count + " UPLOADED"
     }
 
+    /**
+     * Takes user to Results Page if Program input is valid
+     */
     handleToResultsClick() {
-        this.setState({
-            goToResults: true
-        })
+        if (this.state.programArray.length >= 2) {
+            this.setState({
+                goToResults: true
+            })
+        } else {
+            alert("Please compare 2 or more programs.")
+        }
     }
 
 
     render() {
         return (
             <div>
-                {this.state.goToResults ? 
-                <ResultsPage ph={this.makePlagiahedron()} codeSet={this.makeCodeSet()}/> :
+                {this.state.goToResults ?
+                    <ResultsPage ph={this.makePlagiahedron()} codeSet={this.makeCodeSet()} /> :
 
-                <div className="UploadPage">
+                    <div className="UploadPage">
 
-                <p className="UploadPageTitle"> {this.getUploadPageTitle()} </p>
-                <div className="Program-Container" id="ProgramContainer">
-                    {this.state.programNameArray}
-                </div>
+                        <p className="UploadPageTitle"> {this.getUploadPageTitle()} </p>
+                        <div className="Program-Container" id="ProgramContainer">
+                            {this.state.programNameArray}
+                        </div>
 
-                <div className="UploadButtonContainer">
-                    <div className="UploadButton-background">
-                        <p className="UploadButton-text">upload folder</p>
-                        <input type="file"
-                            className="UploadButton"
-                            id="UploadDirectory"
-                            multiple
-                            /*/@ts-expect-error/*/
-                            webkitdirectory=""
-                            directory=""
-                            onChange={(e) => this.addProgram(e.target.files)}
-                        >
-                        </input>
+                        <div className="UploadButtonContainer">
+                            <div className="UploadButton-background">
+                                <p className="UploadButton-text">upload folder</p>
+                                <input type="file"
+                                    className="UploadButton"
+                                    id="UploadDirectory"
+                                    multiple
+                                    /*/@ts-expect-error/*/
+                                    webkitdirectory=""
+                                    directory=""
+                                    onChange={(e) => this.addProgram(e.target.files)}
+                                >
+                                </input>
+                            </div>
+                            <div className="UploadButton-background">
+                                <p className="UploadButton-text"> upload file </p>
+                                <input type="file"
+                                    className="UploadButton"
+                                    id="UploadSingle"
+                                    onChange={(e) => this.addProgram(e.target.files)}>
+                                </input>
+                            </div>
+                        </div>
+
+                        <div className="CompareButton-background">
+                            <p className="CompareButton-text">compare all</p>
+                            <button className="CompareButton" onClick={this.handleToResultsClick}>
+                            </button>
+                        </div>
                     </div>
-                    <div className="UploadButton-background">
-                        <p className="UploadButton-text"> upload file </p>
-                        <input type="file"
-                            className="UploadButton"
-                            id="UploadSingle"
-                            onChange={(e) => this.addProgram(e.target.files)}>
-                        </input>
-                    </div>
-                </div>
-
-                <div className="CompareButton-background">
-                    <p className="CompareButton-text">compare all</p>
-                    <button className="CompareButton" onClick={this.handleToResultsClick}>
-                    </button>
-                </div>
-            </div>
-
-            }
+                }
             </div>
         );
     }

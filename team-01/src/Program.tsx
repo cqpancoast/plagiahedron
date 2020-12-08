@@ -8,9 +8,6 @@ class Program extends React.Component <{name: string}>{
         return (
             <div className="Program">
                 <div className="Program-content">
-                    <div className="Program-lines">
-                        <img src={FileLines}/>
-                    </div>
 
                     <div className="Program-name">
                         {this.props.name}
