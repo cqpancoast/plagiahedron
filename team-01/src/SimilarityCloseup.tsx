@@ -1,13 +1,13 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 import ProgramCloseup from './ProgramCloseup';
-import IPHSimilarity from './model/IPHSimilarity';
 import Plagiahedron from './model/Plagiahedron';
 import CodeSet from './model/CodeSet';
 import './SimilarityCloseup.css';
 
 
-class SimilarityCloseup extends React.Component<{ph: Plagiahedron, codeSet: CodeSet, activeSimIndex: number}, {fileArray: any}>{
+class SimilarityCloseup extends React.Component<{ph: Plagiahedron, 
+                                                codeSet: CodeSet, 
+                                                activeSimIndex: number}, {fileArray: any}>{
 
     constructor(props: any) {
         super(props) 

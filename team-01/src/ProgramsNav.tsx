@@ -1,18 +1,9 @@
-import { render } from '@testing-library/react';
 import React from 'react';
-import IPHSimilarity from './model/IPHSimilarity';
 import Plagiahedron from './model/Plagiahedron';
 import Program from './Program';
 import './ProgramsNav.css';
 
 class ProgramsNav extends React.Component<{ph: Plagiahedron, activeSimIndex: number}>{
-
-    // constructor(props: any) {
-    //     super(props);
-    //     this.state = {
-    //         programArray: [],
-    //     }
-    // }
 
     /**
      * Returns an array of Program components that need to be rendered 

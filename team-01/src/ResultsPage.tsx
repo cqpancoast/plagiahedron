@@ -3,11 +3,10 @@ import SimilarityCloseup from './SimilarityCloseup';
 import SimilaritiesNav from './SimilaritiesNav';
 import ProgramsNav from './ProgramsNav';
 import BackButton from './BackButton';
-import './ResultsPage.css';
 import Homepage from './Homepage';
 import Plagiahedron from './model/Plagiahedron';
-import PHSimilarity from './model/PHSimilarity';
 import CodeSet from './model/CodeSet';
+import './ResultsPage.css';
 
 class ResultsPage extends React.Component<{ph: Plagiahedron, codeSet: CodeSet}, {activeSimilarity: number, goHome: boolean}> {
 

@@ -51,4 +51,5 @@
     width: 25%;
     font-size: 9pt;
     margin-top: 2%;
+    overflow: scroll;
 }
