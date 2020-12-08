@@ -9,7 +9,7 @@ import Plagiahedron from './model/Plagiahedron';
 import PHSimilarity from './model/PHSimilarity';
 import CodeSet from './model/CodeSet';
 
-class ResultsPage extends React.Component<{ph: Plagiahedron}, {activeSimilarity: number, goHome: boolean}> {
+class ResultsPage extends React.Component<{ph: Plagiahedron, codeSet: CodeSet}, {activeSimilarity: number, goHome: boolean}> {
 
     constructor(props: any) {
         super(props)
@@ -41,9 +41,9 @@ class ResultsPage extends React.Component<{ph: Plagiahedron}, {activeSimilarity:
     }
     
     render() {
-        const simProps = {ph: this.props.ph, onClick: this.setActiveSimilarity}
-        const progProps = {ph: this.props.ph, activeSim: this.props.ph.getAllSimilarities()[this.state.activeSimilarity]}
-        const closeupProps = {ph: this.props.ph, activeSim: this.props.ph.getAllSimilarities()[this.state.activeSimilarity]}
+        const simProps = {ph: this.props.ph, onClick: this.setActiveSimilarity, activeSimIndex: this.state.activeSimilarity}
+        const progProps = {ph: this.props.ph, activeSimIndex: this.state.activeSimilarity}
+        const closeupProps = {ph: this.props.ph, codeSet: this.props.codeSet, activeSimIndex: this.state.activeSimilarity}
         return (
             <div>
                 {this.state.goHome ?

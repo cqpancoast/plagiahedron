@@ -1,5 +1,5 @@
 import React from 'react';
-import './FileCloseup.css';
+import './ProgramCloseup.css';
 
 /**
  * Tab code from 

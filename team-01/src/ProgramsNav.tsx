@@ -5,47 +5,46 @@ import Plagiahedron from './model/Plagiahedron';
 import Program from './Program';
 import './ProgramsNav.css';
 
-class ProgramsNav extends React.Component<{ph: Plagiahedron, activeSim: IPHSimilarity<any>}, {programArray: any}>{
+class ProgramsNav extends React.Component<{ph: Plagiahedron, activeSimIndex: number}>{
 
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            programArray: [],
-        }
-    }
+    // constructor(props: any) {
+    //     super(props);
+    //     this.state = {
+    //         programArray: [],
+    //     }
+    // }
 
     /**
-     * Sets the programArray state value to all of the Program components that need to be rendered 
+     * Returns an array of Program components that need to be rendered 
      */
 
-    makeProgramArray() {
-        const programNames = this.props.activeSim.getProgramNames()
-        const tempArray = []
-        for(var index = 0; index < this.props.activeSim.getProgramNames().length; index++) {
-            tempArray.push(<Program name={programNames[index]} />)
+    getProgramArray(): JSX.Element[] {
+        const activeSim = this.props.ph.getAllSimilarities()[this.props.activeSimIndex]
+        const programNames = activeSim.getProgramNames()
+        let programArray: JSX.Element[] = []
+        for(var index = 0; index < programNames.length; index++) {
+            programArray.push(<Program name={programNames[index]} />)
         }
-
-        this.setState({
-            programArray: tempArray
-        })
+        return programArray
     }
     
     render() {
+        let programArrayLength = this.props.ph.getAllSimilarities()[this.props.activeSimIndex].getProgramNames().length
         return (
             <div className="ProgramsNav">
                 <div className="ProgramsNav-title">
-                {this.state.programArray.length === 1 ? 
+                {programArrayLength === 1 ? 
                         <div>
-                            {this.state.programArray.length} Program
+                            {programArrayLength} Program
                         </div> :
                         <div>
-                            {this.state.programArray.length} Programs
+                            {programArrayLength} Programs
                         </div>
 
                         }
                 </div>
                 <div className="ProgramsNav-fileBox">
-                    {this.state.programArray};
+                    {this.getProgramArray()};
                 </div>
             </div>
           );

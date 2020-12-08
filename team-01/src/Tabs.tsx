@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react"
 import TabTitle from "./TabTitle";
-import './FileCloseup.css';
+import './ProgramCloseup.css';
 
 /**
  * Tabs code from 
@@ -16,19 +16,21 @@ const Tabs: React.FC<Props> = ({ children }) => {
 
   return (
     <div>
-      <ul>
-        {children.map((item, index) => (
-          <TabTitle
-            key={index}
-            title={item.props.title}
-            index={index}
-            setSelectedTab={setSelectedTab}
-          />
-        ))}
-      </ul>
-      <div className="FileCloseup-box">
-        {children[selectedTab]}
-      </div>
+        <div className="TabsContainer">
+          <div className="TabContainer">
+            {children.map((item, index) => (
+                <TabTitle
+                  key={index}
+                  title={item.props.title}
+                  index={index}
+                  setSelectedTab={setSelectedTab}
+                />
+              ))}
+          </div>
+        </div>
+        <div className="FileCloseup-box">
+          {children[selectedTab]}
+        </div>
     </div>
   )
 }

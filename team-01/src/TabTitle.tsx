@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import './FileCloseup.css';
+import './ProgramCloseup.css';
 
 type Props = {
   title: string

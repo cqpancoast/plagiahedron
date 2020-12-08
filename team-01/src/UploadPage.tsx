@@ -95,6 +95,10 @@ export default class UploadPage extends React.Component<any, any>{
         }
     }
 
+    makeCodeSet(): CodeSet {
+        return new CodeSet(this.state.programArray)
+    }
+
     // todo: render? results page and pass PH and Codeset as props
     makePlagiahedron(): Plagiahedron {
         var codeSet: CodeSet = new CodeSet(this.state.programArray)
@@ -103,7 +107,7 @@ export default class UploadPage extends React.Component<any, any>{
             "java": SpecialTokens.javaBasic, 
             "ts": SpecialTokens.typescriptBasic})
         var phBuilder: IPlagiahedronBuilder = new PlagiahedronBuilder(xParser, 5)
-        return phBuilder.constructPlagiahedron(codeSet)
+        return phBuilder.constructPlagiahedron(this.makeCodeSet())
     }
 
     /**
@@ -148,7 +152,7 @@ export default class UploadPage extends React.Component<any, any>{
         return (
             <div>
                 {this.state.goToResults ? 
-                <ResultsPage ph={this.makePlagiahedron()}/> :
+                <ResultsPage ph={this.makePlagiahedron()} codeSet={this.makeCodeSet()}/> :
 
                 <div className="UploadPage">
 

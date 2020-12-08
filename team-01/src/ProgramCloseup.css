@@ -21,7 +21,7 @@
     height: 430px;
     border-radius: 15px;
     margin-left: 30px;
-    margin-top: -16px;
+    margin-top: -4px;
     font-family: 'Inconsolata', monospace;
     font-size: 12pt;
     color: #0f131e;
@@ -47,4 +47,20 @@ button {
     font-family: 'Inconsolata', monospace;
     font-size: 12pt;
     outline: none;
+  }
+
+  .TabsContainer {
+      width: 460px;
+      height: 20px;
+      margin-top: 10px;
+      overflow: auto;
+      display: inline-block;
+      margin-left: 40px;
+      overflow: hidden;
+  }
+
+  .TabContainer {
+    width: 100%;
+    white-space: nowrap;
+    overflow: auto;
   }

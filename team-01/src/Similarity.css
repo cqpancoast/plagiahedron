@@ -17,11 +17,11 @@
     margin-left: 10px;
 }
 
-.Similarity-box {
+.Similarity-box{
     width: 85%;
     border: 2px solid #eee9f3;
+    color: #eee9f3;
     border-radius: 15px;
-    color: white;
     min-height: 85px;
     padding: 0 20px;
     margin: auto;
@@ -29,11 +29,17 @@
     flex-direction: row;
     align-content: center;
     justify-content: space-between;
+    cursor: pointer
+}
+
+.Similarity-box:hover{
+    background-color: #eee9f3;
+    color: black;
 }
 
 .Similarity-box-code {
+    z-index: 1;
     width: 70%;
-    color: #eee9f3;
     /* margin-left: 20px; */
     margin-top: 20px;
     font-family: 'Inconsolata', monospace;
@@ -42,7 +48,6 @@
 
 .Similarity-box-score {
     width: 25%;
-    color: #eee9f3;
     font-size: 12pt;
     margin-top: 20px;
 }

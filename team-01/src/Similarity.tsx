@@ -6,12 +6,12 @@ import Plagiahedron from './model/Plagiahedron';
 
 class Similarity extends React.Component<{groupNumber: number, score: number, groupSize: number, similarityContent: string, ph: Plagiahedron, onClick: any}>{
 
-    render() {
+    render() { 
         return (
-            <div className="Similarity" onClick={this.props.onClick(this.props.groupNumber)}>
+            <div className="Similarity" onClick={() => this.props.onClick(this.props.groupNumber)}>
                 <div className="Similarity-content">
                     <div className="Similarity-number">
-                        {this.props.groupNumber}
+                        {this.props.groupNumber + 1}
                     </div>
                     <div className="Similarity-box">
                         <div className="Similarity-box-code">
@@ -20,6 +20,7 @@ class Similarity extends React.Component<{groupNumber: number, score: number, gr
                         <div className="Similarity-box-score">
                             Similarity Score: {this.props.score} {"\n"}
                             Group Size: {this.props.groupSize}
+
                         </div>
                     </div>
                 </div>
