@@ -1,7 +1,9 @@
 .SimilarityCloseup-title {
-    font-size: 50pt;
+    font-size: 32pt;
     text-transform: uppercase;
     color: #0f131e;
+    margin-left: 1%;
+    letter-spacing: 2px;
 }
 
 .fileBox {

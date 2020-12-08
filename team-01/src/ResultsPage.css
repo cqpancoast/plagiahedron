@@ -2,6 +2,19 @@
     overflow: hidden;
     padding-bottom: 40px;
 }
+
+.results-title{
+    font-size: 50pt;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    margin-top: -30px;
+    margin-bottom: 20px;
+    align-content: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 .ResultPage-container {
     margin-left: 25px;
 }

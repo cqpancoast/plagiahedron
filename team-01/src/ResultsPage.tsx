@@ -52,6 +52,7 @@ class ResultsPage extends React.Component<{ph: Plagiahedron, codeSet: CodeSet}, 
                     <div className="backButton">
                         <BackButton onClick={this.handleBackClick}/>
                     </div>
+                    <p className="results-title">Similarity Report</p>
                     <div className="ResultPage-container">
                         <div className="similarity-closeup">
                             <SimilarityCloseup {...closeupProps}/>

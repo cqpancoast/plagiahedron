@@ -15,7 +15,7 @@ class Homepage extends React.Component<{}, {goToUpload: boolean}>{
     }
 
     getHomepageText(): string {
-      return "Plagiahedron is a program designed to allow you to compare two or more files and check them for potential plagiarism. Simply upload one or more .java or .ts files for each individual student submission. Please ensure all individual submissions are uploaded separately. All uploads should be of one filetype."
+      return "Plagiahedron is a program designed to allow you to compare two or more programs and check them for potential plagiarism. Simply upload one or more .java or .ts files for each individual student submission. Please ensure all individual submissions are uploaded separately. All uploads should be of one filetype."
     }
 
     /**

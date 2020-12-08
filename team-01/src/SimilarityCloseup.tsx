@@ -40,7 +40,7 @@ class SimilarityCloseup extends React.Component<{ph: Plagiahedron,
         return (
             <div className="SimilarityCloseup">
                 <div className="SimilarityCloseup-title">
-                    Group {this.props.activeSimIndex + 1}
+                    Similarity {this.props.activeSimIndex + 1}
                 </div>
                 <div className="fileBox">
                     {this.getFileArray()}
