@@ -22,7 +22,7 @@
     border: 2px solid #eee9f3;
     color: #eee9f3;
     border-radius: 15px;
-    min-height: 85px;
+    height: 150px;
     padding: 0 20px;
     margin: auto;
     display: flex;
@@ -40,14 +40,15 @@
 .Similarity-box-code {
     z-index: 1;
     width: 70%;
-    /* margin-left: 20px; */
     margin-top: 20px;
     font-family: 'Inconsolata', monospace;
     font-size: 12pt;
+    height: 100px;
+    overflow: scroll;
 }
 
 .Similarity-box-score {
     width: 25%;
-    font-size: 12pt;
-    margin-top: 20px;
+    font-size: 9pt;
+    margin-top: 2%;
 }
