@@ -1,7 +1,6 @@
 import React from 'react'
 import './UploadPage.css'
 import ProgramUpload from './ProgramUpload'
-import ConversionUtils from './model/ConversionUtils';
 import PHFile from './model/PHFile';
 import Program from './model/Program';
 import CodeSet from './model/CodeSet';
@@ -9,15 +8,16 @@ import Plagiahedron from './model/Plagiahedron';
 import IPlagiahedronBuilder from './model/IPlagiahedronBuilder';
 import PlagiahedronBuilder from './model/PlagiahedronBuilder';
 import XParser from './model/XParser';
-import CommentSpecialToken from './model/CommentSpecialToken';
-import CharSpecialToken from './model/CharSpecialToken';
 import IParser from './model/IParser';
 import SpecialTokens from './SpecialTokens';
 import ResultsPage from './ResultsPage';
 
 export default class UploadPage extends React.Component<any, any>{
 
+    // number of uploaded Programs
     count: number = 0
+
+    // filetype extension being uploaded
     currentExtension: string = ""
 
     constructor(props: any) {
@@ -33,7 +33,11 @@ export default class UploadPage extends React.Component<any, any>{
         this.handleToResultsClick = this.handleToResultsClick.bind(this);
     }
 
-    // from: https://blog.shovonhasan.com/using-promises-with-filereader/
+    /**
+     * Reads uploaded File using FileReader
+     * @param inputFile File to be read
+     * from: https://blog.shovonhasan.com/using-promises-with-filereader/
+     */
     readUploadedFileAsText = (inputFile: Blob): any => {
         const temporaryFileReader = new FileReader();
 
@@ -57,16 +61,12 @@ export default class UploadPage extends React.Component<any, any>{
     addProgram = async (uploads: FileList | null) => {
         // var uploads = event.target.files
 
-        if (!uploads) {
-            alert("invalid input, please try again")
-            return
-        }
-        else if (uploads?.length === 0) {
-            alert("Invalid input")
+        if (!uploads || uploads?.length === 0) {
+            alert("Invalid input, please try again.")
             return
         }
         else {
-            var programName = prompt("Please enter program name", "Program " + (this.count + 1));
+            var programName = prompt("Please enter a program name.", "Program " + (this.count + 1));
             if (programName) {
 
                 // convert to Program and upload to CodeSet
@@ -89,12 +89,15 @@ export default class UploadPage extends React.Component<any, any>{
                     if (this.currentExtension != extension) {
                         if (this.currentExtension === "") {
                             if (this.isValidExtension(extension)) {
+                                // set current extension to the first valid uploaded one
                                 this.currentExtension = extension
                             } else {
+                                // alert when uploaded filetype is not supported
                                 alert("Please upload files with extension .java or .ts")
                                 return
                             }
                         } else {
+                            // alert when uploaded filetype does not match previously uploaded filetype
                             alert("Please upload files with only extenstion ." + this.currentExtension)
                             return
                         }
@@ -111,11 +114,16 @@ export default class UploadPage extends React.Component<any, any>{
         }
     }
 
+    /**
+     * Constructs a CodeSet
+     */
     makeCodeSet(): CodeSet {
         return new CodeSet(this.state.programArray)
     }
 
-    // todo: render? results page and pass PH and Codeset as props
+    /**
+     * Constructs a Plagiahedron
+     */
     makePlagiahedron(): Plagiahedron {
         var xParser: IParser<string> = new XParser(20, {
             "": SpecialTokens.emptyLang,
@@ -126,6 +134,10 @@ export default class UploadPage extends React.Component<any, any>{
         return phBuilder.constructPlagiahedron(this.makeCodeSet())
     }
 
+    /**
+     * Checks if extension is supported by this program
+     * @param ext Extenstion to be checked
+     */
     isValidExtension(ext: string): boolean {
         return (ext === "java" || ext === "ts")
     }
@@ -161,6 +173,9 @@ export default class UploadPage extends React.Component<any, any>{
         else return this.count + " UPLOADED"
     }
 
+    /**
+     * Takes user to Results Page if Program input is valid
+     */
     handleToResultsClick() {
         if (this.state.programArray.length >= 2) {
             this.setState({
@@ -215,7 +230,6 @@ export default class UploadPage extends React.Component<any, any>{
                             </button>
                         </div>
                     </div>
-
                 }
             </div>
         );
