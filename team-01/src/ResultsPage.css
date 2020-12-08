@@ -1,5 +1,6 @@
 .ResultsPage{
-    overflow: scroll;
+    overflow: hidden;
+    padding-bottom: 40px;
 }
 .ResultPage-container {
     margin-left: 25px;

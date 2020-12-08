@@ -1,10 +1,14 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 import './Similarity.css';
 import Plagiahedron from './model/Plagiahedron';
 
 
-class Similarity extends React.Component<{groupNumber: number, score: number, groupSize: number, similarityContent: string, ph: Plagiahedron, onClick: any}>{
+class Similarity extends React.Component<{groupNumber: number, 
+                                        score: number, 
+                                        groupSize: number, 
+                                        similarityContent: string, 
+                                        ph: Plagiahedron, 
+                                        onClick: any}>{
 
     formatProgramNames() {
         let programNames = this.props.ph.getAllSimilarities()[this.props.groupNumber].getProgramNames()

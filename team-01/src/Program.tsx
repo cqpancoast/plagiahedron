@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 import './Program.css';
 import FileLines from './file-lines.svg';
